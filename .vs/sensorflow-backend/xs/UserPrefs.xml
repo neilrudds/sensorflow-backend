@@ -1,0 +1,43 @@
+﻿<Properties StartupConfiguration="{8E72AC63-37F3-499B-8BF6-BE755E7F5DA0}|https">
+  <MonoDevelop.Ide.ItemProperties.src.SensorFlow.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/Infrastructure/Persistence/SensorFlowDbContext.cs">
+    <Files>
+      <File FileName="src/WebApi/Program.cs" Line="13" Column="22" />
+      <File FileName="src/Infrastructure/DependecyInjection.cs" Line="18" Column="186" />
+      <File FileName="src/Infrastructure/Persistence/SensorFlowDbContext.cs" Line="26" Column="2" />
+      <File FileName="src/Infrastructure/Persistence/Repositories/PersonRepository.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="sensorflow-backend" expanded="True">
+            <Node name="src" expanded="True">
+              <Node name="SensorFlow.Application" expanded="True">
+                <Node name="Dependencies" expanded="True">
+                  <Node name="PackageDependencies" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="SensorFlow.Domain" expanded="True" />
+              <Node name="SensorFlow.Infrastructure" expanded="True">
+                <Node name="Persistence" expanded="True">
+                  <Node name="Repositories" expanded="True" />
+                  <Node name="SensorFlowDbContext.cs" selected="True" />
+                </Node>
+              </Node>
+              <Node name="SensorFlow.WebApi" expanded="True">
+                <Node name="Dependencies" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

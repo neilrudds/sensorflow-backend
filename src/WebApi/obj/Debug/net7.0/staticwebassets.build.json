@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "fbdcAz8XV9T5zFi7T1VvCh1SEu53rFy7ZtkxxzPkv7Y=",
+  "Source": "SensorFlow.WebApi",
+  "BasePath": "_content/SensorFlow.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

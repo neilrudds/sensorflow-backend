@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Persons\Create\" />
+    <None Remove="Persons\Delete\" />
+    <None Remove="Persons\Update\" />
+    <None Remove="Persons\Read\" />
+    <None Remove="Persons\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\SensorFlow.Domain.csproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+</Project>
