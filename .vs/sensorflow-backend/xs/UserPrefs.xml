@@ -1,38 +1,76 @@
 ﻿<Properties StartupConfiguration="{8E72AC63-37F3-499B-8BF6-BE755E7F5DA0}|https">
-  <MonoDevelop.Ide.ItemProperties.src.SensorFlow.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.src.SensorFlow.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="src/Infrastructure/Persistence/SensorFlowDbContext.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/WebApi/Program.cs">
     <Files>
-      <File FileName="src/WebApi/Program.cs" Line="13" Column="22" />
-      <File FileName="src/Infrastructure/DependecyInjection.cs" Line="18" Column="186" />
-      <File FileName="src/Infrastructure/Persistence/SensorFlowDbContext.cs" Line="26" Column="2" />
-      <File FileName="src/Infrastructure/Persistence/Repositories/PersonRepository.cs" Line="1" Column="1" />
+      <File FileName="src/Infrastructure/Identity/IdentityService.cs" Line="33" Column="10" />
+      <File FileName="src/Application/Persons/Queries/GetPersonQuery.cs" Line="32" Column="1" />
+      <File FileName="src/Application/Persons/Queries/GetPersonsQuery.cs" Line="26" Column="75" />
+      <File FileName="src/Application/Persons/Models/PersonCreateDto.cs" Line="10" Column="2" />
+      <File FileName="src/Application/Persons/Models/PersonUpdateDto.cs" Line="1" Column="1" />
+      <File FileName="src/Application/Persons/Models/PersonDto.cs" Line="1" Column="1" />
+      <File FileName="src/Application/Persons/Models/EntityDto.cs" Line="1" Column="1" />
+      <File FileName="src/Application/Persons/Commands/CreatePersonCommand.cs" Line="34" Column="6" />
+      <File FileName="src/Application/Persons/Commands/DeletePersonCommand.cs" Line="33" Column="2" />
+      <File FileName="src/Application/Persons/Commands/UpdatePersonCommand.cs" Line="27" Column="35" />
+      <File FileName="src/Domain/Abstractions/Repositories/IPersonRepository.cs" Line="18" Column="2" />
+      <File FileName="src/Infrastructure/Persistence/Repositories/PersonRepository.cs" Line="42" Column="44" />
+      <File FileName="src/Application/Identity/Commands/CreateUserCommand.cs" Line="32" Column="2" />
+      <File FileName="src/Application/Identity/Commands/DeleteUserCommand.cs" Line="25" Column="2" />
+      <File FileName="src/Infrastructure/Identity/Models/ApplicationUser.cs" Line="2" Column="97" />
+      <File FileName="src/Application/Common/Models/Result.cs" Line="2" Column="1" />
+      <File FileName="src/Application/Identity/Queries/AuthoriseUserQuery.cs" Line="14" Column="1" />
+      <File FileName="src/WebApi/Controllers/PersonsController.cs" Line="41" Column="10" />
+      <File FileName="src/WebApi/Controllers/AuthController.cs" Line="47" Column="94" />
+      <File FileName="src/Application/Identity/Models/UserCreateDto.cs" Line="9" Column="45" />
+      <File FileName="src/Application/Identity/Models/UserDto.cs" Line="1" Column="42" />
+      <File FileName="src/Application/Identity/Queries/GetUserQuery.cs" Line="31" Column="2" />
+      <File FileName="src/Application/Identity/Queries/GetUserNameQuery.cs" Line="10" Column="21" />
+      <File FileName="src/Application/Common/Interfaces/IIdentityService.cs" Line="19" Column="2" />
+      <File FileName="src/Infrastructure/Identity/Models/RegistrationRequest.cs" Line="1" Column="1" />
+      <File FileName="src/Infrastructure/Identity/IdentityResultExtensions.cs" Line="1" Column="1" />
+      <File FileName="src/WebApi/Infrastructure/ActionResults/Envelope.cs" Line="50" Column="10" />
+      <File FileName="src/WebApi/Infrastructure/ActionResults/EnvelopeObjectResult.cs" Line="1" Column="1" />
+      <File FileName="src/Infrastructure/Persistence/SensorFlowDbContext.cs" Line="11" Column="54" />
+      <File FileName="src/Infrastructure/DependecyInjection.cs" Line="8" Column="37" />
+      <File FileName="src/WebApi/Program.cs" Line="38" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="sensorflow-backend" expanded="True">
             <Node name="src" expanded="True">
-              <Node name="SensorFlow.Application" expanded="True">
-                <Node name="Dependencies" expanded="True">
-                  <Node name="PackageDependencies" expanded="True" />
+              <Node name="SensorFlow.Application">
+                <Node name="Common" expanded="True">
+                  <Node name="Interfaces" expanded="True" />
+                </Node>
+                <Node name="Identity" expanded="True">
+                  <Node name="Commands" expanded="True" />
                 </Node>
               </Node>
-              <Node name="SensorFlow.Domain" expanded="True" />
-              <Node name="SensorFlow.Infrastructure" expanded="True">
+              <Node name="SensorFlow.Domain">
+                <Node name="Abstractions" expanded="True">
+                  <Node name="Repositories" expanded="True" />
+                </Node>
+                <Node name="Entities" expanded="True">
+                  <Node name="Persons" expanded="True" />
+                </Node>
+                <Node name="Models" expanded="True" />
+              </Node>
+              <Node name="SensorFlow.Infrastructure">
+                <Node name="Identity" expanded="True">
+                  <Node name="Models" expanded="True" />
+                </Node>
                 <Node name="Persistence" expanded="True">
                   <Node name="Repositories" expanded="True" />
-                  <Node name="SensorFlowDbContext.cs" selected="True" />
                 </Node>
               </Node>
-              <Node name="SensorFlow.WebApi" expanded="True">
-                <Node name="Dependencies" expanded="True" />
+              <Node name="SensorFlow.WebApi">
+                <Node name="Controllers" expanded="True" />
+                <Node name="Program.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -40,4 +78,7 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.WebApi PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MultiItemStartupConfigurations />
 </Properties>

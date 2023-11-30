@@ -1,7 +1,7 @@
 ﻿using System;
 namespace SensorFlow.Application.Persons.Models
 {
-	public sealed class PersonUpdateDto
+	public sealed class PersonUpdateDTO
 	{
         public string Name { get; set; }
         public string Email { get; set; }

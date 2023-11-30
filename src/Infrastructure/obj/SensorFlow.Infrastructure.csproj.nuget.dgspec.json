@@ -1,33 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Infrastructure/SensorFlow.Infrastructure.csproj": {}
+    "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Infrastructure\\SensorFlow.Infrastructure.csproj": {}
   },
   "projects": {
-    "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Application/SensorFlow.Application.csproj": {
+    "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Application\\SensorFlow.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Application/SensorFlow.Application.csproj",
+        "projectUniqueName": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Application\\SensorFlow.Application.csproj",
         "projectName": "SensorFlow.Application",
-        "projectPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Application/SensorFlow.Application.csproj",
-        "packagesPath": "/Users/neilrutherford/.nuget/packages/",
-        "outputPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Application/obj/",
+        "projectPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Application\\SensorFlow.Application.csproj",
+        "packagesPath": "C:\\Users\\NeilRutherford\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/neilrutherford/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\NeilRutherford\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj": {
-                "projectPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj"
+              "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj": {
+                "projectPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj"
               }
             }
           }
@@ -53,6 +55,10 @@
             "MediatR": {
               "target": "Package",
               "version": "[12.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.14, )"
             }
           },
           "imports": [
@@ -71,26 +77,28 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj": {
+    "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj",
         "projectName": "SensorFlow.Domain",
-        "projectPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj",
-        "packagesPath": "/Users/neilrutherford/.nuget/packages/",
-        "outputPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/obj/",
+        "projectPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj",
+        "packagesPath": "C:\\Users\\NeilRutherford\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/neilrutherford/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\NeilRutherford\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -132,37 +140,39 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Infrastructure/SensorFlow.Infrastructure.csproj": {
+    "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Infrastructure\\SensorFlow.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Infrastructure/SensorFlow.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Infrastructure\\SensorFlow.Infrastructure.csproj",
         "projectName": "SensorFlow.Infrastructure",
-        "projectPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Infrastructure/SensorFlow.Infrastructure.csproj",
-        "packagesPath": "/Users/neilrutherford/.nuget/packages/",
-        "outputPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Infrastructure/obj/",
+        "projectPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Infrastructure\\SensorFlow.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\NeilRutherford\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/neilrutherford/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\NeilRutherford\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Application/SensorFlow.Application.csproj": {
-                "projectPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Application/SensorFlow.Application.csproj"
+              "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Application\\SensorFlow.Application.csproj": {
+                "projectPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Application\\SensorFlow.Application.csproj"
               },
-              "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj": {
-                "projectPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj"
+              "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj": {
+                "projectPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj"
               }
             }
           }
@@ -177,23 +187,39 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Authorization": {
+              "target": "Package",
+              "version": "[7.0.14, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.14, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.13, )"
+              "version": "[7.0.14, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.13, )"
+              "version": "[7.0.14, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[7.0.13, )"
+              "version": "[7.0.14, )"
             },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "Microsoft.Extensions.Identity.Core": {
+              "target": "Package",
+              "version": "[7.0.14, )"
             }
           },
           "imports": [
@@ -212,7 +238,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     }

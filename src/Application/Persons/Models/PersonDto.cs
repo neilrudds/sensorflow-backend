@@ -1,13 +1,6 @@
-﻿using SensorFlow.Domain.Entities.Persons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SensorFlow.Application.Persons.Models
+﻿namespace SensorFlow.Application.Persons.Models
 {
-    public sealed class PersonDto : EntityDto
+    public sealed class PersonDTO : EntityDTO
     {
         public Guid Id { get; set; }
         public string? Name { get; set; }

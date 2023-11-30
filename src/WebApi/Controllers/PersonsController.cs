@@ -4,9 +4,11 @@ using SensorFlow.Application.Persons.Models;
 using SensorFlow.Application.Persons.Queries;
 using SensorFlow.Application.Persons.Commands;
 using SensorFlow.WebApi.Infrastructure.ActionResults;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SensorFlow.WebApi.Controllers
 {
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -22,7 +24,7 @@ namespace SensorFlow.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(List<PersonDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<PersonDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -31,7 +33,7 @@ namespace SensorFlow.WebApi.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<PersonDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<PersonDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             var results = await _mediator.Send(new GetPersonsQuery());
@@ -42,17 +44,17 @@ namespace SensorFlow.WebApi.Controllers
         [ProducesResponseType(typeof(CreatedResultEnvelope), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Post([FromBody] PersonCreateDto person)
+        public async Task<IActionResult> Post([FromBody] PersonCreateDTO person)
         {
             var id = await _mediator.Send(new CreatePersonCommand(person.Name, person.Email, person.Phone));
-            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelope(id));
+            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelope(id.ToString())); // Is this good practice...
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put(Guid id, [FromBody] PersonUpdateDto person)
+        public async Task<IActionResult> Put(Guid id, [FromBody] PersonUpdateDTO person)
         {
             await _mediator.Send(new UpdatePersonCommand(id, person.Name, person.Email, person.Phone));
             return NoContent();

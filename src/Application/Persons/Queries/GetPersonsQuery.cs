@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using MediatR;
-using SensorFlow.Domain.Abstractions.Repositories;
+using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Persons.Models;
 
 namespace SensorFlow.Application.Persons.Queries
 {
     // Query
-    public record GetPersonsQuery() : IRequest<PersonDto>;
+    public record GetPersonsQuery() : IRequest<PersonDTO>;
 
     // Query Handler
-    public class GetPersonsQueryHandler : IRequestHandler<GetPersonsQuery, PersonDto>
+    public class GetPersonsQueryHandler : IRequestHandler<GetPersonsQuery, PersonDTO>
     {
 
         private readonly IPersonRepository _personRepository;
@@ -21,13 +21,13 @@ namespace SensorFlow.Application.Persons.Queries
             _mapper = mapper;
         }
 
-        public async Task<PersonDto> Handle(GetPersonsQuery request, CancellationToken cancellationToken)
+        public async Task<PersonDTO> Handle(GetPersonsQuery request, CancellationToken cancellationToken)
         {
-            var persons = await _personRepository.GetAll();
+            var persons = await _personRepository.GetAll(cancellationToken);
 
             // to-do Guard against not found
 
-            return _mapper.Map<PersonDto>(persons);
+            return _mapper.Map<PersonDTO>(persons);
         }
     }
 }

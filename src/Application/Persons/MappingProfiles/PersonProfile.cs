@@ -8,7 +8,7 @@ namespace SensorFlow.Application.Persons.MappingProfiles
     {
         public PersonProfile() 
         {
-            CreateMap<Person, PersonDto>()
+            CreateMap<Person, PersonDTO>()
                 .ForMember(dest => dest.Id, e => e.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, e => e.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Email, e => e.MapFrom(src => src.Email))

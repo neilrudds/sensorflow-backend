@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using SensorFlow.Domain.Entities.Persons;
-using SensorFlow.Domain.Abstractions.Repositories;
+using SensorFlow.Application.Common.Interfaces;
 
 namespace SensorFlow.Application.Persons.Commands
 {
@@ -28,7 +28,7 @@ namespace SensorFlow.Application.Persons.Commands
                 DateTime.UtcNow
             );
 
-            await _personRepository.AddPerson(person);
+            await _personRepository.AddPerson(cancellationToken, person);
             return person.Id;
         }
     }

@@ -1,11 +1,6 @@
 ﻿using MediatR;
-using SensorFlow.Domain.Abstractions.Repositories;
+using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Domain.Entities.Persons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SensorFlow.Application.Persons.Commands
 {
@@ -24,6 +19,7 @@ namespace SensorFlow.Application.Persons.Commands
         public async Task<Person> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
         {
             return await _personRepository.UpdatePerson(
+                cancellationToken,
                 request.personId,
                 request.name,
                 request.email,

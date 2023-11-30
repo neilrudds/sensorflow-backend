@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj": {}
+    "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj": {}
   },
   "projects": {
-    "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj": {
+    "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj",
         "projectName": "SensorFlow.Domain",
-        "projectPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/SensorFlow.Domain.csproj",
-        "packagesPath": "/Users/neilrutherford/.nuget/packages/",
-        "outputPath": "/Users/neilrutherford/Library/CloudStorage/OneDrive-Personal/QUB - MSc Software Development/CSC7058 - Individual Project/sensorflow-backend/src/Domain/obj/",
+        "projectPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj",
+        "packagesPath": "C:\\Users\\NeilRutherford\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/neilrutherford/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\NeilRutherford\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -61,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     }

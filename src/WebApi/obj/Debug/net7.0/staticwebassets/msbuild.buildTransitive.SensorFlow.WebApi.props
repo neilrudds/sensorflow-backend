@@ -1,3 +1,3 @@
 ﻿<Project>
-  <Import Project="../buildMultiTargeting/SensorFlow.WebApi.props" />
+  <Import Project="..\buildMultiTargeting\SensorFlow.WebApi.props" />
 </Project>

@@ -3,6 +3,7 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
     <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Persons\Create\" />
@@ -10,9 +11,23 @@
     <None Remove="Persons\Update\" />
     <None Remove="Persons\Read\" />
     <None Remove="Persons\Models\" />
+    <None Remove="Common\" />
+    <None Remove="Common\Models\" />
+    <None Remove="Common\Interfaces\" />
+    <None Remove="Identity\" />
+    <None Remove="Identity\Commands\" />
+    <None Remove="Identity\MappingProfiles\" />
+    <None Remove="Identity\Models\" />
+    <None Remove="Identity\Queries\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\SensorFlow.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\Models\" />
+    <Folder Include="Identity\Commands\" />
+    <Folder Include="Identity\MappingProfiles\" />
+    <Folder Include="Identity\Queries\" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>

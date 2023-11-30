@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SensorFlow.Domain.Abstractions.Repositories;
+using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Domain.Entities.Persons;
 using System;
 using System.Collections.Generic;
@@ -24,10 +24,10 @@ namespace SensorFlow.Application.Persons.Commands
 
         public async Task Handle(DeletePersonCommand request, CancellationToken cancellationToken)
         {
-            var person = await _personRepository.GetPersonById(request.personId);
+            var person = await _personRepository.GetPersonById(cancellationToken, request.personId);
 
             // todo. Guard against not found
-            await _personRepository.DeletePerson(person);
+            await _personRepository.DeletePerson(cancellationToken, person);
         }
     }
 }
