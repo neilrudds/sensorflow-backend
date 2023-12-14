@@ -8,7 +8,6 @@
         public string lastName { get; set; }
         public string email { get; set; }
         public bool? lockedOut { get; set; }
-
         public bool? isActive { get; set; }
     }
 }

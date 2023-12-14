@@ -1,9 +1,10 @@
 ﻿using SensorFlow.Domain.Enumerations;
+using SensorFlow.Domain.Models;
 using SensorFlow.Domain.ValueObjects;
 
 namespace SensorFlow.Domain.Entities.Users
 {
-    public sealed class User
+    public sealed class User : Entity<Guid>
     {
         public string UserName { get; private set; }
         public string FirstName { get; private set; }

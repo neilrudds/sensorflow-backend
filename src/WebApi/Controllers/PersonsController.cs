@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SensorFlow.WebApi.Controllers
 {
-    //[Authorize]
+    [Authorize (Roles = "Owner")]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]

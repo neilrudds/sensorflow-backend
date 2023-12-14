@@ -7,8 +7,8 @@ using SensorFlow.Infrastructure.Repositories;
 using SensorFlow.Infrastructure.DbContexts;
 using SensorFlow.Infrastructure.Services.Auth;
 using SensorFlow.Infrastructure.Models.Identity;
-using SensorFlow.Infrastructure.Services.DbInit;
 using AutoMapper;
+using SensorFlow.Infrastructure.MappingProfiles;
 
 namespace SensorFlow.Infrastructure
 {
@@ -40,17 +40,28 @@ namespace SensorFlow.Infrastructure
                 options.SignIn.RequireConfirmedEmail = false;
             });
 
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddMaps(assembly);
-            });
+            //var mapperConfig = new MapperConfiguration(mc =>
+            //{
+            //    mc.AddMaps(assembly);
+            //});
             //mapperConfig.AssertConfigurationIsValid();
 
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            //IMapper mapper = mapperConfig.CreateMapper();
+            //services.AddSingleton(mapper);
+            //services.AddAutoMapper(mc =>
+            //{
+            //    mc.AddMaps(assembly);
+            //});
+
+            services.AddAutoMapper(config =>
+            {
+                config.AddProfile<AppProfile>();
+                config.AddProfile<UserProfile>();
+            });
 
             services.AddScoped<IPersonRepository, PersonRepository>(); // Inject PersonRepository where IPersonRepository Type is requested.
             services.AddScoped<IApplicationUserService, ApplicationUserService>();
+            services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 
             return services;
         }

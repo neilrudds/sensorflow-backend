@@ -1,4 +1,6 @@
-﻿namespace SensorFlow.Application.Common.Models
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace SensorFlow.Application.Common.Models
 {
     public class Result
     {
@@ -17,6 +19,15 @@
             return new Result(true, Array.Empty<string>());
         }
 
+        public static Result Success(string result)
+        {
+            return new Result(true, new[] { result });
+        }
+
+        public static Result Failure(string error)
+        {
+            return new Result(false, new[] { error });
+        }
         public static Result Failure(IEnumerable<string> errors)
         {
             return new Result(false, errors);

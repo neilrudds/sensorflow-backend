@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
 using SensorFlow.Application.Identity.Models;
-using SensorFlow.Application.Persons.Models;
-using SensorFlow.Domain.Entities.Persons;
 
 namespace SensorFlow.Application.Identity.Queries
 {

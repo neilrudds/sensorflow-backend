@@ -204,22 +204,22 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c9a1b441-d3a1-45df-90bc-a2cb4e0b497f",
-                            ConcurrencyStamp = "413d1fa2-e86d-4d4a-bb6e-c287b98b9ca5",
+                            Id = "f0868621-0572-472a-81af-d068c079680a",
+                            ConcurrencyStamp = "a5a8b689-6c02-429e-bb3b-04df11853406",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "5b3f2d71-be7f-4bbe-8884-9e47c64e2538",
-                            ConcurrencyStamp = "78b83fa0-4bbb-4e93-9d90-edd7274e2f72",
+                            Id = "114bd651-23fb-42bf-8abb-5a5d021fbf2d",
+                            ConcurrencyStamp = "6bb8295b-af8f-4475-a387-f5fb8da9a2f7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "66c6309f-5573-4541-85c0-4014884edd7d",
-                            ConcurrencyStamp = "4e185610-1df1-41b0-b658-6c647b0c5e76",
+                            Id = "d63a4e38-4f03-4037-bcfe-9a976c3a6262",
+                            ConcurrencyStamp = "18e9383a-973a-4999-aeed-a21e60c597b9",
                             Name = "Owner",
                             NormalizedName = "OWNER"
                         });

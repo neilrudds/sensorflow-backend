@@ -2,7 +2,6 @@
 using SensorFlow.Domain.ValueObjects;
 using SensorFlow.Infrastructure.Models;
 
-
 namespace SensorFlow.Infrastructure.MappingProfiles
 {
     internal class AppProfile : Profile

@@ -25,8 +25,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\Models\" />
-    <Folder Include="Identity\Commands\" />
-    <Folder Include="Identity\MappingProfiles\" />
     <Folder Include="Identity\Queries\" />
   </ItemGroup>
   <PropertyGroup>
