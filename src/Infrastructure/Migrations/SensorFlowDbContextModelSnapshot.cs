@@ -114,6 +114,32 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.ToTable("UserTokens", "Identity");
                 });
 
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Dashboards.Dashboard", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("AddedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<Guid>("WorkspaceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkspaceId");
+
+                    b.ToTable("Dashboards", "Sflow");
+                });
+
             modelBuilder.Entity("SensorFlow.Domain.Entities.Persons.Person", b =>
                 {
                     b.Property<Guid>("Id")
@@ -141,6 +167,27 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Persons", "Sflow");
+                });
+
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Workspaces.Workspace", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("AddedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Workspaces", "Sflow");
                 });
 
             modelBuilder.Entity("SensorFlow.Infrastructure.Models.AddressEntity", b =>
@@ -204,22 +251,22 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f0868621-0572-472a-81af-d068c079680a",
-                            ConcurrencyStamp = "a5a8b689-6c02-429e-bb3b-04df11853406",
+                            Id = "3b78f36d-012b-4cfd-92be-d54c842ec42c",
+                            ConcurrencyStamp = "f4982b39-df97-4631-9fd6-14c04f104661",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "114bd651-23fb-42bf-8abb-5a5d021fbf2d",
-                            ConcurrencyStamp = "6bb8295b-af8f-4475-a387-f5fb8da9a2f7",
+                            Id = "037e8e18-1cd3-4f4b-8bf9-c2afd1c0398e",
+                            ConcurrencyStamp = "5d721a95-5a76-40e0-9c96-f29d88ecaca1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d63a4e38-4f03-4037-bcfe-9a976c3a6262",
-                            ConcurrencyStamp = "18e9383a-973a-4999-aeed-a21e60c597b9",
+                            Id = "71e98fb0-5ca1-4939-ac28-432e218be1bc",
+                            ConcurrencyStamp = "2fbf86e0-1757-41bc-afbb-96f5742906c4",
                             Name = "Owner",
                             NormalizedName = "OWNER"
                         });
@@ -357,6 +404,17 @@ namespace SensorFlow.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Dashboards.Dashboard", b =>
+                {
+                    b.HasOne("SensorFlow.Domain.Entities.Workspaces.Workspace", "Workspace")
+                        .WithMany("Dashboards")
+                        .HasForeignKey("WorkspaceId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Workspace");
+                });
+
             modelBuilder.Entity("SensorFlow.Infrastructure.Models.Identity.ApplicationUser", b =>
                 {
                     b.HasOne("SensorFlow.Infrastructure.Models.AddressEntity", "Address")
@@ -383,6 +441,11 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Workspaces.Workspace", b =>
+                {
+                    b.Navigation("Dashboards");
                 });
 
             modelBuilder.Entity("SensorFlow.Infrastructure.Models.Identity.ApplicationRole", b =>

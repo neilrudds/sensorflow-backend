@@ -3,6 +3,8 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using SensorFlow.Application.Identity.MappingProfiles;
 using SensorFlow.Application.Persons.MappingProfiles;
+using SensorFlow.Application.Workspaces.MappingProfiles;
+using SensorFlow.Application.Dashboards.MappingProfiles;
 
 namespace SensorFlow.Application
 {
@@ -34,6 +36,8 @@ namespace SensorFlow.Application
                 config.ConstructServicesUsing(t => services.BuildServiceProvider().GetRequiredService(t));
                 config.AddProfile<UserProfile>();
                 config.AddProfile<PersonProfile>();
+                config.AddProfile<WorkspaceProfile>();
+                config.AddProfile<DashboardProfile>();
             });
 
             services.AddValidatorsFromAssembly(assembly);

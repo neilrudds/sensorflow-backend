@@ -1,4 +1,6 @@
-﻿namespace SensorFlow.Application.Persons.Models
+﻿using SensorFlow.Application.Common.Models;
+
+namespace SensorFlow.Application.Persons.Models
 {
     public sealed class PersonDTO : EntityDTO
     {

@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SensorFlow.Infrastructure.Models.Identity;
 using Microsoft.AspNetCore.Identity;
-using System.Reflection.Emit;
 using SensorFlow.Infrastructure.Services.DbInit;
+using SensorFlow.Domain.Entities.Workspaces;
+using SensorFlow.Domain.Entities.Dashboards;
+using System.Reflection.Emit;
 
 /* Define our DBContext */
 namespace SensorFlow.Infrastructure.DbContexts
@@ -18,6 +20,8 @@ namespace SensorFlow.Infrastructure.DbContexts
         public SensorFlowDbContext(DbContextOptions<SensorFlowDbContext> options) : base(options) { }
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Workspace> Workspaces { get; set; }
+        public DbSet<Dashboard> Dashboards { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,5 +35,7 @@ namespace SensorFlow.Infrastructure.DbContexts
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             new DatabaseInitService(builder).Seed();
         }
+
+        
     }
 }

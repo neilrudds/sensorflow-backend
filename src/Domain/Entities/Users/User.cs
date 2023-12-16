@@ -2,6 +2,8 @@
 using SensorFlow.Domain.Models;
 using SensorFlow.Domain.ValueObjects;
 
+// To-Do; Needs Validation
+
 namespace SensorFlow.Domain.Entities.Users
 {
     public sealed class User : Entity<Guid>

@@ -24,7 +24,6 @@
     <ProjectReference Include="..\Domain\SensorFlow.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\Models\" />
     <Folder Include="Identity\Queries\" />
   </ItemGroup>
   <PropertyGroup>

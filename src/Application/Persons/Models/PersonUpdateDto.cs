@@ -1,5 +1,4 @@
-﻿using System;
-namespace SensorFlow.Application.Persons.Models
+﻿namespace SensorFlow.Application.Persons.Models
 {
 	public sealed class PersonUpdateDTO
 	{

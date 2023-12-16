@@ -1,4 +1,4 @@
-namespace SensorFlow.Application.Persons.Models;
+namespace SensorFlow.Application.Common.Models;
 public abstract class EntityDTO
 {
     public DateTime AddedTime { get; set; }
