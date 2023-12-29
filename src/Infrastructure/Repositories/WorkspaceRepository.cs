@@ -3,6 +3,7 @@ using SensorFlow.Domain.Abstractions.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Infrastructure.DbContexts;
+using SensorFlow.Application.Common.Models;
 
 /* Concrete implementation of the IWorkspaceRepository */
 
@@ -17,13 +18,13 @@ namespace SensorFlow.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Workspace> AddWorkspaceAsync(CancellationToken cancellationToken, Workspace toCreate)
+        public async Task<(Result result, Workspace workspace)> AddWorkspaceAsync(CancellationToken cancellationToken, Workspace toCreate)
         {
             _context.Workspaces.Add(toCreate);
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return toCreate;
+            return (Result.Success(), toCreate);
         }
 
         public async Task DeleteWorkspaceAsync(CancellationToken cancellationToken, Workspace toDelete)
@@ -37,13 +38,42 @@ namespace SensorFlow.Infrastructure.Repositories
         {
             return await _context.Workspaces
                 .Include(p => p.Dashboards)
-                .OrderBy(p => p.Name).ToListAsync(cancellationToken);
+                .Include(p => p.Devices)
+                .Select(s => new Workspace
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    DeviceCount = s.Devices.Count,
+                    UserCount = s.Devices.Count,
+                    Dashboards = s.Dashboards,
+                    Devices = s.Devices,
+                    OwnerId = s.OwnerId,
+                    CreatedTimestamp = s.CreatedTimestamp,
+                    ModifiedById = s.ModifiedById,
+                    LastModifiedTimestamp = s.LastModifiedTimestamp
+                })
+                .OrderBy(s => s.Name)
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<Workspace> GetWorkspaceByIdAsync(CancellationToken cancellationToken, Guid workspaceId)
+        public async Task<Workspace> GetWorkspaceByIdAsync(CancellationToken cancellationToken, string workspaceId)
         {
             var workspace = await _context.Workspaces
                 .Include(p => p.Dashboards)
+                .Include(p => p.Devices)
+                .Select(s => new Workspace
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    DeviceCount = s.Devices.Count,
+                    UserCount = s.Devices.Count,
+                    Dashboards = s.Dashboards,
+                    Devices = s.Devices,
+                    OwnerId = s.OwnerId,
+                    CreatedTimestamp = s.CreatedTimestamp,
+                    ModifiedById = s.ModifiedById,
+                    LastModifiedTimestamp = s.LastModifiedTimestamp
+                })
                 .FirstOrDefaultAsync(p => p.Id == workspaceId, cancellationToken);
 
             if (workspace is null) throw new NotFoundException();
@@ -51,11 +81,10 @@ namespace SensorFlow.Infrastructure.Repositories
             return workspace;
         }
 
-        public async Task<Workspace> UpdateWorkspaceAsync(CancellationToken cancellationToken, Guid workspaceId, string name, DateTime lastModified)
+        public async Task<Workspace> UpdateWorkspaceAsync(CancellationToken cancellationToken, string workspaceId, string name)
         {
             var workspace = await _context.Workspaces.FirstOrDefaultAsync(p => p.Id == workspaceId);
             workspace.Name = name;
-            workspace.LastModified = lastModified;
 
             await _context.SaveChangesAsync(cancellationToken);
 

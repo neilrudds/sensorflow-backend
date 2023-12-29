@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SensorFlow.Application.Common.Interfaces;
+using SensorFlow.Application.Common.Models;
 using SensorFlow.Domain.Abstractions.Exceptions;
 using SensorFlow.Domain.Entities.Dashboards;
 using SensorFlow.Domain.Entities.Workspaces;
@@ -15,14 +16,14 @@ namespace SensorFlow.Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<Dashboard> AddDashboardAsync(CancellationToken cancellationToken, Dashboard toCreate)
+        public async Task<(Result result, Dashboard dashboard)> AddDashboardAsync(CancellationToken cancellationToken, Dashboard toCreate)
         {
             _context.Dashboards.Add(toCreate);
-            //_context.Workspaces.FirstOrDefault(p => p.Id == toCreate.WorkspaceId).Dashboards.Add(toCreate);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            if (await _context.SaveChangesAsync(cancellationToken) < 0)
+                return (Result.Failure("Unable to save record to Db"), toCreate);
 
-            return toCreate;
+            return (Result.Success(), toCreate);
         }
 
         public async Task DeleteDashboardAsync(CancellationToken cancellationToken, Dashboard toDelete)
@@ -38,7 +39,7 @@ namespace SensorFlow.Infrastructure.Repositories
             return await _context.Dashboards.OrderBy(p => p.Name).ToListAsync(cancellationToken);
         }
 
-        public async Task<Dashboard> GetDashboardByIdAsync(CancellationToken cancellationToken, Guid dashboardId)
+        public async Task<Dashboard> GetDashboardByIdAsync(CancellationToken cancellationToken, string dashboardId)
         {
             var dashboard = await _context.Dashboards
                 .FirstOrDefaultAsync(p => p.Id == dashboardId, cancellationToken);
@@ -48,11 +49,10 @@ namespace SensorFlow.Infrastructure.Repositories
             return dashboard;
         }
 
-        public async Task<Dashboard> UpdateDashboardAsync(CancellationToken cancellationToken, Guid dashboardId, string name, DateTime lastModified)
+        public async Task<Dashboard> UpdateDashboardAsync(CancellationToken cancellationToken, string dashboardId, string name)
         {
             var dashboard = await _context.Dashboards.FirstOrDefaultAsync(p => p.Id == dashboardId);
             dashboard.Name = name;
-            dashboard.LastModified = lastModified;
 
             await _context.SaveChangesAsync(cancellationToken);
 

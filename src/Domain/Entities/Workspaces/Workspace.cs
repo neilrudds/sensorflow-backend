@@ -1,41 +1,43 @@
 ﻿using SensorFlow.Domain.Entities.Dashboards;
+using SensorFlow.Domain.Entities.Devices;
 using SensorFlow.Domain.Models;
 using System.Collections.ObjectModel;
 
 namespace SensorFlow.Domain.Entities.Workspaces
 {
-    public sealed class Workspace : Entity<Guid>
+    public sealed class Workspace : Entity<string>
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; } = string.Empty;
 
+        public int DeviceCount { get; set; } = 0;
+
+        public int UserCount { get; set; } = 0;
+
         public ICollection<Dashboard> Dashboards { get; set; }
+
+        public ICollection<Device> Devices { get; set; }
         
         public Workspace()
         {
+            Id = Guid.NewGuid().ToString();
             Dashboards = new Collection<Dashboard>();
+            Devices = new Collection<Device>();
         }
 
-        public Workspace(Guid workspaceId, string name, DateTime addedTime, DateTime lastModified)
+        public Workspace(string name) : this()
         {
-            Id = workspaceId;
             Name = name;
-            AddedTime = addedTime;
-            LastModified = lastModified;
         }
 
-        public static Workspace CreateWorkspace(Guid workspaceId, string name, DateTime addedTime, DateTime lastModified)
+        public static Workspace CreateWorkspace(string name)
         {
-            var workspace = new Workspace(workspaceId, ValidateName(name), addedTime, lastModified);
+            var workspace = new Workspace(ValidateName(name));
             return workspace;
         }
 
-        public void Update(string name, DateTime addedTime, DateTime lastModified)
+        public void Update(string name)
         {
             Name = ValidateName(name);
-            AddedTime = addedTime;
-            LastModified = lastModified;
         }
 
         public static string ValidateName(string? name)

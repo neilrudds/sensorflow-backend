@@ -13,5 +13,6 @@ namespace SensorFlow.Application.Identity.Models
         public bool requires2FA { get; set; }
         public bool isLockedOut { get; set; }
         public string jwtToken { get; set; }
+        public DateTime? jwtExpiry { get; set; }
     }
 }

@@ -27,22 +27,24 @@ namespace SensorFlow.Infrastructure.Services.Auth
             _configuration = configuration;
         }
 
-        public async Task<Result> Login(LoginRequestDTO request)
+        public async Task<(Result result, LoginResponseDTO? response)> Login(LoginRequestDTO request)
         {
+            var result = new LoginResponseDTO();
             try
             {
                 var applicationUser = await _userManager.FindByNameAsync(request.userName);
-                
+
                 if (applicationUser == null)
-                    return Result.Failure("User not found");
+                    return (Result.Failure("User not found"), null);
 
                 if (!await _userManager.CheckPasswordAsync(applicationUser, request.password))
-                    return Result.Failure("Invalid password");
+                    return (Result.Failure("Invalid password"), null);
 
                 var userRoles = await _userManager.GetRolesAsync(applicationUser);
                 var authClaims = new List<Claim>
                 {
                    new Claim(ClaimTypes.Name, applicationUser.UserName),
+                   new Claim(ClaimTypes.NameIdentifier, applicationUser.Id.ToString()),
                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
@@ -50,33 +52,35 @@ namespace SensorFlow.Infrastructure.Services.Auth
                 {
                     authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                 }
-                string token = GenerateToken(authClaims);
-                return Result.Success(token);
+                
+                var token = GenerateToken(authClaims);
+                return (Result.Success(), CreateLoginResponse(applicationUser, true, token.Item1, token.Item2));
 
             }
             catch (Exception ex)
             {
-                return Result.Failure("Unable to sign in user");
+                return (Result.Failure(ex.ToString()), null);
             }
         }
 
-        private string GenerateToken(IEnumerable<Claim> claims)
+        private (string, DateTime) GenerateToken(IEnumerable<Claim> claims)
         {
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTKey:Secret"]));
             var _TokenExpiryTimeInHour = Convert.ToInt64(_configuration["JWTKey:TokenExpiryTimeInHour"]);
+            var _TokenExpiryTime = DateTime.UtcNow.AddHours(_TokenExpiryTimeInHour);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = _configuration["JWTKey:ValidIssuer"],
                 Audience = _configuration["JWTKey:ValidAudience"],
-                //Expires = DateTime.UtcNow.AddHours(_TokenExpiryTimeInHour),
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                Expires = _TokenExpiryTime,
+                //Expires = DateTime.UtcNow.AddMinutes(2),
                 SigningCredentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256),
                 Subject = new ClaimsIdentity(claims)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return (tokenHandler.WriteToken(token), _TokenExpiryTime);
         }
 
         public Task<Result> Logout()
@@ -84,6 +88,19 @@ namespace SensorFlow.Infrastructure.Services.Auth
             throw new NotImplementedException();
         }
 
+        private LoginResponseDTO CreateLoginResponse(ApplicationUser user, bool success = false, string jwtToken = "", DateTime? jwtExpiry = null)
+        {
+            var loginResponse = new LoginResponseDTO()
+            {
+                userName = user.Email,
+                success = success,
+                requires2FA = false,
+                isLockedOut = user.LockoutEnabled,
+                jwtToken = jwtToken,
+                jwtExpiry = jwtExpiry
+            };
+            return loginResponse;
+        }
 
 
         //public async Task<Result> Login(LoginRequestDTO request)

@@ -3,6 +3,6 @@
     public sealed class DashboardCreateDTO
     {
         public string name { get; set; }
-        public Guid workspaceId { get; set; }
+        public string workspaceId { get; set; }
     }
 }

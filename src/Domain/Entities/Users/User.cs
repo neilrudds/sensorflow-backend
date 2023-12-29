@@ -6,7 +6,7 @@ using SensorFlow.Domain.ValueObjects;
 
 namespace SensorFlow.Domain.Entities.Users
 {
-    public sealed class User : Entity<Guid>
+    public sealed class User// : Entity<string>
     {
         public string UserName { get; private set; }
         public string FirstName { get; private set; }
@@ -16,7 +16,10 @@ namespace SensorFlow.Domain.Entities.Users
         public IReadOnlyCollection<RoleEnum> Roles { get; private set; }
         public bool IsActive { get; set; }
 
-        private User() { }
+        private User() 
+        {
+            //Id = Guid.NewGuid().ToString();
+        }
 
         public User(string userName, string firstName, string lastName, string email)
         {

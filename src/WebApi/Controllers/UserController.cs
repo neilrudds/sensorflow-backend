@@ -45,24 +45,30 @@ namespace SensorFlow.WebApi.Controllers
                 user.email,
                 user.password,
                 new List<string> { RoleEnum.Owner.ToString() }
-                ));
+            ));
+
+            if (!result.result.Succeeded)
+                return BadRequest(result.result.Errors);
 
             return CreatedAtAction(nameof(Get), new { id = result.UserId }, new CreatedResultEnvelope(result.UserId));
         }
 
         [HttpPost]
         [Route("login")]
-        [ProducesResponseType(typeof(CreatedResultEnvelope), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(LoginResponseDTO), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Post([FromBody] LoginRequestDTO loginRequest)
         {
             var result = await _mediator.Send(new LoginUserCommand(
                 loginRequest
-                ));
+             ));
 
             // This is messy, fix it. Move the route to a new auth controller?
-            return Ok(result.Errors[0].ToString());
+            if (!result.result.Succeeded)
+                return BadRequest(result.result.Errors);
+
+            return Ok(result.response);
         }
     }
 }

@@ -5,8 +5,8 @@ using SensorFlow.Application.Identity.Models;
 
 namespace SensorFlow.Application.Identity.Commands
 {
-    public record LoginUserCommand(LoginRequestDTO loginRequestDTO) : IRequest<Result>;
-    public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result>
+    public record LoginUserCommand(LoginRequestDTO loginRequestDTO) : IRequest<(Result result, LoginResponseDTO? response)>;
+    public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, (Result result, LoginResponseDTO? response)>
     {
         private readonly IUserAuthenticationService _userAuthententicationService;
 
@@ -15,7 +15,7 @@ namespace SensorFlow.Application.Identity.Commands
             _userAuthententicationService = userAuthententicationService;
         }
 
-        public async Task<Result> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        public async Task<(Result result, LoginResponseDTO? response)> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             return await _userAuthententicationService.Login(request.loginRequestDTO);
         }

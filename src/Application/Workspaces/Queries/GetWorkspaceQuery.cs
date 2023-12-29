@@ -6,7 +6,7 @@ using SensorFlow.Application.Workspaces.Models;
 namespace SensorFlow.Application.Workspaces.Queries
 {
     // Query
-    public record GetWorkspaceQuery(Guid workspaceId) : IRequest<WorkspaceDTO>;
+    public record GetWorkspaceQuery(string workspaceId) : IRequest<WorkspaceDTO>;
 
     // Query Handler
     public class GetWorkspaceQueryHandler : IRequestHandler<GetWorkspaceQuery, WorkspaceDTO>

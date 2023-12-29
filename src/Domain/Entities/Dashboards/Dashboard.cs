@@ -3,43 +3,35 @@ using SensorFlow.Domain.Models;
 
 namespace SensorFlow.Domain.Entities.Dashboards
 {
-    public sealed class Dashboard : Entity<Guid>
+    public sealed class Dashboard : Entity<string>
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; } = string.Empty;
-
+        public string WorkspaceId { get; set; }
         public Workspace Workspace { get; set; } // Required foreign key property, required relationship as not nullable.
-        public Guid WorkspaceId { get; set; }
 
         private Dashboard()
         {
-
+            Id = Guid.NewGuid().ToString();
         }
 
-        public Dashboard(Guid dashboardId, string name, Guid workspaceId, DateTime addedTime, DateTime lastModified)
+        public Dashboard(string name, string workspaceId) : this()
         {
-            Id = dashboardId;
             Name = name;
             WorkspaceId = workspaceId;
-            AddedTime = addedTime;
-            LastModified = lastModified;
         }
 
-        public static Dashboard CreateDashboard(Guid dashboardId, string name, Guid workspaceId, DateTime addedTime, DateTime lastModified)
+        public static Dashboard CreateDashboard(string name, string workspaceId)
         {
             // Do I need validation on workspaceId?
-            var dashboard = new Dashboard(dashboardId, ValidateName(name), workspaceId ,addedTime, lastModified);
+            var dashboard = new Dashboard(ValidateName(name), workspaceId);
             return dashboard;
         }
 
-        public void Update(string name, Workspace workspace, DateTime addedTime, DateTime lastModified)
+        public void Update(string name, string workspaceId)
         {
             // Do I need validation on workspaceId?
             Name = ValidateName(name);
-            Workspace = workspace;
-            AddedTime = addedTime;
-            LastModified = lastModified;
+            WorkspaceId = workspaceId;
         }
 
         public static string ValidateName(string? name)

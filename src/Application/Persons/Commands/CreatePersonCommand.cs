@@ -23,9 +23,7 @@ namespace SensorFlow.Application.Persons.Commands
                 Guid.NewGuid(),
                 request.name,
                 request.email,
-                request.phone,
-                DateTime.UtcNow,
-                DateTime.UtcNow
+                request.phone
             );
 
             await _personRepository.AddPerson(cancellationToken, person);

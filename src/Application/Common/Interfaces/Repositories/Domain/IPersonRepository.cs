@@ -11,7 +11,7 @@ namespace SensorFlow.Application.Common.Interfaces
 
         Task<Person> AddPerson(CancellationToken cancellationToken, Person toCreate);
 
-        Task<Person> UpdatePerson(CancellationToken cancellationToken, Guid personId, string name, string email, string phone, DateTime lastModified);
+        Task<Person> UpdatePerson(CancellationToken cancellationToken, Guid personId, string name, string email, string phone);
 
         Task DeletePerson(CancellationToken cancellationToken, Person toDelete);
     }

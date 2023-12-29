@@ -5,6 +5,7 @@ using SensorFlow.Application.Persons.Queries;
 using SensorFlow.Application.Persons.Commands;
 using SensorFlow.WebApi.Infrastructure.ActionResults;
 using Microsoft.AspNetCore.Authorization;
+using Azure;
 
 namespace SensorFlow.WebApi.Controllers
 {

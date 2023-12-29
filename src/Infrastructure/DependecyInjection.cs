@@ -9,6 +9,8 @@ using SensorFlow.Infrastructure.Services.Auth;
 using SensorFlow.Infrastructure.Models.Identity;
 using AutoMapper;
 using SensorFlow.Infrastructure.MappingProfiles;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SensorFlow.Infrastructure
 {
@@ -64,6 +66,8 @@ namespace SensorFlow.Infrastructure
             services.AddScoped<IDashboardRepository, DashboardRepository>();
             services.AddScoped<IApplicationUserService, ApplicationUserService>();
             services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<UserResolverService>();
 
             return services;
         }

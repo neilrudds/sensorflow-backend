@@ -4,9 +4,11 @@ using SensorFlow.Application.Dashboards.Models;
 using SensorFlow.Application.Dashboards.Queries;
 using SensorFlow.Application.Dashboards.Commands;
 using SensorFlow.WebApi.Infrastructure.ActionResults;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SensorFlow.WebApi.Controllers
 {
+    [Authorize(Roles = "Owner")]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -24,7 +26,7 @@ namespace SensorFlow.WebApi.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(List<DashboardDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(string id)
         {
             var result = await _mediator.Send(new GetDashboardQuery(id));
             return Ok(result);
@@ -39,24 +41,28 @@ namespace SensorFlow.WebApi.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(DashboardDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CreatedResultEnvelope), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Post([FromBody] DashboardCreateDTO dashboard)
         {
-            var id = await _mediator.Send(new CreateDashboardCommand(dashboard.name, dashboard.workspaceId));
-            return CreatedAtAction(nameof(Get), new { id }, new CreatedResultEnvelope(id.ToString())); // Is this good practice...
+            var result = await _mediator.Send(new CreateDashboardCommand(dashboard.name, dashboard.workspaceId));
+
+            if (!result.result.Succeeded)
+                return BadRequest(result.result.Errors);
+
+            return CreatedAtAction(nameof(Get), new { id = result.dashboard.Id }, new CreatedResultEnvelope(result.dashboard.Id));
         }
 
-        //[HttpPut("{id}")]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
-        //public async Task<IActionResult> Put(Guid id, [FromBody] PersonUpdateDTO person)
-        //{
-        //    await _mediator.Send(new UpdatePersonCommand(id, person.Name, person.Email, person.Phone));
-        //    return NoContent();
-        //}
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Put(string id, [FromBody] DashboardUpdateDTO dashboard)
+        {
+            await _mediator.Send(new UpdateDashboardCommand(id, dashboard.Name));
+            return NoContent();
+        }
 
         //[HttpDelete("{id}")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]

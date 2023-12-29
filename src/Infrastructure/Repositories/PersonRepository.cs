@@ -49,13 +49,12 @@ namespace SensorFlow.Infrastructure.Repositories
             return person;
         }
 
-        public async Task<Person> UpdatePerson(CancellationToken cancellationToken, Guid personId, string name, string email, string phone, DateTime lastModified)
+        public async Task<Person> UpdatePerson(CancellationToken cancellationToken, Guid personId, string name, string email, string phone)
         {
             var person = await _context.Persons.FirstOrDefaultAsync(p => p.Id == personId);
             person.Name = name;
             person.Email = email;
             person.Phone = phone;
-            person.LastModified = lastModified;
 
             await _context.SaveChangesAsync(cancellationToken);
 

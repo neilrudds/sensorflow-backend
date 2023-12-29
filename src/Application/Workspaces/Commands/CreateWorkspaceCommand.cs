@@ -1,14 +1,15 @@
 ﻿using MediatR;
 using SensorFlow.Domain.Entities.Workspaces;
 using SensorFlow.Application.Common.Interfaces;
+using SensorFlow.Application.Common.Models;
 
 namespace SensorFlow.Application.Workspaces.Commands
 {
     // Command
-    public record CreateWorkspaceCommand(string name) : IRequest<Guid>;
+    public record CreateWorkspaceCommand(string name) : IRequest<(Result result, Workspace workspace)>;
 
     // Command Handler
-    public class CreateWorkspaceCommandHandler : IRequestHandler<CreateWorkspaceCommand, Guid>
+    public class CreateWorkspaceCommandHandler : IRequestHandler<CreateWorkspaceCommand, (Result result, Workspace workspace)>
     {
         private readonly IWorkspaceRepository _workspaceRepository;
 
@@ -17,17 +18,13 @@ namespace SensorFlow.Application.Workspaces.Commands
             _workspaceRepository = repository;
         }
 
-        public async Task<Guid> Handle(CreateWorkspaceCommand request, CancellationToken cancellationToken)
+        public async Task<(Result result, Workspace workspace)> Handle(CreateWorkspaceCommand request, CancellationToken cancellationToken)
         {
             var workspace = Workspace.CreateWorkspace(
-                Guid.NewGuid(),
-                request.name,
-                DateTime.UtcNow,
-                DateTime.UtcNow
+                request.name
             );
 
-            await _workspaceRepository.AddWorkspaceAsync(cancellationToken, workspace);
-            return workspace.Id;
+            return await _workspaceRepository.AddWorkspaceAsync(cancellationToken, workspace);
         }
     }
 }

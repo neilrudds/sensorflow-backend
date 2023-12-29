@@ -7,10 +7,10 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace SensorFlow.Application.Identity.Commands
 {
     // Command
-    public record CreateUserCommand(string userName, string firstName, string lastName, string email, string password, List<string> roles) : IRequest<(Result Result, string UserId)>;
+    public record CreateUserCommand(string userName, string firstName, string lastName, string email, string password, List<string> roles) : IRequest<(Result result, string UserId)>;
 
     // Command Handler
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, (Result Result, string UserId)>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, (Result result, string UserId)>
     {
         private readonly IApplicationUserService _applicationUserService;
 
@@ -19,7 +19,7 @@ namespace SensorFlow.Application.Identity.Commands
             _applicationUserService = applicationUserService;
         }
 
-        public async Task<(Result Result, string UserId)> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<(Result result, string UserId)> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var user = new User(request.userName, request.firstName, request.lastName, request.email);
             return await _applicationUserService.CreateUserAsync(user, request.password, request.roles, true);

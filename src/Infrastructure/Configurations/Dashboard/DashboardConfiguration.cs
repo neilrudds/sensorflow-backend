@@ -25,6 +25,11 @@ namespace SensorFlow.Infrastructure.Configurations
                 .WithMany(p => p.Dashboards)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
+
+            //builder.HasOne(p => p.ApplicationUser)
+            //    .WithMany(p => p.Dashboards)
+            //    .OnDelete(DeleteBehavior.NoAction)
+            //    .IsRequired();
         }
     }
 }

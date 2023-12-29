@@ -5,6 +5,7 @@ using SensorFlow.Application.Identity.MappingProfiles;
 using SensorFlow.Application.Persons.MappingProfiles;
 using SensorFlow.Application.Workspaces.MappingProfiles;
 using SensorFlow.Application.Dashboards.MappingProfiles;
+using SensorFlow.Application.Devices.MappingProfiles;
 
 namespace SensorFlow.Application
 {
@@ -38,6 +39,7 @@ namespace SensorFlow.Application
                 config.AddProfile<PersonProfile>();
                 config.AddProfile<WorkspaceProfile>();
                 config.AddProfile<DashboardProfile>();
+                config.AddProfile<DeviceProfile>();
             });
 
             services.AddValidatorsFromAssembly(assembly);

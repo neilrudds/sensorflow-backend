@@ -1,6 +1,8 @@
 namespace SensorFlow.Application.Common.Models;
 public abstract class EntityDTO
 {
-    public DateTime AddedTime { get; set; }
-    public DateTime LastModified { get; set; }
+    public DateTime CreatedTimestamp { get; set; }
+    public DateTime LastModifiedTimestamp { get; set; }
+    public string OwnerId { get; set; }
+    public string ModifiedById { get; set; }
 }

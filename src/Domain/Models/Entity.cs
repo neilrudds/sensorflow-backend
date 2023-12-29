@@ -3,10 +3,11 @@ namespace SensorFlow.Domain.Models;
 public abstract class Entity<TId> : IEquatable<Entity<TId>>
     where TId : notnull
 {
-    public TId Id { get; protected set; }
-    
-    public DateTime AddedTime { get; set; }
-    public DateTime LastModified { get; set; }
+    public TId Id { get; /*protected*/ set; }
+    public DateTime? CreatedTimestamp { get; set; } = DateTime.UtcNow;
+    public string? OwnerId { get; set; }
+    public DateTime? LastModifiedTimestamp { get; set; }
+    public string? ModifiedById { get; set; }
 
     public bool Equals(Entity<TId>? other)
     {

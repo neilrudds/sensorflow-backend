@@ -56,7 +56,7 @@ namespace SensorFlow.Infrastructure.Services.Auth
             return (Result.Success(), applicationUser.UserName);
         }
 
-        public async Task<(Result result, string UserId)> CreateUserAsync(User user, string password, List<string> roles, bool isActive)
+        public async Task<(Result result, string userId)> CreateUserAsync(User user, string password, List<string> roles, bool isActive)
         {
             var applicationUser = _mapper.Map<ApplicationUser>(user);
             applicationUser.IsActive = isActive;

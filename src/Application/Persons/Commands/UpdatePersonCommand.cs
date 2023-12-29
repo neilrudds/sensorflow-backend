@@ -23,8 +23,7 @@ namespace SensorFlow.Application.Persons.Commands
                 request.personId,
                 request.name,
                 request.email,
-                request.phone,
-                DateTime.UtcNow);
+                request.phone);
         }
     }
 }

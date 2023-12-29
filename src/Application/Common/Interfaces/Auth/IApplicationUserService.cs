@@ -14,7 +14,7 @@ namespace SensorFlow.Application.Common.Interfaces
 
         Task<bool> AuthorizeAsync(string userId, string policyName);
 
-        Task<(Result result, string UserId)> CreateUserAsync(User user, string password, List<string> roles, bool isActive);
+        Task<(Result result, string userId)> CreateUserAsync(User user, string password, List<string> roles, bool isActive);
 
         Task<Result> ActivateUserAsync(string username);
 

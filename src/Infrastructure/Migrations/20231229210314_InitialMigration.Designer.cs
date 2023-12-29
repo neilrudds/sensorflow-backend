@@ -12,8 +12,8 @@ using SensorFlow.Infrastructure.DbContexts;
 namespace SensorFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(SensorFlowDbContext))]
-    [Migration("20231216175342_updatedRelationships_2")]
-    partial class updatedRelationships_2
+    [Migration("20231229210314_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,21 @@ namespace SensorFlow.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("DeviceWorkspace", b =>
+                {
+                    b.Property<string>("DevicesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WorkspacesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("DevicesId", "WorkspacesId");
+
+                    b.HasIndex("WorkspacesId");
+
+                    b.ToTable("WorkspaceDevice", "Sflow");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -119,22 +134,28 @@ namespace SensorFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("SensorFlow.Domain.Entities.Dashboards.Dashboard", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("AddedTime")
+                    b.Property<DateTime?>("CreatedTimestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModifiedTimestamp")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedById")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(64)");
 
-                    b.Property<Guid>("WorkspaceId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkspaceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -143,24 +164,56 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.ToTable("Dashboards", "Sflow");
                 });
 
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Devices.Device", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("CreatedTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Devices", "Sflow");
+                });
+
             modelBuilder.Entity("SensorFlow.Domain.Entities.Persons.Person", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("AddedTime")
+                    b.Property<DateTime?>("CreatedTimestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(64)");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModifiedTimestamp")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedById")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
@@ -174,19 +227,24 @@ namespace SensorFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("SensorFlow.Domain.Entities.Workspaces.Workspace", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("AddedTime")
+                    b.Property<DateTime?>("CreatedTimestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModifiedTimestamp")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedById")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(64)");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -254,22 +312,22 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "43f5d9d9-3175-4482-9f28-3d8a5ca52fb5",
-                            ConcurrencyStamp = "4fc7add1-301c-452e-8d6b-615c4c1801cf",
+                            Id = "957c6f5a-8adb-47bd-b1ef-854a261b7a0d",
+                            ConcurrencyStamp = "19b50831-a9f4-43df-be91-86c1bdac3e80",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "0cc7f82e-551e-4669-a64f-3a474e6a318b",
-                            ConcurrencyStamp = "e599c41f-4b36-4e25-b00d-1cc0113b1068",
+                            Id = "51f7c7cd-f663-4992-99b4-09b927f9a2fa",
+                            ConcurrencyStamp = "9f1f968b-ff5a-4fd5-b45a-f9d5a6b72b84",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5c82e02c-8a6a-4edd-be96-4a04170da727",
-                            ConcurrencyStamp = "70d419b3-3122-4c5e-92a9-dc090b7d3231",
+                            Id = "29d7ebeb-6706-460b-993a-152edfd19efd",
+                            ConcurrencyStamp = "cdf19db2-5855-4b72-9b35-2761fd8e4d91",
                             Name = "Owner",
                             NormalizedName = "OWNER"
                         });
@@ -369,6 +427,21 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", "Identity");
+                });
+
+            modelBuilder.Entity("DeviceWorkspace", b =>
+                {
+                    b.HasOne("SensorFlow.Domain.Entities.Devices.Device", null)
+                        .WithMany()
+                        .HasForeignKey("DevicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SensorFlow.Domain.Entities.Workspaces.Workspace", null)
+                        .WithMany()
+                        .HasForeignKey("WorkspacesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

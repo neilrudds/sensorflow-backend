@@ -3,6 +3,9 @@ using SensorFlow.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.HttpLogging;
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +39,31 @@ builder.Services
         };
     });
 
+builder.Services
+    .AddHttpLogging(logging =>
+    {
+        // Customize HTTP logging here.
+        logging.LoggingFields = HttpLoggingFields.All;
+        logging.RequestHeaders.Add("sec-ch-ua");
+        logging.ResponseHeaders.Add("my-response-header");
+        logging.MediaTypeOptions.AddText("application/javascript");
+        logging.RequestBodyLogLimit = 4096;
+        logging.ResponseBodyLogLimit = 4096;
+    });
+
+builder.Services
+    .AddCors(options =>
+    {
+        options.AddPolicy(name: MyAllowSpecificOrigins,
+                          policy =>
+                          {
+                              policy
+                                .WithOrigins("http://localhost:3000") // specifying the allowed origin
+                                .AllowAnyMethod() // defining the allowed HTTP method
+                                .AllowAnyHeader(); // allowing any header to be sent
+                          });
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,10 +73,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpLogging();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
 

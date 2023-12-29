@@ -15,30 +15,27 @@ namespace SensorFlow.Domain.Entities.Persons
 
         }
 
-        private Person(Guid personId, string name, string email, string phone, DateTime addedTime, DateTime lastModified)
+        private Person(Guid personId, string name, string email, string phone)
         {
             Id = personId;
             Name = name;
             Email = email;
             Phone = phone;
-            AddedTime = addedTime;
-            LastModified = lastModified;
         }
 
-        public static Person CreatePerson(Guid personId, string name, string email, string phone, DateTime addedTime, DateTime lastModified)
+        public static Person CreatePerson(Guid personId, string name, string email, string phone)
         {
             // Add validation..
-            var person = new Person(personId, ValidateName(name), ValidateEmail(email), ValidatePhone(phone), addedTime, lastModified);
+            var person = new Person(personId, ValidateName(name), ValidateEmail(email), ValidatePhone(phone));
             // Do you need a domain event here?
             return person;
         }
 
-        public void Update(string name, string email, string phone, DateTime lastModified)
+        public void Update(string name, string email, string phone)
         {
             Name = ValidateName(name);
             Email = ValidateEmail(email);
             Phone = ValidatePhone(phone);
-            LastModified = lastModified;
         }
 
         private static string ValidateName(string? name)

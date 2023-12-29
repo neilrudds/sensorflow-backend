@@ -6,7 +6,7 @@ using SensorFlow.Application.Dashboards.Models;
 namespace SensorFlow.Application.Dashboards.Queries
 {
     // Query
-    public record GetDashboardQuery(Guid dashboardId) : IRequest<DashboardDTO>;
+    public record GetDashboardQuery(string dashboardId) : IRequest<DashboardDTO>;
 
     // Query Handler
     public class GetDashboardQueryHandler : IRequestHandler<GetDashboardQuery, DashboardDTO>
