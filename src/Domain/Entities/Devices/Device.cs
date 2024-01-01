@@ -8,11 +8,12 @@ namespace SensorFlow.Domain.Entities.Devices
     {
         public string Name { get; set; } = string.Empty;
 
+        // Navigation Property
         public ICollection<Workspace> Workspaces { get; set; }
 
         public Device() { 
             Id = Guid.NewGuid().ToString();
-            Workspaces = new Collection<Workspace>();
+            //Workspaces = new Collection<Workspace>();
         }
 
         public Device(string name, ICollection<Workspace> workspaces) : this()

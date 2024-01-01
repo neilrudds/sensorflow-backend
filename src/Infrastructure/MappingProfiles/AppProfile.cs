@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using SensorFlow.Domain.ValueObjects;
-using SensorFlow.Infrastructure.Models;
 
 namespace SensorFlow.Infrastructure.MappingProfiles
 {
@@ -8,8 +6,7 @@ namespace SensorFlow.Infrastructure.MappingProfiles
     {
         public AppProfile()
         {
-            CreateMap<AddressEntity, Address>().ReverseMap();
-
+            //CreateMap<Address, Domain.ValueObjects.Address>().ReverseMap();
         }
     }
 }

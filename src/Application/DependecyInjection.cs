@@ -6,6 +6,7 @@ using SensorFlow.Application.Persons.MappingProfiles;
 using SensorFlow.Application.Workspaces.MappingProfiles;
 using SensorFlow.Application.Dashboards.MappingProfiles;
 using SensorFlow.Application.Devices.MappingProfiles;
+using SensorFlow.Application.Tenants.MappingProfiles;
 
 namespace SensorFlow.Application
 {
@@ -37,6 +38,7 @@ namespace SensorFlow.Application
                 config.ConstructServicesUsing(t => services.BuildServiceProvider().GetRequiredService(t));
                 config.AddProfile<UserProfile>();
                 config.AddProfile<PersonProfile>();
+                config.AddProfile<TenantProfile>();
                 config.AddProfile<WorkspaceProfile>();
                 config.AddProfile<DashboardProfile>();
                 config.AddProfile<DeviceProfile>();

@@ -38,3 +38,4 @@ C:\Users\NeilRutherford\OneDrive\QUB - MSc Software Development\CSC7058 - Indivi
 C:\Users\NeilRutherford\OneDrive\QUB - MSc Software Development\CSC7058 - Individual Project\sensorflow-backend\src\Domain\obj\Debug\net7.0\SensorFlow.Domain.pdb
 C:\Users\NeilRutherford\OneDrive\QUB - MSc Software Development\CSC7058 - Individual Project\sensorflow-backend\src\Domain\obj\Debug\net7.0\SensorFlow.Domain.genruntimeconfig.cache
 C:\Users\NeilRutherford\OneDrive\QUB - MSc Software Development\CSC7058 - Individual Project\sensorflow-backend\src\Domain\obj\Debug\net7.0\ref\SensorFlow.Domain.dll
+C:\Users\NeilRutherford\OneDrive\QUB - MSc Software Development\CSC7058 - Individual Project\sensorflow-backend\src\Domain\obj\Debug\net7.0\SensorFlow.Domain.csproj.AssemblyReference.cache

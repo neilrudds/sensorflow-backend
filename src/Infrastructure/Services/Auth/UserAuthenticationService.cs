@@ -1,7 +1,6 @@
 ﻿using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Common.Models;
 using SensorFlow.Application.Identity.Models;
-using SensorFlow.Infrastructure.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using System.Security.Claims;
@@ -9,17 +8,18 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using SensorFlow.Domain.Entities.Users;
 
 namespace SensorFlow.Infrastructure.Services.Auth
 {
     internal class UserAuthenticationService : IUserAuthenticationService
     {
         //private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
-        public UserAuthenticationService(/*SignInManager<ApplicationUser> signInManager,*/ UserManager<ApplicationUser> userManager, IMapper mapper, IConfiguration configuration)
+        public UserAuthenticationService(/*SignInManager<ApplicationUser> signInManager,*/ UserManager<User> userManager, IMapper mapper, IConfiguration configuration)
         {
             //signInManager = signInManager;
             _userManager = userManager;
@@ -32,19 +32,19 @@ namespace SensorFlow.Infrastructure.Services.Auth
             var result = new LoginResponseDTO();
             try
             {
-                var applicationUser = await _userManager.FindByNameAsync(request.userName);
+                var user = await _userManager.FindByNameAsync(request.userName);
 
-                if (applicationUser == null)
+                if (user == null)
                     return (Result.Failure("User not found"), null);
 
-                if (!await _userManager.CheckPasswordAsync(applicationUser, request.password))
+                if (!await _userManager.CheckPasswordAsync(user, request.password))
                     return (Result.Failure("Invalid password"), null);
 
-                var userRoles = await _userManager.GetRolesAsync(applicationUser);
+                var userRoles = await _userManager.GetRolesAsync(user);
                 var authClaims = new List<Claim>
                 {
-                   new Claim(ClaimTypes.Name, applicationUser.UserName),
-                   new Claim(ClaimTypes.NameIdentifier, applicationUser.Id.ToString()),
+                   new Claim(ClaimTypes.Name, user.UserName),
+                   new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
@@ -54,7 +54,7 @@ namespace SensorFlow.Infrastructure.Services.Auth
                 }
                 
                 var token = GenerateToken(authClaims);
-                return (Result.Success(), CreateLoginResponse(applicationUser, true, token.Item1, token.Item2));
+                return (Result.Success(), CreateLoginResponse(user, true, token.Item1, token.Item2));
 
             }
             catch (Exception ex)
@@ -88,7 +88,7 @@ namespace SensorFlow.Infrastructure.Services.Auth
             throw new NotImplementedException();
         }
 
-        private LoginResponseDTO CreateLoginResponse(ApplicationUser user, bool success = false, string jwtToken = "", DateTime? jwtExpiry = null)
+        private LoginResponseDTO CreateLoginResponse(User user, bool success = false, string jwtToken = "", DateTime? jwtExpiry = null)
         {
             var loginResponse = new LoginResponseDTO()
             {

@@ -22,11 +22,15 @@ namespace SensorFlow.Infrastructure.Configurations
 
             builder.HasMany(p => p.Dashboards)
                 .WithOne(p => p.Workspace)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(p => p.Devices)
                 .WithMany(p => p.Workspaces)
                 .UsingEntity(p => p.ToTable("WorkspaceDevice"));
+
+            //builder.HasMany(p => p.Users)
+            //    .WithMany(p => p.Workspaces)
+            //    .UsingEntity(p => p.ToTable("WorkspaceUser", "Sflow"));
 
             builder.Ignore(p => p.DeviceCount);
 

@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using SensorFlow.Infrastructure.Models.Identity;
+using SensorFlow.Domain.Entities.Users;
 
 namespace SensorFlow.Infrastructure.Configurations.Identity
 {
-    internal class ApplicationUserRoleConfiguration : IEntityTypeConfiguration<ApplicationUserRole>
+    internal class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
     {
-        public void Configure(EntityTypeBuilder<ApplicationUserRole> builder)
+        public void Configure(EntityTypeBuilder<UserRole> builder)
         {
             builder.ToTable("UserRoles");
             builder.HasKey(ur => new { ur.UserId, ur.RoleId });

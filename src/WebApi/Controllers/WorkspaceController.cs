@@ -47,7 +47,7 @@ namespace SensorFlow.WebApi.Controllers
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Post([FromBody] WorkspaceCreateDTO workspace)
         {
-            var result = await _mediator.Send(new CreateWorkspaceCommand(workspace.name));
+            var result = await _mediator.Send(new CreateWorkspaceCommand(workspace.name, workspace.tenantId));
 
             if (!result.result.Succeeded)
                 return BadRequest(result.result.Errors);

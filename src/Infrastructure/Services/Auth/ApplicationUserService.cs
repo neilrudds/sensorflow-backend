@@ -2,27 +2,25 @@
 using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Common.Models;
 using SensorFlow.Application.Identity.Models;
 using SensorFlow.Domain.Entities.Users;
 using SensorFlow.Infrastructure.Extensions;
-using SensorFlow.Infrastructure.Models.Identity;
 using System.Data;
 
 namespace SensorFlow.Infrastructure.Services.Auth
 {
     internal class ApplicationUserService : IApplicationUserService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
+        private readonly UserManager<User> _userManager;
+        private readonly IUserClaimsPrincipalFactory<User> _userClaimsPrincipalFactory;
         private readonly IAuthorizationService _authorizationService;
         private readonly IMapper _mapper;
 
 
-        public ApplicationUserService(UserManager<ApplicationUser> userManager,
-        IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
+        public ApplicationUserService(UserManager<User> userManager,
+        IUserClaimsPrincipalFactory<User> userClaimsPrincipalFactory,
         IAuthorizationService authorizationService, IMapper mapper)
         {
             _userManager = userManager;
@@ -58,25 +56,24 @@ namespace SensorFlow.Infrastructure.Services.Auth
 
         public async Task<(Result result, string userId)> CreateUserAsync(User user, string password, List<string> roles, bool isActive)
         {
-            var applicationUser = _mapper.Map<ApplicationUser>(user);
-            applicationUser.IsActive = isActive;
+            user.IsActive = isActive;
 
             // Create identity
-            var identityResult = await _userManager.CreateAsync(applicationUser, password);
+            var identityResult = await _userManager.CreateAsync(user, password);
 
             if (!identityResult.Succeeded)
             {
-                return (identityResult.ToApplicationResult(), applicationUser.Id);
+                return (identityResult.ToApplicationResult(), user.Id);
             }
             else if (roles?.Any() ?? false)
             {
-                var rolesResult = await _userManager.AddToRolesAsync(applicationUser, roles.Select(r => r.ToUpper()));
+                var rolesResult = await _userManager.AddToRolesAsync(user, roles.Select(r => r.ToUpper()));
                 if (!rolesResult.Succeeded)
                 {
-                    return (rolesResult.ToApplicationResult(), applicationUser.Id);
+                    return (rolesResult.ToApplicationResult(), user.Id);
                 }
             }
-            return (Result.Success(), applicationUser.Id);
+            return (Result.Success(), user.Id);
         }
 
         public async Task<Result> ActivateUserAsync(string username)
@@ -247,7 +244,7 @@ namespace SensorFlow.Infrastructure.Services.Auth
             return user != null ? await DeleteUserAsync(user) : Result.Success();
         }
 
-        public async Task<Result> DeleteUserAsync(ApplicationUser user)
+        public async Task<Result> DeleteUserAsync(User user)
         {
             var result = await _userManager.DeleteAsync(user);
 

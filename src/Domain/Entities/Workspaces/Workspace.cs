@@ -1,7 +1,8 @@
 ﻿using SensorFlow.Domain.Entities.Dashboards;
 using SensorFlow.Domain.Entities.Devices;
+using SensorFlow.Domain.Entities.Tenants;
+using SensorFlow.Domain.Entities.Users;
 using SensorFlow.Domain.Models;
-using System.Collections.ObjectModel;
 
 namespace SensorFlow.Domain.Entities.Workspaces
 {
@@ -13,30 +14,39 @@ namespace SensorFlow.Domain.Entities.Workspaces
 
         public int UserCount { get; set; } = 0;
 
+        public string TenantId { get; set; }
+
+        public Tenant Tenant { get; set; }
+
+        // Navigation Properties
         public ICollection<Dashboard> Dashboards { get; set; }
 
         public ICollection<Device> Devices { get; set; }
+
+       public ICollection<User> Users { get; set; }
         
         public Workspace()
         {
             Id = Guid.NewGuid().ToString();
-            Dashboards = new Collection<Dashboard>();
-            Devices = new Collection<Device>();
+            //Dashboards = new Collection<Dashboard>();
+            //Devices = new Collection<Device>();
         }
 
-        public Workspace(string name) : this()
+        public Workspace(string name, string tenantId) : this()
         {
             Name = name;
+            TenantId = tenantId;
         }
 
-        public static Workspace CreateWorkspace(string name)
+        public static Workspace CreateWorkspace(string name, string tenantId)
         {
-            var workspace = new Workspace(ValidateName(name));
+            var workspace = new Workspace(ValidateName(name), tenantId);
             return workspace;
         }
 
         public void Update(string name)
         {
+            // TenantId cannot be changed once set.
             Name = ValidateName(name);
         }
 

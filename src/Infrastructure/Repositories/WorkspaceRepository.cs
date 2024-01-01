@@ -43,6 +43,7 @@ namespace SensorFlow.Infrastructure.Repositories
                 {
                     Id = s.Id,
                     Name = s.Name,
+                    TenantId = s.TenantId,
                     DeviceCount = s.Devices.Count,
                     UserCount = s.Devices.Count,
                     Dashboards = s.Dashboards,
@@ -65,6 +66,7 @@ namespace SensorFlow.Infrastructure.Repositories
                 {
                     Id = s.Id,
                     Name = s.Name,
+                    TenantId = s.TenantId,
                     DeviceCount = s.Devices.Count,
                     UserCount = s.Devices.Count,
                     Dashboards = s.Dashboards,

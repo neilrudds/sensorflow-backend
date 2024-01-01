@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SensorFlow.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,24 +71,7 @@ namespace SensorFlow.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserAddresses",
-                schema: "Identity",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newsequentialid()"),
-                    Line1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Line2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Postcode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserAddresses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Workspaces",
+                name: "Tenants",
                 schema: "Sflow",
                 columns: table => new
                 {
@@ -101,7 +84,28 @@ namespace SensorFlow.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Workspaces", x => x.Id);
+                    table.PrimaryKey("PK_Tenants", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserAddresses",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Line1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Line2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Postcode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    OwnerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedById = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAddresses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,6 +132,31 @@ namespace SensorFlow.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Workspaces",
+                schema: "Sflow",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(64)", nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    OwnerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedById = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Workspaces", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Workspaces_Tenants_TenantId",
+                        column: x => x.TenantId,
+                        principalSchema: "Sflow",
+                        principalTable: "Tenants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 schema: "Identity",
                 columns: table => new
@@ -135,8 +164,9 @@ namespace SensorFlow.Infrastructure.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    TenantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -155,6 +185,13 @@ namespace SensorFlow.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Tenants_TenantId",
+                        column: x => x.TenantId,
+                        principalSchema: "Sflow",
+                        principalTable: "Tenants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Users_UserAddresses_AddressId",
                         column: x => x.AddressId,
@@ -184,7 +221,8 @@ namespace SensorFlow.Infrastructure.Migrations
                         column: x => x.WorkspaceId,
                         principalSchema: "Sflow",
                         principalTable: "Workspaces",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -308,16 +346,59 @@ namespace SensorFlow.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "WorkspaceUser",
+                schema: "Sflow",
+                columns: table => new
+                {
+                    UsersId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    WorkspacesId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkspaceUser", x => new { x.UsersId, x.WorkspacesId });
+                    table.ForeignKey(
+                        name: "FK_WorkspaceUser_Users_UsersId",
+                        column: x => x.UsersId,
+                        principalSchema: "Identity",
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_WorkspaceUser_Workspaces_WorkspacesId",
+                        column: x => x.WorkspacesId,
+                        principalSchema: "Sflow",
+                        principalTable: "Workspaces",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 schema: "Identity",
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "29d7ebeb-6706-460b-993a-152edfd19efd", "cdf19db2-5855-4b72-9b35-2761fd8e4d91", "Owner", "OWNER" },
-                    { "51f7c7cd-f663-4992-99b4-09b927f9a2fa", "9f1f968b-ff5a-4fd5-b45a-f9d5a6b72b84", "Admin", "ADMIN" },
-                    { "957c6f5a-8adb-47bd-b1ef-854a261b7a0d", "19b50831-a9f4-43df-be91-86c1bdac3e80", "User", "USER" }
+                    { "08aed62a-7b78-47cf-9472-fa755c04f241", "b1f5336e-cad3-4c51-b025-d810d6942db5", "Admin", "ADMIN" },
+                    { "29d7ebeb-6706-460b-993a-152edfd19efd", "6e95fe98-be6d-4405-ac14-67b4746e724f", "Owner", "OWNER" },
+                    { "51ba0c4e-0772-4b90-808e-c7dad3fe4342", "f6759e18-32d3-4dfc-a58e-c2c47819b366", "User", "USER" }
                 });
+
+            migrationBuilder.InsertData(
+                schema: "Sflow",
+                table: "Tenants",
+                columns: new[] { "Id", "CreatedTimestamp", "LastModifiedTimestamp", "ModifiedById", "Name", "OwnerId" },
+                values: new object[] { "7ec39a7f-fe7e-4dd0-9f42-d187562e9875", new DateTime(2023, 12, 31, 13, 54, 48, 237, DateTimeKind.Utc).AddTicks(2369), null, null, "Neil Rutherford", null });
+
+            migrationBuilder.InsertData(
+                schema: "Identity",
+                table: "Users",
+                columns: new[] { "Id", "AccessFailedCount", "AddressId", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TenantId", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "a0dd767b-908d-42de-84f5-b55a68920a04", 0, null, "7e821b98-e164-4396-9713-8c30457265d9", "neilr@hotmail.com", false, "Neil", true, "Rutherford", true, null, "NEILR@HOTMAIL.COM", "NEILR@HOTMAIL.COM", "AQAAAAIAAYagAAAAELaguSZ3I+utb3vgRy/lnU+XTfVT9R/F4+roSf3859lrthJ+hphjmcrikWdYNpMA1Q==", null, false, "2JKC7MM4IT23GQA2C26EYIXLHGIIFXUH", "7ec39a7f-fe7e-4dd0-9f42-d187562e9875", false, "neilr@hotmail.com" });
+
+            migrationBuilder.InsertData(
+                schema: "Identity",
+                table: "UserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "29d7ebeb-6706-460b-993a-152edfd19efd", "a0dd767b-908d-42de-84f5-b55a68920a04" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dashboards_WorkspaceId",
@@ -370,6 +451,12 @@ namespace SensorFlow.Infrastructure.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_TenantId",
+                schema: "Identity",
+                table: "Users",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 schema: "Identity",
                 table: "Users",
@@ -381,6 +468,18 @@ namespace SensorFlow.Infrastructure.Migrations
                 name: "IX_WorkspaceDevice_WorkspacesId",
                 schema: "Sflow",
                 table: "WorkspaceDevice",
+                column: "WorkspacesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Workspaces_TenantId",
+                schema: "Sflow",
+                table: "Workspaces",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkspaceUser_WorkspacesId",
+                schema: "Sflow",
+                table: "WorkspaceUser",
                 column: "WorkspacesId");
         }
 
@@ -420,16 +519,20 @@ namespace SensorFlow.Infrastructure.Migrations
                 schema: "Sflow");
 
             migrationBuilder.DropTable(
-                name: "Roles",
-                schema: "Identity");
+                name: "WorkspaceUser",
+                schema: "Sflow");
 
             migrationBuilder.DropTable(
-                name: "Users",
+                name: "Roles",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "Devices",
                 schema: "Sflow");
+
+            migrationBuilder.DropTable(
+                name: "Users",
+                schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "Workspaces",
@@ -438,6 +541,10 @@ namespace SensorFlow.Infrastructure.Migrations
             migrationBuilder.DropTable(
                 name: "UserAddresses",
                 schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "Tenants",
+                schema: "Sflow");
         }
     }
 }

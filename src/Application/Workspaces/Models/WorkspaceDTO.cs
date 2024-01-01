@@ -10,6 +10,7 @@ namespace SensorFlow.Application.Workspaces.Models
         public string? name { get; set; }
         public int deviceCount { get; set; }
         public int userCount { get; set; }
+        public string tenantId { get; set; }
         public List<DashboardDTO> dashboards { get; set; } // Is this best practice? Check it out.
         public List<DeviceDTO> devices { get; set; }
     }

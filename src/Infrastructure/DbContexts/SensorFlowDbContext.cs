@@ -2,7 +2,6 @@ using System.Reflection;
 using SensorFlow.Domain.Entities.Persons;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SensorFlow.Infrastructure.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using SensorFlow.Infrastructure.Services.DbInit;
 using SensorFlow.Domain.Entities.Workspaces;
@@ -12,12 +11,14 @@ using SensorFlow.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using SensorFlow.Infrastructure.Services.Auth;
 using SensorFlow.Domain.Entities.Devices;
+using SensorFlow.Domain.Entities.Tenants;
+using SensorFlow.Domain.Entities.Users;
 
 /* Define our DBContext */
 namespace SensorFlow.Infrastructure.DbContexts
 {
-    public class SensorFlowDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>,
-        ApplicationUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
+    public class SensorFlowDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>,
+        UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         private readonly UserResolverService _userResolverService;
         public SensorFlowDbContext() { }
@@ -26,12 +27,12 @@ namespace SensorFlow.Infrastructure.DbContexts
         {
             _userResolverService = userResolverService;
         }
-
-        public DbSet<Person> Persons { get; set; }
+        public DbSet<Tenant> Tenants { get; set; }
         public DbSet<Workspace> Workspaces { get; set; }
         public DbSet<Dashboard> Dashboards { get; set; }
         public DbSet<Device> Devices { get; set; }
-
+        public DbSet<Person> Persons { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=localhost;Database=sensorflow;User=sa;Password=Sensorflow123;TrustServerCertificate=true;");

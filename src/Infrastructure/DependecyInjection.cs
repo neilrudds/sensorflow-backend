@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using SensorFlow.Infrastructure.Repositories;
 using SensorFlow.Infrastructure.DbContexts;
 using SensorFlow.Infrastructure.Services.Auth;
-using SensorFlow.Infrastructure.Models.Identity;
-using AutoMapper;
 using SensorFlow.Infrastructure.MappingProfiles;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using SensorFlow.Domain.Entities.Users;
 
 namespace SensorFlow.Infrastructure
 {
@@ -27,9 +25,9 @@ namespace SensorFlow.Infrastructure
             services.AddDbContext<SensorFlowDbContext>(options => options.UseSqlServer(connectionString));
 
             services
-                .AddIdentityCore<ApplicationUser>()
-                .AddRoles<ApplicationRole>()
-                .AddRoleManager<RoleManager<ApplicationRole>>()
+                .AddIdentityCore<User>()
+                .AddRoles<Role>()
+                .AddRoleManager<RoleManager<Role>>()
                 .AddEntityFrameworkStores<SensorFlowDbContext>();
 
             services.Configure<IdentityOptions>(options =>
@@ -58,10 +56,11 @@ namespace SensorFlow.Infrastructure
             services.AddAutoMapper(config =>
             {
                 config.AddProfile<AppProfile>();
-                config.AddProfile<UserProfile>();
+                //config.AddProfile<UserProfile>();
             });
 
             services.AddScoped<IPersonRepository, PersonRepository>(); // Inject PersonRepository where IPersonRepository Type is requested.
+            services.AddScoped<ITenantRepository, TenantRepository>();
             services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
             services.AddScoped<IApplicationUserService, ApplicationUserService>();

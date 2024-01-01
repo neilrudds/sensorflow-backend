@@ -44,6 +44,7 @@ namespace SensorFlow.WebApi.Controllers
                 user.lastName,
                 user.email,
                 user.password,
+                user.tenantId,
                 new List<string> { RoleEnum.Owner.ToString() }
             ));
 

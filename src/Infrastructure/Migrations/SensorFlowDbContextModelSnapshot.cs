@@ -222,7 +222,7 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.ToTable("Persons", "Sflow");
                 });
 
-            modelBuilder.Entity("SensorFlow.Domain.Entities.Workspaces.Workspace", b =>
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Tenants.Tenant", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -245,42 +245,18 @@ namespace SensorFlow.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workspaces", "Sflow");
+                    b.ToTable("Tenants", "Sflow");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "7ec39a7f-fe7e-4dd0-9f42-d187562e9875",
+                            CreatedTimestamp = new DateTime(2023, 12, 31, 13, 54, 48, 237, DateTimeKind.Utc).AddTicks(2369),
+                            Name = "Neil Rutherford"
+                        });
                 });
 
-            modelBuilder.Entity("SensorFlow.Infrastructure.Models.AddressEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("newsequentialid()");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Line1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Line2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Postcode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserAddresses", "Identity");
-                });
-
-            modelBuilder.Entity("SensorFlow.Infrastructure.Models.Identity.ApplicationRole", b =>
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Users.Role", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -309,28 +285,28 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "957c6f5a-8adb-47bd-b1ef-854a261b7a0d",
-                            ConcurrencyStamp = "19b50831-a9f4-43df-be91-86c1bdac3e80",
+                            Id = "51ba0c4e-0772-4b90-808e-c7dad3fe4342",
+                            ConcurrencyStamp = "f6759e18-32d3-4dfc-a58e-c2c47819b366",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "51f7c7cd-f663-4992-99b4-09b927f9a2fa",
-                            ConcurrencyStamp = "9f1f968b-ff5a-4fd5-b45a-f9d5a6b72b84",
+                            Id = "08aed62a-7b78-47cf-9472-fa755c04f241",
+                            ConcurrencyStamp = "b1f5336e-cad3-4c51-b025-d810d6942db5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "29d7ebeb-6706-460b-993a-152edfd19efd",
-                            ConcurrencyStamp = "cdf19db2-5855-4b72-9b35-2761fd8e4d91",
+                            ConcurrencyStamp = "6e95fe98-be6d-4405-ac14-67b4746e724f",
                             Name = "Owner",
                             NormalizedName = "OWNER"
                         });
                 });
 
-            modelBuilder.Entity("SensorFlow.Infrastructure.Models.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Users.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -338,8 +314,8 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("AddressId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AddressId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -389,6 +365,10 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -408,10 +388,34 @@ namespace SensorFlow.Infrastructure.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Users", "Identity");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a0dd767b-908d-42de-84f5-b55a68920a04",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7e821b98-e164-4396-9713-8c30457265d9",
+                            Email = "neilr@hotmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Neil",
+                            IsActive = true,
+                            LastName = "Rutherford",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "NEILR@HOTMAIL.COM",
+                            NormalizedUserName = "NEILR@HOTMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELaguSZ3I+utb3vgRy/lnU+XTfVT9R/F4+roSf3859lrthJ+hphjmcrikWdYNpMA1Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "2JKC7MM4IT23GQA2C26EYIXLHGIIFXUH",
+                            TenantId = "7ec39a7f-fe7e-4dd0-9f42-d187562e9875",
+                            TwoFactorEnabled = false,
+                            UserName = "neilr@hotmail.com"
+                        });
                 });
 
-            modelBuilder.Entity("SensorFlow.Infrastructure.Models.Identity.ApplicationUserRole", b =>
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Users.UserRole", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -424,6 +428,102 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", "Identity");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "a0dd767b-908d-42de-84f5-b55a68920a04",
+                            RoleId = "29d7ebeb-6706-460b-993a-152edfd19efd"
+                        });
+                });
+
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Workspaces.Workspace", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("CreatedTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("Workspaces", "Sflow");
+                });
+
+            modelBuilder.Entity("SensorFlow.Domain.ValueObjects.Address", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Line1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Line2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifiedById")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Postcode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserAddresses", "Identity");
+                });
+
+            modelBuilder.Entity("UserWorkspace", b =>
+                {
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WorkspacesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UsersId", "WorkspacesId");
+
+                    b.HasIndex("WorkspacesId");
+
+                    b.ToTable("WorkspaceUser", "Sflow");
                 });
 
             modelBuilder.Entity("DeviceWorkspace", b =>
@@ -443,7 +543,7 @@ namespace SensorFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("SensorFlow.Infrastructure.Models.Identity.ApplicationRole", null)
+                    b.HasOne("SensorFlow.Domain.Entities.Users.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -452,7 +552,7 @@ namespace SensorFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("SensorFlow.Infrastructure.Models.Identity.ApplicationUser", null)
+                    b.HasOne("SensorFlow.Domain.Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -461,7 +561,7 @@ namespace SensorFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("SensorFlow.Infrastructure.Models.Identity.ApplicationUser", null)
+                    b.HasOne("SensorFlow.Domain.Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -470,7 +570,7 @@ namespace SensorFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("SensorFlow.Infrastructure.Models.Identity.ApplicationUser", null)
+                    b.HasOne("SensorFlow.Domain.Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -482,30 +582,38 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.HasOne("SensorFlow.Domain.Entities.Workspaces.Workspace", "Workspace")
                         .WithMany("Dashboards")
                         .HasForeignKey("WorkspaceId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Workspace");
                 });
 
-            modelBuilder.Entity("SensorFlow.Infrastructure.Models.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Users.User", b =>
                 {
-                    b.HasOne("SensorFlow.Infrastructure.Models.AddressEntity", "Address")
+                    b.HasOne("SensorFlow.Domain.ValueObjects.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
 
+                    b.HasOne("SensorFlow.Domain.Entities.Tenants.Tenant", "Tenant")
+                        .WithMany("Users")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Address");
+
+                    b.Navigation("Tenant");
                 });
 
-            modelBuilder.Entity("SensorFlow.Infrastructure.Models.Identity.ApplicationUserRole", b =>
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Users.UserRole", b =>
                 {
-                    b.HasOne("SensorFlow.Infrastructure.Models.Identity.ApplicationRole", "Role")
+                    b.HasOne("SensorFlow.Domain.Entities.Users.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SensorFlow.Infrastructure.Models.Identity.ApplicationUser", "User")
+                    b.HasOne("SensorFlow.Domain.Entities.Users.User", "User")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -518,17 +626,50 @@ namespace SensorFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("SensorFlow.Domain.Entities.Workspaces.Workspace", b =>
                 {
-                    b.Navigation("Dashboards");
+                    b.HasOne("SensorFlow.Domain.Entities.Tenants.Tenant", "Tenant")
+                        .WithMany("Workspaces")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
                 });
 
-            modelBuilder.Entity("SensorFlow.Infrastructure.Models.Identity.ApplicationRole", b =>
+            modelBuilder.Entity("UserWorkspace", b =>
+                {
+                    b.HasOne("SensorFlow.Domain.Entities.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SensorFlow.Domain.Entities.Workspaces.Workspace", null)
+                        .WithMany()
+                        .HasForeignKey("WorkspacesId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Tenants.Tenant", b =>
+                {
+                    b.Navigation("Users");
+
+                    b.Navigation("Workspaces");
+                });
+
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Users.Role", b =>
                 {
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("SensorFlow.Infrastructure.Models.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Users.User", b =>
                 {
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("SensorFlow.Domain.Entities.Workspaces.Workspace", b =>
+                {
+                    b.Navigation("Dashboards");
                 });
 #pragma warning restore 612, 618
         }
