@@ -13,9 +13,9 @@ namespace SensorFlow.Domain.Entities.Tenants
         public int UserCount { get; set; } = 0;
 
         // Navigation Properties
-        public ICollection<Workspace> Workspaces { get; set; }
+        public ICollection<Workspace> Workspaces { get; set; } = new List<Workspace>();
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<User> Users { get; set; } = new List<User>();
 
         public Tenant() { 
             Id = Guid.NewGuid().ToString();

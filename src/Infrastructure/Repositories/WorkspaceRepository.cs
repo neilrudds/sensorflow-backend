@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Infrastructure.DbContexts;
 using SensorFlow.Application.Common.Models;
+using Microsoft.AspNetCore.Identity;
+using SensorFlow.Domain.Entities.Users;
 
 /* Concrete implementation of the IWorkspaceRepository */
 
@@ -12,11 +14,13 @@ namespace SensorFlow.Infrastructure.Repositories
     public class WorkspaceRepository : IWorkspaceRepository
     {
         private readonly SensorFlowDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public WorkspaceRepository(SensorFlowDbContext context)
+        public WorkspaceRepository(SensorFlowDbContext context, UserManager<User> userManager)
         {
             _context = context;
-        }
+            _userManager = userManager;
+    }
 
         public async Task<(Result result, Workspace workspace)> AddWorkspaceAsync(CancellationToken cancellationToken, Workspace toCreate)
         {
@@ -45,7 +49,7 @@ namespace SensorFlow.Infrastructure.Repositories
                     Name = s.Name,
                     TenantId = s.TenantId,
                     DeviceCount = s.Devices.Count,
-                    UserCount = s.Devices.Count,
+                    UserCount = s.Users.Count,
                     Dashboards = s.Dashboards,
                     Devices = s.Devices,
                     OwnerId = s.OwnerId,
@@ -68,7 +72,7 @@ namespace SensorFlow.Infrastructure.Repositories
                     Name = s.Name,
                     TenantId = s.TenantId,
                     DeviceCount = s.Devices.Count,
-                    UserCount = s.Devices.Count,
+                    UserCount = s.Users.Count,
                     Dashboards = s.Dashboards,
                     Devices = s.Devices,
                     OwnerId = s.OwnerId,
@@ -81,6 +85,38 @@ namespace SensorFlow.Infrastructure.Repositories
             if (workspace is null) throw new NotFoundException();
 
             return workspace;
+        }
+
+        public async Task<(Result result, List<Workspace> workspaces)> GetWorkspacesByUsernameAsync(CancellationToken cancellationToken, string username)
+        {
+
+            var workspaces = new List<Workspace>();
+            var applicationUser = await _userManager.FindByNameAsync(username);
+
+            if (applicationUser == null)
+                return (Result.Failure("User not found!"), workspaces);
+
+            workspaces = await _context.Users.Where(u => u.UserName == username).SelectMany(w => w.Workspaces)
+                .Include(p => p.Dashboards)
+                .Include(p => p.Devices)
+                .Select(s => new Workspace
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    TenantId = s.TenantId,
+                    DeviceCount = s.Devices.Count,
+                    UserCount = s.Users.Count,
+                    Dashboards = s.Dashboards,
+                    Devices = s.Devices,
+                    OwnerId = s.OwnerId,
+                    CreatedTimestamp = s.CreatedTimestamp,
+                    ModifiedById = s.ModifiedById,
+                    LastModifiedTimestamp = s.LastModifiedTimestamp
+                })
+                .OrderBy(s => s.Name)
+                .ToListAsync(cancellationToken);
+
+            return (Result.Success(), workspaces);
         }
 
         public async Task<Workspace> UpdateWorkspaceAsync(CancellationToken cancellationToken, string workspaceId, string name)

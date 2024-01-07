@@ -9,7 +9,7 @@ namespace SensorFlow.Domain.Entities.Dashboards
         public string WorkspaceId { get; set; }
         public Workspace Workspace { get; set; } // Required foreign key property, required relationship as not nullable.
 
-        private Dashboard()
+        public Dashboard()
         {
             Id = Guid.NewGuid().ToString();
         }

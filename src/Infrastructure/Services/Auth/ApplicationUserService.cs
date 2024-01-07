@@ -18,7 +18,6 @@ namespace SensorFlow.Infrastructure.Services.Auth
         private readonly IAuthorizationService _authorizationService;
         private readonly IMapper _mapper;
 
-
         public ApplicationUserService(UserManager<User> userManager,
         IUserClaimsPrincipalFactory<User> userClaimsPrincipalFactory,
         IAuthorizationService authorizationService, IMapper mapper)

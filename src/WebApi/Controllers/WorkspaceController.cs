@@ -41,6 +41,19 @@ namespace SensorFlow.WebApi.Controllers
             return Ok(results);
         }
 
+        [HttpGet("getByUsername/{username}")]
+        [ProducesResponseType(typeof(List<WorkspaceDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetByUsername(string username)
+        {
+            var result = await _mediator.Send(new GetUserWorkspacesQuery(username));
+
+            if (!result.result.Succeeded)
+                return BadRequest(result.result.Errors);
+
+            return Ok(result.workspaces);
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(WorkspaceDTO), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]

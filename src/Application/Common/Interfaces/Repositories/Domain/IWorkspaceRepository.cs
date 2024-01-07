@@ -10,6 +10,8 @@ namespace SensorFlow.Application.Common.Interfaces
 
         Task<Workspace> GetWorkspaceByIdAsync(CancellationToken cancellationToken, string workspaceId);
 
+        Task<(Result result, List<Workspace> workspaces)> GetWorkspacesByUsernameAsync(CancellationToken cancellationToken, string username);
+
         Task<(Result result, Workspace workspace)> AddWorkspaceAsync(CancellationToken cancellationToken, Workspace toCreate);
 
         Task<Workspace> UpdateWorkspaceAsync(CancellationToken cancellationToken, string workspaceId, string name);

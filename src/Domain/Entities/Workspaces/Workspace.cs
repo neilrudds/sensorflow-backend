@@ -19,11 +19,11 @@ namespace SensorFlow.Domain.Entities.Workspaces
         public Tenant Tenant { get; set; }
 
         // Navigation Properties
-        public ICollection<Dashboard> Dashboards { get; set; }
+        public ICollection<Dashboard> Dashboards { get; set; } = new List<Dashboard>();
 
-        public ICollection<Device> Devices { get; set; }
+        public ICollection<Device> Devices { get; set; } = new List<Device>();
 
-       public ICollection<User> Users { get; set; }
+       public ICollection<User> Users { get; set; } = new List<User>();
         
         public Workspace()
         {

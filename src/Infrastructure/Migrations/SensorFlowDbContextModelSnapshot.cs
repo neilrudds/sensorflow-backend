@@ -366,7 +366,6 @@ namespace SensorFlow.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenantId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -596,9 +595,7 @@ namespace SensorFlow.Infrastructure.Migrations
 
                     b.HasOne("SensorFlow.Domain.Entities.Tenants.Tenant", "Tenant")
                         .WithMany("Users")
-                        .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TenantId");
 
                     b.Navigation("Address");
 

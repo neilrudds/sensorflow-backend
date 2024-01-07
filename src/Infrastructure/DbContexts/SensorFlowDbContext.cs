@@ -56,7 +56,10 @@ namespace SensorFlow.Infrastructure.DbContexts
                 {
                     if (entry.Entity.OwnerId == null)
                         entry.Entity.OwnerId = _userResolverService.GetNameIdentifier();
+                }
 
+                foreach (var entry in changeSet.Where(c => c.State == EntityState.Modified))
+                {
                     entry.Entity.LastModifiedTimestamp = DateTime.UtcNow;
                     entry.Entity.ModifiedById = _userResolverService.GetNameIdentifier();
                 }
