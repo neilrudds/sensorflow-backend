@@ -40,6 +40,19 @@ namespace SensorFlow.WebApi.Controllers
             return Ok(results);
         }
 
+        [HttpGet("getByWorkspaceId/{workspaceId}")]
+        [ProducesResponseType(typeof(List<DashboardDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetByWorkspaceId(string workspaceId)
+        {
+            var result = await _mediator.Send(new GetWorkspaceDashboardsQuery(workspaceId));
+
+            if (!result.result.Succeeded)
+                return BadRequest(result.result.Errors);
+
+            return Ok(result.dashboards);
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(CreatedResultEnvelope), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
@@ -55,19 +68,23 @@ namespace SensorFlow.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(List<DashboardDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Put(string id, [FromBody] DashboardUpdateDTO dashboard)
         {
-            await _mediator.Send(new UpdateDashboardCommand(id, dashboard.Name));
-            return NoContent();
+            var result = await _mediator.Send(new UpdateDashboardCommand(id, dashboard.GridWidgets, dashboard.GridLayout));
+
+            if(!result.result.Succeeded)
+                return BadRequest(result.result.Errors);
+
+            return CreatedAtAction(nameof(Get), new { id = result.dashboard.Id }, new CreatedResultEnvelope(result.dashboard.Id));
         }
 
         //[HttpDelete("{id}")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         //[ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> Delete(Guid id)
+        //public async Task<IActionResult> Delete(Guid id)Dashboard
         //{
         //    await _mediator.Send(new DeletePersonCommand(id));
         //    return NoContent();

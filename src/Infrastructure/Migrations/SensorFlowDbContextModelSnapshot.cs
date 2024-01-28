@@ -137,6 +137,14 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.Property<DateTime?>("CreatedTimestamp")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("GridLayout")
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GridWidgets")
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("LastModifiedTimestamp")
                         .HasColumnType("datetime2");
 

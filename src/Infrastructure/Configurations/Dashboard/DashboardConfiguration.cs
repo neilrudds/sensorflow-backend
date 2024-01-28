@@ -13,6 +13,12 @@ namespace SensorFlow.Infrastructure.Configurations
             builder.ToTable("Dashboards", "Sflow");
             builder.HasKey(p => p.Id);
 
+            builder.Property(p => p.GridWidgets)
+                .HasMaxLength(int.MaxValue);
+
+            builder.Property(p => p.GridLayout)
+                .HasMaxLength(int.MaxValue);
+
             //builder.Property(p => p.Id)
             //    .HasConversion(workspaceId => workspaceId.Value,
             //    value => new WorkspaceId(value));

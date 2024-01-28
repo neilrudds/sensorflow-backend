@@ -8,7 +8,9 @@ namespace SensorFlow.Application.Common.Interfaces
     {
         Task<User> GetUserByIdAsync(string userId);
 
-        Task<(Result result, string? userName)> GetUserNameAsync(string userId);
+        Task<(Result result, string? userName)> GetUserNameByIdAsync(string userId);
+
+        Task<(Result result, User user)> GetUserByUserNameAsync(string userName);
 
         Task<bool> IsInRoleAsync(string userId, string role);
 

@@ -23,11 +23,11 @@ namespace SensorFlow.Application.Dashboards.Queries
 
         public async Task<DashboardDTO> Handle(GetDashboardQuery request, CancellationToken cancellationToken)
         {
-            var dashboard = await _dashboardRepository.GetDashboardByIdAsync(cancellationToken, request.dashboardId);
+            var result = await _dashboardRepository.GetDashboardByIdAsync(cancellationToken, request.dashboardId);
 
             // to-do Guard against not found
 
-            return _mapper.Map<DashboardDTO>(dashboard);
+            return _mapper.Map<DashboardDTO>(result.dashboard);
         }
     }
 }

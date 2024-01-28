@@ -4,7 +4,6 @@ using SensorFlow.Application.Tenants.Models;
 using SensorFlow.Application.Tenants.Queries;
 using SensorFlow.WebApi.Infrastructure.ActionResults;
 using Microsoft.AspNetCore.Authorization;
-using SensorFlow.Domain.Enumerations;
 using SensorFlow.Application.Tenants.Commands;
 
 namespace SensorFlow.WebApi.Controllers

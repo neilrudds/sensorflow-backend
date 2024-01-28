@@ -41,7 +41,7 @@ namespace SensorFlow.Infrastructure.Services.Auth
             return result;
         }
 
-        public async Task<(Result result, string? userName)> GetUserNameAsync(string userId)
+        public async Task<(Result result, string? userName)> GetUserNameByIdAsync(string userId)
         {
             var applicationUser = await _userManager.FindByIdAsync(userId);
 
@@ -51,6 +51,18 @@ namespace SensorFlow.Infrastructure.Services.Auth
             }
 
             return (Result.Success(), applicationUser.UserName);
+        }
+
+        public async Task<(Result result, User user)> GetUserByUserNameAsync(string userName)
+        {
+            var applicationUser = await _userManager.FindByNameAsync(userName);
+
+            if (applicationUser == null)
+            {
+                return (Result.Failure("User not found!"), new User { });
+            }
+
+            return (Result.Success(), applicationUser);
         }
 
         public async Task<(Result result, string userId)> CreateUserAsync(User user, string password, List<string> roles, bool isActive)
