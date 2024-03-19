@@ -7,7 +7,6 @@ namespace SensorFlow.Domain.Entities.Dashboards
     public sealed class Dashboard : Entity<string>
     {
         public string Name { get; set; } = string.Empty;
-
         public string? GridWidgets { get; set; }
         public string? GridLayout { get; set; }
         public string WorkspaceId { get; set; }
@@ -67,7 +66,7 @@ namespace SensorFlow.Domain.Entities.Dashboards
                     var tmpObj = JsonValue.Parse(json);
                     return json;
                 }
-                catch (FormatException fex)
+                catch (FormatException ex)
                 {
                     //Invalid json format
                     return string.Empty;

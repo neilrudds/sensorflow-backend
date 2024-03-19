@@ -13,6 +13,7 @@ using SensorFlow.Infrastructure.Services.Auth;
 using SensorFlow.Domain.Entities.Devices;
 using SensorFlow.Domain.Entities.Tenants;
 using SensorFlow.Domain.Entities.Users;
+using SensorFlow.Domain.Entities.Gateways;
 
 /* Define our DBContext */
 namespace SensorFlow.Infrastructure.DbContexts
@@ -31,6 +32,7 @@ namespace SensorFlow.Infrastructure.DbContexts
         public DbSet<Workspace> Workspaces { get; set; }
         public DbSet<Dashboard> Dashboards { get; set; }
         public DbSet<Device> Devices { get; set; }
+        public DbSet<Gateway> Gateways { get; set; }
         public DbSet<Person> Persons { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

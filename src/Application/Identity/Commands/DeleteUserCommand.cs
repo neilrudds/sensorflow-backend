@@ -18,7 +18,7 @@ namespace SensorFlow.Application.Identity.Commands
         }
 
         public async Task<Result> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
-        {
+        { 
             return await _applicationUserService.DeleteUserAsync(request.userId);
         }
     }

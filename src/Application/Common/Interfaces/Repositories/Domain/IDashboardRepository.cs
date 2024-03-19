@@ -1,5 +1,4 @@
 ﻿using SensorFlow.Application.Common.Models;
-using SensorFlow.Application.Dashboards.Models;
 using SensorFlow.Domain.Entities.Dashboards;
 
 /* This interface will be used by the API as an abstraction of the repository whose implementation resides in the Infrastructure project. */

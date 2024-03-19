@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Common.Models;
-using SensorFlow.Domain.Abstractions.Exceptions;
 using SensorFlow.Domain.Entities.Dashboards;
-using SensorFlow.Domain.Entities.Workspaces;
 using SensorFlow.Infrastructure.DbContexts;
 
 namespace SensorFlow.Infrastructure.Repositories

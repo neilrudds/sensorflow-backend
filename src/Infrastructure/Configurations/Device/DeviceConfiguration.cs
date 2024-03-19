@@ -20,9 +20,18 @@ namespace SensorFlow.Infrastructure.Configurations
                 .HasColumnType("varchar(64)")
                 .IsRequired();
 
-            builder.HasMany(p => p.Workspaces)
+            builder.Property(p => p.Fields)
+                .HasMaxLength(int.MaxValue);
+
+            builder.HasOne(p => p.Workspace)
+               .WithMany(p => p.Devices)
+               .OnDelete(DeleteBehavior.Cascade)
+               .IsRequired();
+
+            builder.HasOne(p => p.Gateway)
                 .WithMany(p => p.Devices)
-                .UsingEntity(p => p.ToTable("WorkspaceDevice"));
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired();
         }
     }
 }

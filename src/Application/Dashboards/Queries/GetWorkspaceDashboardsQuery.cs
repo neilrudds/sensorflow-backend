@@ -3,7 +3,6 @@ using MediatR;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Common.Models;
 using SensorFlow.Application.Dashboards.Models;
-using SensorFlow.Domain.Entities.Dashboards;
 
 namespace SensorFlow.Application.Dashboards.Queries
 {

@@ -1,5 +1,6 @@
 ﻿using SensorFlow.Domain.Entities.Dashboards;
 using SensorFlow.Domain.Entities.Devices;
+using SensorFlow.Domain.Entities.Gateways;
 using SensorFlow.Domain.Entities.Tenants;
 using SensorFlow.Domain.Entities.Users;
 using SensorFlow.Domain.Models;
@@ -23,7 +24,9 @@ namespace SensorFlow.Domain.Entities.Workspaces
 
         public ICollection<Device> Devices { get; set; } = new List<Device>();
 
-       public ICollection<User> Users { get; set; } = new List<User>();
+        public ICollection<Gateway> Gateways { get; set; } = new List<Gateway>();
+
+        public ICollection<User> Users { get; set; } = new List<User>();
         
         public Workspace()
         {

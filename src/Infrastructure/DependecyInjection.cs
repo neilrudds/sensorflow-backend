@@ -63,6 +63,8 @@ namespace SensorFlow.Infrastructure
             services.AddScoped<ITenantRepository, TenantRepository>();
             services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
+            services.AddScoped<IDeviceRepository, DeviceRepository>();
+            services.AddScoped<IGatewayRepository, GatewayRepository>();
             services.AddScoped<IApplicationUserService, ApplicationUserService>();
             services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
