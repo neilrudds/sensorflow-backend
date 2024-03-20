@@ -29,7 +29,10 @@ namespace SensorFlow.WebApi.Controllers
         public async Task<IActionResult> Get(string id)
         {
             var result = await _mediator.Send(new GetDashboardQuery(id));
-            return Ok(result);
+            if (result.IsError)
+                return BadRequest(result.Errors);
+
+            return Ok(result.Value);
         }
 
         [HttpGet]
