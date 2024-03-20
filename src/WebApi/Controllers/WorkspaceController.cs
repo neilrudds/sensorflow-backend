@@ -48,10 +48,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new GetUserWorkspacesQuery(username));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return Ok(result.workspaces);
+            return Ok(result.Value);
         }
 
         [HttpPost]
@@ -62,10 +62,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new CreateWorkspaceCommand(workspace.name, workspace.tenantId, workspace.userName));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return CreatedAtAction(nameof(Get), new { result.workspace.Id }, new CreatedResultEnvelope(result.workspace.Id));
+            return CreatedAtAction(nameof(Get), new { result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }
 
         //[HttpPut("{id}")]

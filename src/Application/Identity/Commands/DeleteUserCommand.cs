@@ -1,14 +1,16 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Common.Models;
+using SensorFlow.Domain.Entities.Users;
 
 namespace SensorFlow.Application.Identity.Commands
 {
     // Command
-    public record DeleteUserCommand(string userId) : IRequest<Result>;
+    public record DeleteUserCommand(string userId) : IRequest;
 
     // Command Handler
-    public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Result>
+    public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
     {
         private readonly IApplicationUserService _applicationUserService;
 
@@ -17,9 +19,9 @@ namespace SensorFlow.Application.Identity.Commands
             _applicationUserService = applicationUserService;
         }
 
-        public async Task<Result> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
-        { 
-            return await _applicationUserService.DeleteUserAsync(request.userId);
+        public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        {
+            await _applicationUserService.DeleteUserAsync(request.userId);
         }
     }
 }

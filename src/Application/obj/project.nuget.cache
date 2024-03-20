@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "68u5qOYh364ieVBDwAZnSvC5mznJLD/Z27zKNbDgMv3zA1wPqMpQMlCm0jyezjJy/BPjlSaCnStp+CCl6Vfe0g==",
+  "dgSpecHash": "oKvt4MiTDKqlLnd7Wt5ljMl1/D0torG4MASjf6lyJ0SpFk17Fnzo12bfUZnoRAm4gOtwPjyQiMCkkGGMMUVH8A==",
   "success": true,
   "projectFilePath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Application\\SensorFlow.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
-    "C:\\Users\\NeilRutherford\\.nuget\\packages\\fluentvalidation\\11.8.1\\fluentvalidation.11.8.1.nupkg.sha512",
+    "C:\\Users\\NeilRutherford\\.nuget\\packages\\erroror\\1.10.0\\erroror.1.10.0.nupkg.sha512",
+    "C:\\Users\\NeilRutherford\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
+    "C:\\Users\\NeilRutherford\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.8.1\\fluentvalidation.dependencyinjectionextensions.11.8.1.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",

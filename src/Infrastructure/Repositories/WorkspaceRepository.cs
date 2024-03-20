@@ -6,6 +6,7 @@ using SensorFlow.Infrastructure.DbContexts;
 using SensorFlow.Application.Common.Models;
 using Microsoft.AspNetCore.Identity;
 using SensorFlow.Domain.Entities.Users;
+using ErrorOr;
 
 /* Concrete implementation of the IWorkspaceRepository */
 
@@ -22,13 +23,13 @@ namespace SensorFlow.Infrastructure.Repositories
             _userManager = userManager;
     }
 
-        public async Task<(Result result, Workspace workspace)> AddWorkspaceAsync(CancellationToken cancellationToken, Workspace toCreate)
+        public async Task<ErrorOr<Workspace>> AddWorkspaceAsync(CancellationToken cancellationToken, Workspace toCreate)
         {
             _context.Workspaces.Add(toCreate);
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return (Result.Success(), toCreate);
+            return (toCreate);
         }
 
         public async Task DeleteWorkspaceAsync(CancellationToken cancellationToken, Workspace toDelete)
@@ -87,16 +88,16 @@ namespace SensorFlow.Infrastructure.Repositories
             return workspace;
         }
 
-        public async Task<(Result result, List<Workspace> workspaces)> GetWorkspacesByUsernameAsync(CancellationToken cancellationToken, string username)
+        public async Task<ErrorOr<List<Workspace>>> GetWorkspacesByUsernameAsync(CancellationToken cancellationToken, string username)
         {
 
             var workspaces = new List<Workspace>();
             var applicationUser = await _userManager.FindByNameAsync(username);
 
             if (applicationUser == null)
-                return (Result.Failure("User not found!"), workspaces);
+                return Error.NotFound(description: "User not found");
 
-            workspaces = await _context.Users.Where(u => u.UserName == username).SelectMany(w => w.Workspaces)
+            return await _context.Users.Where(u => u.UserName == username).SelectMany(w => w.Workspaces)
                 .Include(p => p.Dashboards)
                 .Include(p => p.Devices)
                 .Select(s => new Workspace
@@ -115,8 +116,6 @@ namespace SensorFlow.Infrastructure.Repositories
                 })
                 .OrderBy(s => s.Name)
                 .ToListAsync(cancellationToken);
-
-            return (Result.Success(), workspaces);
         }
 
         public async Task<Workspace> UpdateWorkspaceAsync(CancellationToken cancellationToken, string workspaceId, string name)

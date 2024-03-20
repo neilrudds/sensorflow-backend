@@ -39,10 +39,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new GetWorkspaceDevicesQuery(workspaceId));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return Ok(result.devices);
+            return Ok(result.Value);
         }
 
         [HttpPost]
@@ -53,10 +53,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new CreateDeviceCommand(device.id, device.name, device.fields, device.workspaceId, device.gatewayId));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Value);
 
-            return CreatedAtAction(nameof(Get), new { id = result.device.Id }, new CreatedResultEnvelope(result.device.Id));
+            return CreatedAtAction(nameof(Get), new { id = result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }
 
         [HttpPut("{id}")]
@@ -67,10 +67,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new UpdateDeviceCommand(id, device.name, device.fields, device.gatewayId));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return CreatedAtAction(nameof(Get), new { id = result.device.Id }, new CreatedResultEnvelope(result.device.Id));
+            return CreatedAtAction(nameof(Get), new { id = result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }
 
         [HttpDelete("{id}")]

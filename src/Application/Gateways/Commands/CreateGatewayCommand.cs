@@ -1,16 +1,16 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
 using SensorFlow.Domain.Entities.Gateways;
 
 namespace SensorFlow.Application.Gateways.Commands
 {
 
     // Command
-    public record CreateGatewayCommand(string name, string workspaceId, string host) : IRequest<(Result result, Gateway gateway)>;
+    public record CreateGatewayCommand(string name, string workspaceId, string host) : IRequest<ErrorOr<Gateway>>;
 
     // Command Handler
-    public class CreateGatewayCommandHandler : IRequestHandler<CreateGatewayCommand, (Result result, Gateway gateway)>
+    public class CreateGatewayCommandHandler : IRequestHandler<CreateGatewayCommand, ErrorOr<Gateway>>
     {
         private readonly IGatewayRepository _gatewayRepository;
         private readonly IWorkspaceRepository _workspaceRepository;
@@ -21,12 +21,12 @@ namespace SensorFlow.Application.Gateways.Commands
             _workspaceRepository = workspaceRepository;
         }
 
-        public async Task<(Result result, Gateway? gateway)> Handle(CreateGatewayCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Gateway>> Handle(CreateGatewayCommand request, CancellationToken cancellationToken)
         {
-            //var workspace = await _workspaceRepository.GetWorkspaceByIdAsync(cancellationToken, request.workspaceId);
+            var workspace = await _workspaceRepository.GetWorkspaceByIdAsync(cancellationToken, request.workspaceId);
 
-            //if (workspace is null)
-            //    return (Result.Failure("Unable to locate workspace"),  null);
+            if (workspace is null)
+                return Error.NotFound(description: "Unable to locate workspace");
 
             var gateway = Gateway.CreateGateway(
                 request.name,

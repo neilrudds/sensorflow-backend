@@ -1,4 +1,4 @@
-﻿using SensorFlow.Application.Common.Models;
+﻿using ErrorOr;
 using SensorFlow.Domain.Entities.Tenants;
 
 namespace SensorFlow.Application.Common.Interfaces
@@ -9,7 +9,7 @@ namespace SensorFlow.Application.Common.Interfaces
 
         Task<Tenant> GetTenantByIdAsync(CancellationToken cancellationToken, string tenantId);
 
-        Task<(Result result, Tenant tenant)> AddTenantAsync(CancellationToken cancellationToken, Tenant toCreate);
+        Task<ErrorOr<Tenant>> AddTenantAsync(CancellationToken cancellationToken, Tenant toCreate);
 
         Task<Tenant> UpdateTenantAsync(CancellationToken cancellationToken, string tenantId, string name);
 

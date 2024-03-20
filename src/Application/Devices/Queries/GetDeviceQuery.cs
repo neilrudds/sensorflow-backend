@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ErrorOr;
 using MediatR;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Devices.Models;
@@ -6,10 +7,10 @@ using SensorFlow.Application.Devices.Models;
 namespace SensorFlow.Application.Devices.Queries
 {
     // Query
-    public record GetDeviceQuery(string deviceId) : IRequest<DeviceDTO>;
+    public record GetDeviceQuery(string deviceId) : IRequest<ErrorOr<DeviceDTO>>;
 
     // Query Handler
-    public class GetDeviceQueryHandler : IRequestHandler<GetDeviceQuery, DeviceDTO>
+    public class GetDeviceQueryHandler : IRequestHandler<GetDeviceQuery, ErrorOr<DeviceDTO>>
     {
         private readonly IDeviceRepository _deviceRepository;
         protected readonly IMapper _mapper;
@@ -20,13 +21,14 @@ namespace SensorFlow.Application.Devices.Queries
             _mapper = mapper;
         }
 
-        public async Task<DeviceDTO> Handle(GetDeviceQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<DeviceDTO>> Handle(GetDeviceQuery request, CancellationToken cancellationToken)
         {
             var result = await _deviceRepository.GetDeviceByIdAsync(cancellationToken, request.deviceId);
 
-            // to-do Guard against not found
+            if (result.IsError)
+                return result.Errors;
 
-            return _mapper.Map<DeviceDTO>(result.device);
+            return _mapper.Map<DeviceDTO>(result.Value);
         }
     }
 }

@@ -1,13 +1,14 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Common.Models;
 using SensorFlow.Domain.Entities.Dashboards;
 
 namespace SensorFlow.Application.Dashboards.Commands
 {
-    public record UpdateDashboardCommand(string dashboardId, string? gridWidgets, string? gridLayout) : IRequest<(Result result, Dashboard dashboard)>;
+    public record UpdateDashboardCommand(string dashboardId, string? gridWidgets, string? gridLayout) : IRequest<ErrorOr<Dashboard>>;
 
-    public class UpdateDashboardCommandHandler : IRequestHandler<UpdateDashboardCommand, (Result result, Dashboard dashboard)>
+    public class UpdateDashboardCommandHandler : IRequestHandler<UpdateDashboardCommand, ErrorOr<Dashboard>>
     {
 
         private readonly IDashboardRepository _dashboardRepository;
@@ -17,20 +18,20 @@ namespace SensorFlow.Application.Dashboards.Commands
             _dashboardRepository = dashboardRepository;
         }
 
-        public async Task<(Result result, Dashboard dashboard)> Handle(UpdateDashboardCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Dashboard>> Handle(UpdateDashboardCommand request, CancellationToken cancellationToken)
         {
-            var dashboard = _dashboardRepository.GetDashboardByIdAsync(cancellationToken, request.dashboardId);
+            var dashboard = await _dashboardRepository.GetDashboardByIdAsync(cancellationToken, request.dashboardId);
 
-            if (dashboard == null)
-                return (Result.Failure("Dashboard not found."), new Dashboard { });
+            if (dashboard.IsError)
+                return dashboard.Errors;
             
             if (!String.IsNullOrEmpty(request.gridWidgets))
-                dashboard.Result.dashboard.UpdateWidgetLayout(request.gridWidgets);
+                dashboard.Value.UpdateWidgetLayout(request.gridWidgets);
 
             if (!String.IsNullOrEmpty(request.gridLayout))
-                dashboard.Result.dashboard.UpdateGridLayout(request.gridLayout);
+                dashboard.Value.UpdateGridLayout(request.gridLayout);
             
-            return await _dashboardRepository.UpdateDashboardAsync(cancellationToken, dashboard.Result.dashboard);
+            return await _dashboardRepository.UpdateDashboardAsync(cancellationToken, dashboard.Value);
         }
     }
 }

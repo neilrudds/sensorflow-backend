@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "s8VTyyzaQHC/UErf93opgJfMZyqjvQPIE5Rk9/YRSQr2hNIbE7PDLXqkiJvITXK5o2OXk+dwZRamUFWhla/Iwg==",
+  "dgSpecHash": "o90YSN4elAl8LU6wVvEUMaQ4NN5FjpLKJETjZaaVMsdf8Qam3De/cF9+NTutYG4oTxhdOPkTMldc/ZHy94x3Vg==",
   "success": true,
   "projectFilePath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Infrastructure\\SensorFlow.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,9 @@
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
-    "C:\\Users\\NeilRutherford\\.nuget\\packages\\fluentvalidation\\11.8.1\\fluentvalidation.11.8.1.nupkg.sha512",
+    "C:\\Users\\NeilRutherford\\.nuget\\packages\\erroror\\1.10.0\\erroror.1.10.0.nupkg.sha512",
+    "C:\\Users\\NeilRutherford\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
+    "C:\\Users\\NeilRutherford\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.8.1\\fluentvalidation.dependencyinjectionextensions.11.8.1.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",

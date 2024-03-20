@@ -16,6 +16,13 @@ COPY . .
 WORKDIR "/src/src/WebApi"
 RUN dotnet build "SensorFlow.WebApi.csproj" -c Release -o /app/build
 
+# run the unit tests
+FROM build AS test
+# set the directory to be within the unit test project
+WORKDIR /tests/SensorFlow.Domain.Tests
+# run the unit tests
+RUN dotnet test --logger:trx
+
 FROM build AS publish
 RUN dotnet publish "SensorFlow.WebApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 

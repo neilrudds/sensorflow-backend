@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ErrorOr;
+using Microsoft.EntityFrameworkCore;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
-using SensorFlow.Domain.Entities.Devices;
 using SensorFlow.Domain.Entities.Gateways;
 using SensorFlow.Infrastructure.DbContexts;
 
@@ -16,57 +15,58 @@ namespace SensorFlow.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<(Result result, Gateway device)> AddGatewayAsync(CancellationToken cancellationToken, Gateway toCreate)
+        public async Task<ErrorOr<Gateway>> AddGatewayAsync(CancellationToken cancellationToken, Gateway toCreate)
         {
             _context.Gateways.Add(toCreate);
 
-            if (await _context.SaveChangesAsync(cancellationToken) < 0)
-                return (Result.Failure("Unable to save record to Db"), toCreate);
+            if (await _context.SaveChangesAsync(cancellationToken) < 1)
+                return Error.NotFound(description: "Unable to save record to Db");
 
-            return (Result.Success(), toCreate);
+            return toCreate;
         }
 
-        public async Task<int> DeleteGatewayAsync(CancellationToken cancellationToken, Gateway toDelete)
+        public async Task<ErrorOr<Gateway>> DeleteGatewayAsync(CancellationToken cancellationToken, Gateway toDelete)
         {
             _context.Gateways.Remove(toDelete);
 
-            return await _context.SaveChangesAsync(cancellationToken);
+            if (await _context.SaveChangesAsync(cancellationToken) < 1)
+                return Error.Failure(description: "Unable to delete gateway");
+
+            return toDelete;
         }
 
-        public async Task<(Result result, Gateway gateway)> GetGatewayByIdAsync(CancellationToken cancellationToken, string gatewayId)
+        public async Task<ErrorOr<Gateway>> GetGatewayByIdAsync(CancellationToken cancellationToken, string gatewayId)
         {
             var gateway = await _context.Gateways
                 .FirstOrDefaultAsync(p => p.Id == gatewayId, cancellationToken);
 
             if (gateway is null)
-                return (Result.Failure("Gateway not found!"), new Gateway { });
+                return Error.NotFound(description: "Gateway not found!");
 
-            return (Result.Success(), gateway);
+            return gateway;
         }
 
-        public async Task<(Result result, List<Gateway> gateways)> GetGatewaysByWorkspaceIdAsync(CancellationToken cancellationToken, string workspaceId)
+        public async Task<ErrorOr<List<Gateway>>> GetGatewaysByWorkspaceIdAsync(CancellationToken cancellationToken, string workspaceId)
         {
             var gateways = new List<Gateway>();
             var workspace = await _context.Workspaces
                 .FirstOrDefaultAsync(p => p.Id == workspaceId, cancellationToken);
 
             if (workspace is null)
-                return (Result.Failure("Workspace not found!"), gateways);
+                return Error.NotFound(description: "Workspace not found!");
 
-            gateways = await _context.Workspaces.Where(w => w.Id == workspaceId).SelectMany(w => w.Gateways)
+            return await _context.Workspaces.Where(w => w.Id == workspaceId).SelectMany(w => w.Gateways)
                 .OrderBy(s => s.Name)
                 .ToListAsync(cancellationToken);
-
-            return (Result.Success(), gateways);
         }
 
-        public async Task<(Result result, Gateway device)> UpdateGatewayAsync(CancellationToken cancellationToken, Gateway toUpdate)
+        public async Task<ErrorOr<Gateway>> UpdateGatewayAsync(CancellationToken cancellationToken, Gateway toUpdate)
         {
             var gateway = await _context.Gateways
                 .FirstOrDefaultAsync(p => p.Id == toUpdate.Id);
 
             if (gateway is null)
-                return (Result.Failure("Gateway not found!"), new Gateway { });
+                return Error.NotFound(description: "Gateway not found!");
 
             gateway.Name = toUpdate.Name;
             gateway.Host = toUpdate.Host;
@@ -76,9 +76,10 @@ namespace SensorFlow.Infrastructure.Repositories
             gateway.ClientId = toUpdate.ClientId;
             gateway.SSLEnabled = toUpdate.SSLEnabled;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            if (await _context.SaveChangesAsync(cancellationToken) < 0)
+                Error.Failure(description: "Unable to save gateway");
 
-            return (Result.Success(), gateway);
+            return gateway;
         }
     }
 }

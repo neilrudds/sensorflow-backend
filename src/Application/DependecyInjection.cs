@@ -8,32 +8,26 @@ using SensorFlow.Application.Dashboards.MappingProfiles;
 using SensorFlow.Application.Devices.MappingProfiles;
 using SensorFlow.Application.Gateways.MappingProfiles;
 using SensorFlow.Application.Tenants.MappingProfiles;
+using MediatR;
+using SensorFlow.Application.Common.Behaviours;
+using System.Reflection;
+using Microsoft.Extensions.Options;
 
 namespace SensorFlow.Application
 {
-    public static class DependecyInjection
+    public static class DependencyInjection
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            var assembly = typeof(DependecyInjection).Assembly;
+            var assembly = typeof(DependencyInjection).Assembly;
 
-            services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(assembly));
+            services.AddMediatR(configuration =>
+            {
+                configuration.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
 
-            // This doesnt quite work here as the profiles in the infra layer are not being mapped...
-            //var mapperConfig = new MapperConfiguration(mc =>
-            //{
-            //    mc.AddMaps(assembly);
-            //});
-            //mapperConfig.AssertConfigurationIsValid();
-
-            //IMapper mapper = mapperConfig.CreateMapper();
-            //services.AddSingleton(mapper);
-            ////services.AddAutoMapper(mc =>
-            ////{
-            ////    mc.AddMaps(assembly);
-            ////});
-            ///
-
+                configuration.AddOpenBehavior(typeof(ValidationBehavior<,>));
+            });
+            
             services.AddAutoMapper(config =>
             {
                 config.ConstructServicesUsing(t => services.BuildServiceProvider().GetRequiredService(t));
@@ -46,7 +40,7 @@ namespace SensorFlow.Application
                 config.AddProfile<GatewayProfile>();
             });
 
-            services.AddValidatorsFromAssembly(assembly);
+            services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
 
             return services;
         }

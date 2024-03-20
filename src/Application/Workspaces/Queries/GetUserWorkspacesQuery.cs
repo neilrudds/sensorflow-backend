@@ -1,16 +1,18 @@
 ﻿using AutoMapper;
+using ErrorOr;
 using MediatR;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Common.Models;
 using SensorFlow.Application.Workspaces.Models;
+using SensorFlow.Domain.Entities.Workspaces;
 
 namespace SensorFlow.Application.Workspaces.Queries
 {
     // Query
-    public record GetUserWorkspacesQuery(string username) : IRequest<(Result result, List<WorkspaceDTO> workspaces)>;
+    public record GetUserWorkspacesQuery(string username) : IRequest<ErrorOr<List<WorkspaceDTO>>>;
 
     // Query Handler
-    public class GetUserWorkspacesQueryHandler : IRequestHandler<GetUserWorkspacesQuery, (Result result, List<WorkspaceDTO> workspaces)>
+    public class GetUserWorkspacesQueryHandler : IRequestHandler<GetUserWorkspacesQuery, ErrorOr<List<WorkspaceDTO>>>
     {
 
         private readonly IWorkspaceRepository _workspaceRepository;
@@ -22,11 +24,14 @@ namespace SensorFlow.Application.Workspaces.Queries
             _mapper = mapper;
         }
 
-        public async Task<(Result result, List<WorkspaceDTO> workspaces)> Handle(GetUserWorkspacesQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<List<WorkspaceDTO>>> Handle(GetUserWorkspacesQuery request, CancellationToken cancellationToken)
         {
-            var result = await _workspaceRepository.GetWorkspacesByUsernameAsync(cancellationToken, request.username);
+            var getWorkspaces = await _workspaceRepository.GetWorkspacesByUsernameAsync(cancellationToken, request.username);
 
-            return (result.result, _mapper.Map<List<WorkspaceDTO>>(result.workspaces));
+            if (getWorkspaces.IsError)
+                return getWorkspaces.Errors;
+
+            return _mapper.Map<List<WorkspaceDTO>>(getWorkspaces.Value);
         }
     }
 }

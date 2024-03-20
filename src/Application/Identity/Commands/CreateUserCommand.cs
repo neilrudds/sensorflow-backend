@@ -1,16 +1,15 @@
 ﻿using MediatR;
-using SensorFlow.Application.Common.Models;
+using ErrorOr;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Domain.Entities.Users;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SensorFlow.Application.Identity.Commands
 {
     // Command
-    public record CreateUserCommand(string userName, string firstName, string lastName, string email, string password, string tenantId, List<string> roles) : IRequest<(Result result, string UserId)>;
+    public record CreateUserCommand(string userName, string firstName, string lastName, string email, string password, string tenantId, List<string> roles) : IRequest<ErrorOr<User?>>;
 
     // Command Handler
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, (Result result, string UserId)>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ErrorOr<User?>>
     {
         private readonly IApplicationUserService _applicationUserService;
 
@@ -19,10 +18,23 @@ namespace SensorFlow.Application.Identity.Commands
             _applicationUserService = applicationUserService;
         }
 
-        public async Task<(Result result, string UserId)> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<User?>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var user = new User(request.userName, request.firstName, request.lastName, request.email, request.tenantId);
-            return await _applicationUserService.CreateUserAsync(user, request.password, request.roles, true);
+            var newUser = new User(
+                request.userName,
+                request.firstName,
+                request.lastName,
+                request.email,
+                request.tenantId);
+
+            var user = await _applicationUserService.GetUserByUserNameAsync(request.userName);
+
+            if (user != null)
+            {
+                Error.Failure(description: "Username already exists");
+            }
+
+            return await _applicationUserService.CreateUserAsync(newUser, request.password, request.roles, true);
         }
     }
 }

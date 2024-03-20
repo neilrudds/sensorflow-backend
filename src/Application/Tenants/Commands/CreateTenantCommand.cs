@@ -1,22 +1,20 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
 using SensorFlow.Application.Identity.Models;
 using SensorFlow.Application.Workspaces.Models;
 using SensorFlow.Domain.Entities.Tenants;
 using SensorFlow.Domain.Entities.Users;
 using SensorFlow.Domain.Entities.Workspaces;
 using SensorFlow.Domain.Enumerations;
-using System.Data;
-using System.Threading;
 
 namespace SensorFlow.Application.Tenants.Commands
 {
     // Command
-    public record CreateTenantCommand(string name, UserCreateDTO user, WorkspaceCreateDTO workspace) : IRequest<(Result result, Tenant tenant)>;
+    public record CreateTenantCommand(string name, UserCreateDTO user, WorkspaceCreateDTO workspace) : IRequest<ErrorOr<Tenant>>;
 
     // Command Handler
-    public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, (Result result, Tenant tenant)>
+    public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, ErrorOr<Tenant>>
     {
         private readonly ITenantRepository _tenantRepository;
         private readonly IApplicationUserService _applicationUserService;
@@ -27,11 +25,14 @@ namespace SensorFlow.Application.Tenants.Commands
             _applicationUserService = applicationUserService;
         }
 
-        public async Task<(Result result, Tenant tenant)> Handle(CreateTenantCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Tenant>> Handle(CreateTenantCommand request, CancellationToken cancellationToken)
         {
             var roles = new List<string> { nameof(RoleEnum.Owner) };
             var user = User.CreateUser(request.user.userName, request.user.firstName, request.user.lastName, request.user.email);
-            await _applicationUserService.CreateUserAsync(user, request.user.password, roles, true);
+            var createUserResult = await _applicationUserService.CreateUserAsync(user, request.user.password, roles, true);
+
+            if (createUserResult.IsError)
+                return createUserResult.Errors;
 
             var tenant = new Tenant
             {

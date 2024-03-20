@@ -3,7 +3,7 @@ using SensorFlow.Domain.Abstractions.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Infrastructure.DbContexts;
-using SensorFlow.Application.Common.Models;
+using ErrorOr;
 
 /* Concrete implementation of the ITenantRepository */
 
@@ -18,13 +18,14 @@ namespace SensorFlow.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<(Result result, Tenant tenant)> AddTenantAsync(CancellationToken cancellationToken, Tenant toCreate)
+        public async Task<ErrorOr<Tenant>> AddTenantAsync(CancellationToken cancellationToken, Tenant toCreate)
         {
             _context.Tenants.Add(toCreate);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            if (await _context.SaveChangesAsync(cancellationToken) < 1)
+                return Error.Failure(description: "Unable to save tenant");
 
-            return (Result.Success(), toCreate);
+            return toCreate;
         }
 
         public async Task DeleteTenantAsync(CancellationToken cancellationToken, Tenant toDelete)

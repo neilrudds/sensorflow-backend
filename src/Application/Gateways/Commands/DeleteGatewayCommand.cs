@@ -1,15 +1,15 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
 using SensorFlow.Domain.Entities.Gateways;
 
 namespace SensorFlow.Application.Gateways.Commands
 {
     // Command
-    public record DeleteGatewayCommand(string id) : IRequest<Result>;
+    public record DeleteGatewayCommand(string id) : IRequest<ErrorOr<Gateway>>;
 
     // Command Handler
-    public class DeleteGatewayCommandHandler : IRequestHandler<DeleteGatewayCommand, Result>
+    public class DeleteGatewayCommandHandler : IRequestHandler<DeleteGatewayCommand, ErrorOr<Gateway>>
     {
         private readonly IGatewayRepository _gatewayRepository;
 
@@ -18,15 +18,14 @@ namespace SensorFlow.Application.Gateways.Commands
             _gatewayRepository = gatewayRepository;
         }
 
-        public async Task<Result> Handle(DeleteGatewayCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Gateway>> Handle(DeleteGatewayCommand request, CancellationToken cancellationToken)
         {
-            var toDelete = _gatewayRepository.GetGatewayByIdAsync(cancellationToken, request.id);
+            var toDelete = await _gatewayRepository.GetGatewayByIdAsync(cancellationToken, request.id);
 
-            if (toDelete == null)
-                return (Result.Success("Gateway not found."));
+            if (toDelete.IsError)
+                return toDelete.Errors;
 
-            await _gatewayRepository.DeleteGatewayAsync(cancellationToken, toDelete.Result.gateway);
-            return (Result.Success("Gateway deleted."));
+            return await _gatewayRepository.DeleteGatewayAsync(cancellationToken, toDelete.Value);
         }
     }
 }

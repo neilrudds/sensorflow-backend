@@ -52,10 +52,10 @@ namespace SensorFlow.WebApi.Controllers
                 tenant.workspace
             ));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return CreatedAtAction(nameof(Get), new { id = result.tenant.Id }, new CreatedResultEnvelope(result.tenant.Id));
+            return CreatedAtAction(nameof(Get), new { id = result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }
     }
 }

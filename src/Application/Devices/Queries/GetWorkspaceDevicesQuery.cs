@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
+using ErrorOr;
 using MediatR;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
 using SensorFlow.Application.Devices.Models;
 
 namespace SensorFlow.Application.Devices.Queries
 {
     // Query
-    public record GetWorkspaceDevicesQuery(string workspaceId) : IRequest<(Result result, List<DeviceDTO> devices)>;
+    public record GetWorkspaceDevicesQuery(string workspaceId) : IRequest<ErrorOr<List<DeviceDTO>>>;
 
     // Query Handler
-    public class GetWorkspaceDevicesQueryHandler : IRequestHandler<GetWorkspaceDevicesQuery, (Result result, List<DeviceDTO> devices)>
+    public class GetWorkspaceDevicesQueryHandler : IRequestHandler<GetWorkspaceDevicesQuery, ErrorOr<List<DeviceDTO>>>
     {
         private readonly IDeviceRepository _deviceRepository;
         protected readonly IMapper _mapper;
@@ -21,13 +21,14 @@ namespace SensorFlow.Application.Devices.Queries
             _mapper = mapper;
         }
 
-        public async Task<(Result result, List<DeviceDTO> devices)> Handle(GetWorkspaceDevicesQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<List<DeviceDTO>>> Handle(GetWorkspaceDevicesQuery request, CancellationToken cancellationToken)
         {
             var result = await _deviceRepository.GetDevicesByWorkspaceIdAsync(cancellationToken, request.workspaceId);
 
-            // to-do Guard against not found
+            if (result.IsError)
+                return result.Errors;
 
-            return (result.result, _mapper.Map<List<DeviceDTO>>(result.devices));
+            return _mapper.Map<List<DeviceDTO>>(result.Value);
         }
     }
 }

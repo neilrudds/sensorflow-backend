@@ -47,10 +47,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new GetWorkspaceDashboardsQuery(workspaceId));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return Ok(result.dashboards);
+            return Ok(result.Value);
         }
 
         [HttpPost]
@@ -61,10 +61,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new CreateDashboardCommand(dashboard.name, dashboard.workspaceId));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return CreatedAtAction(nameof(Get), new { id = result.dashboard.Id }, new CreatedResultEnvelope(result.dashboard.Id));
+            return CreatedAtAction(nameof(Get), new { id = result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }
 
         [HttpPut("{id}")]
@@ -75,10 +75,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new UpdateDashboardCommand(id, dashboard.GridWidgets, dashboard.GridLayout));
 
-            if(!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if(result.IsError)
+                return BadRequest(result.Errors);
 
-            return CreatedAtAction(nameof(Get), new { id = result.dashboard.Id }, new CreatedResultEnvelope(result.dashboard.Id));
+            return CreatedAtAction(nameof(Get), new { id = result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }
 
         //[HttpDelete("{id}")]

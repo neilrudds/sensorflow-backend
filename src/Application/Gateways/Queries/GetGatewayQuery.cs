@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ErrorOr;
 using MediatR;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Gateways.Models;
@@ -6,10 +7,10 @@ using SensorFlow.Application.Gateways.Models;
 namespace SensorFlow.Application.Gateways.Queries
 {
     // Query
-    public record GetGatewayQuery(string gatewayId) : IRequest<GatewayDTO>;
+    public record GetGatewayQuery(string gatewayId) : IRequest<ErrorOr<GatewayDTO>>;
 
     // Query Handler
-    public class GetGatewayQueryHandler : IRequestHandler<GetGatewayQuery, GatewayDTO>
+    public class GetGatewayQueryHandler : IRequestHandler<GetGatewayQuery, ErrorOr<GatewayDTO>>
     {
         private readonly IGatewayRepository _gatewayRepository;
         protected readonly IMapper _mapper;
@@ -20,13 +21,14 @@ namespace SensorFlow.Application.Gateways.Queries
             _mapper = mapper;
         }
 
-        public async Task<GatewayDTO> Handle(GetGatewayQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<GatewayDTO>> Handle(GetGatewayQuery request, CancellationToken cancellationToken)
         {
             var result = await _gatewayRepository.GetGatewayByIdAsync(cancellationToken, request.gatewayId);
 
-            // to-do Guard against not found
+            if (result.IsError)
+                return result.Errors;
 
-            return _mapper.Map<GatewayDTO>(result.gateway);
+            return _mapper.Map<GatewayDTO>(result.Value);
         }
     }
 }

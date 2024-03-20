@@ -39,10 +39,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new GetWorkspaceGatewaysQuery(workspaceId));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return Ok(result.gateways);
+            return Ok(result.Value);
         }
 
         [HttpPost]
@@ -53,10 +53,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new CreateGatewayCommand(gateway.name, gateway.workspaceId, gateway.host));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return CreatedAtAction(nameof(Get), new { id = result.gateway.Id }, new CreatedResultEnvelope(result.gateway.Id));
+            return CreatedAtAction(nameof(Get), new { id = result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }
 
         [HttpPut("{id}")]
@@ -67,10 +67,10 @@ namespace SensorFlow.WebApi.Controllers
         {
             var result = await _mediator.Send(new UpdateGatewayCommand(id, gateway.name, gateway.host, gateway.portNumber, gateway.username, gateway.password, gateway.clientId, gateway.sSLEnabled));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return CreatedAtAction(nameof(Get), new { id = result.gateway.Id }, new CreatedResultEnvelope(result.gateway.Id));
+            return CreatedAtAction(nameof(Get), new { id = result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }
 
         [HttpDelete("{id}")]

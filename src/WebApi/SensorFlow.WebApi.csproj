@@ -7,6 +7,7 @@
     <UserSecretsId>48559822-1f9d-4118-8ee8-0750a50b16ed</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />

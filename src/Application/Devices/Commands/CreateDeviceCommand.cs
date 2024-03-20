@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Common.Models;
 using SensorFlow.Domain.Entities.Devices;
@@ -7,14 +8,13 @@ namespace SensorFlow.Application.Devices.Commands
 {
 
     // Command
-    public record CreateDeviceCommand(string id, string name, string fields, string workspaceId, string gatewayId) : IRequest<(Result result, Device device)>;
+    public record CreateDeviceCommand(string id, string name, string fields, string workspaceId, string gatewayId) : IRequest<ErrorOr<Device>>;
 
     // Command Handler
-    public class CreateDeviceCommandHandler : IRequestHandler<CreateDeviceCommand, (Result result, Device device)>
+    public class CreateDeviceCommandHandler : IRequestHandler<CreateDeviceCommand, ErrorOr<Device>>
     {
         private readonly IDeviceRepository _deviceRepository;
         private readonly IWorkspaceRepository _workspaceRepository;
-
 
         public CreateDeviceCommandHandler(IDeviceRepository deviceRepository, IWorkspaceRepository workspaceRepository)
         {
@@ -22,12 +22,12 @@ namespace SensorFlow.Application.Devices.Commands
             _workspaceRepository = workspaceRepository;
         }
 
-        public async Task<(Result result, Device? device)> Handle(CreateDeviceCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Device>> Handle(CreateDeviceCommand request, CancellationToken cancellationToken)
         {
-            //var workspace = await _workspaceRepository.GetWorkspaceByIdAsync(cancellationToken, request.workspaceId);
+            var workspace = await _workspaceRepository.GetWorkspaceByIdAsync(cancellationToken, request.workspaceId);
 
-            //if (workspace is null)
-            //    return (Result.Failure("Unable to locate workspace"),  null);
+            if (workspace is null)
+                return Error.NotFound(description: "Workspace not found");
 
             var device = Device.CreateDevice(
                 request.id,

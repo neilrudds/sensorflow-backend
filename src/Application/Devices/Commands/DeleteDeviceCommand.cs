@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using SensorFlow.Application.Common.Interfaces;
 using SensorFlow.Application.Common.Models;
 using SensorFlow.Domain.Entities.Devices;
@@ -6,10 +7,10 @@ using SensorFlow.Domain.Entities.Devices;
 namespace SensorFlow.Application.Devices.Commands
 {
     // Command
-    public record DeleteDeviceCommand(string id) : IRequest<Result>;
+    public record DeleteDeviceCommand(string id) : IRequest<ErrorOr<Device>>;
 
     // Command Handler
-    public class DeleteDeviceCommandHandler : IRequestHandler<DeleteDeviceCommand, Result>
+    public class DeleteDeviceCommandHandler : IRequestHandler<DeleteDeviceCommand, ErrorOr<Device>>
     {
         private readonly IDeviceRepository _deviceRepository;
 
@@ -18,15 +19,14 @@ namespace SensorFlow.Application.Devices.Commands
             _deviceRepository = deviceRepository;
         }
 
-        public async Task<Result> Handle(DeleteDeviceCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Device>> Handle(DeleteDeviceCommand request, CancellationToken cancellationToken)
         {
-            var toDelete = _deviceRepository.GetDeviceByIdAsync(cancellationToken, request.id);
+            var toDelete = await _deviceRepository.GetDeviceByIdAsync(cancellationToken, request.id);
 
-            if (toDelete == null)
-                return (Result.Success("Device not found."));
+            if (toDelete.IsError)
+                return toDelete.Errors;
 
-            await _deviceRepository.DeleteDeviceAsync(cancellationToken, toDelete.Result.device);
-            return (Result.Success("Device deleted."));
+            return await _deviceRepository.DeleteDeviceAsync(cancellationToken, toDelete.Value);
         }
     }
 }

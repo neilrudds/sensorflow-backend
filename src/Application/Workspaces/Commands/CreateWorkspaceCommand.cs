@@ -1,16 +1,15 @@
 ﻿using MediatR;
 using SensorFlow.Domain.Entities.Workspaces;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
-using SensorFlow.Domain.Entities.Users;
+using ErrorOr;
 
 namespace SensorFlow.Application.Workspaces.Commands
 {
     // Command
-    public record CreateWorkspaceCommand(string name, string tenantId, string userName) : IRequest<(Result result, Workspace workspace)>;
+    public record CreateWorkspaceCommand(string name, string tenantId, string userName) : IRequest<ErrorOr<Workspace>>;
 
     // Command Handler
-    public class CreateWorkspaceCommandHandler : IRequestHandler<CreateWorkspaceCommand, (Result result, Workspace workspace)>
+    public class CreateWorkspaceCommandHandler : IRequestHandler<CreateWorkspaceCommand, ErrorOr<Workspace>>
     {
         private readonly IWorkspaceRepository _workspaceRepository;
         private readonly IApplicationUserService _applicationUserService;
@@ -21,19 +20,18 @@ namespace SensorFlow.Application.Workspaces.Commands
             _applicationUserService = applicationUserService;
         }
 
-        public async Task<(Result result, Workspace workspace)> Handle(CreateWorkspaceCommand request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Workspace>> Handle(CreateWorkspaceCommand request, CancellationToken cancellationToken)
         {
-            var userResult = await _applicationUserService.GetUserByUserNameAsync(request.userName);
+            var user = await _applicationUserService.GetUserByUserNameAsync(request.userName);
 
-            if (!userResult.result.Succeeded)
-                return (Result.Failure("UserId not found!"), new Workspace { });
-
+            if (user is null)
+                return Error.NotFound(description: "User Id not found");
 
             var workspace = Workspace.CreateWorkspace(
                 request.name,
                 request.tenantId
             );
-            workspace.Users.Add(userResult.user);
+            workspace.Users.Add(user);
 
             return await _workspaceRepository.AddWorkspaceAsync(cancellationToken, workspace);
         }

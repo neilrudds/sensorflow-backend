@@ -48,10 +48,10 @@ namespace SensorFlow.WebApi.Controllers
                 new List<string> { RoleEnum.Owner.ToString() }
             ));
 
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return CreatedAtAction(nameof(Get), new { id = result.UserId }, new CreatedResultEnvelope(result.UserId));
+            return CreatedAtAction(nameof(Get), new { id = result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }
 
         [HttpPost]
@@ -66,10 +66,10 @@ namespace SensorFlow.WebApi.Controllers
              ));
 
             // This is messy, fix it. Move the route to a new auth controller?
-            if (!result.result.Succeeded)
-                return BadRequest(result.result.Errors);
+            if (result.IsError)
+                return BadRequest(result.Errors);
 
-            return Ok(result.response);
+            return Ok(result.Value);
         }
     }
 }

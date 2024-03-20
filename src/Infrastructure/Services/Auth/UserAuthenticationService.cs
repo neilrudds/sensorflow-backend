@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using SensorFlow.Domain.Entities.Users;
+using ErrorOr;
 
 namespace SensorFlow.Infrastructure.Services.Auth
 {
@@ -27,7 +28,7 @@ namespace SensorFlow.Infrastructure.Services.Auth
             _configuration = configuration;
         }
 
-        public async Task<(Result result, LoginResponseDTO? response)> Login(LoginRequestDTO request)
+        public async Task<ErrorOr<LoginResponseDTO>> Login(LoginRequestDTO request)
         {
             var result = new LoginResponseDTO();
             try
@@ -35,10 +36,10 @@ namespace SensorFlow.Infrastructure.Services.Auth
                 var user = await _userManager.FindByNameAsync(request.userName);
 
                 if (user == null)
-                    return (Result.Failure("User not found"), null);
+                    return Error.NotFound(description: "User not found");
 
                 if (!await _userManager.CheckPasswordAsync(user, request.password))
-                    return (Result.Failure("Invalid password"), null);
+                    return Error.Failure(description: "Invalid password");
 
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var authClaims = new List<Claim>
@@ -54,12 +55,12 @@ namespace SensorFlow.Infrastructure.Services.Auth
                 }
                 
                 var token = GenerateToken(authClaims);
-                return (Result.Success(), CreateLoginResponse(user, true, token.Item1, token.Item2));
+                return CreateLoginResponse(user, true, token.Item1, token.Item2);
 
             }
             catch (Exception ex)
             {
-                return (Result.Failure(ex.ToString()), null);
+                return Error.Failure(description: ex.ToString());
             }
         }
 
@@ -83,7 +84,7 @@ namespace SensorFlow.Infrastructure.Services.Auth
             return (tokenHandler.WriteToken(token), _TokenExpiryTime);
         }
 
-        public Task<Result> Logout()
+        public Task<Error> Logout()
         {
             throw new NotImplementedException();
         }

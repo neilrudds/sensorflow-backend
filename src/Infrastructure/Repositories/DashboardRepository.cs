@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ErrorOr;
+using Microsoft.EntityFrameworkCore;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
 using SensorFlow.Domain.Entities.Dashboards;
 using SensorFlow.Infrastructure.DbContexts;
 
@@ -14,14 +14,14 @@ namespace SensorFlow.Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<(Result result, Dashboard dashboard)> AddDashboardAsync(CancellationToken cancellationToken, Dashboard toCreate)
+        public async Task<ErrorOr<Dashboard>> AddDashboardAsync(CancellationToken cancellationToken, Dashboard toCreate)
         {
             _context.Dashboards.Add(toCreate);
 
             if (await _context.SaveChangesAsync(cancellationToken) < 0)
-                return (Result.Failure("Unable to save record to Db"), toCreate);
+                return Error.Failure(description: "Unable to save record to Db");
 
-            return (Result.Success(), toCreate);
+            return toCreate;
         }
 
         public async Task DeleteDashboardAsync(CancellationToken cancellationToken, Dashboard toDelete)
@@ -37,41 +37,35 @@ namespace SensorFlow.Infrastructure.Repositories
             return await _context.Dashboards.OrderBy(p => p.Name).ToListAsync(cancellationToken);
         }
 
-        public async Task<(Result result, Dashboard dashboard)> GetDashboardByIdAsync(CancellationToken cancellationToken, string dashboardId)
+        public async Task<ErrorOr<Dashboard>> GetDashboardByIdAsync(CancellationToken cancellationToken, string dashboardId)
         {
             var dashboard = await _context.Dashboards
                 .FirstOrDefaultAsync(p => p.Id == dashboardId, cancellationToken);
 
             if (dashboard is null)
-                return (Result.Failure("Dashboard not found!"), new Dashboard { });
+                return Error.NotFound(description: "Dashboard not found!");
 
-            return (Result.Success(), dashboard);
+            return dashboard;
         }
 
-        public async Task<(Result result, List<Dashboard> dashboards)> GetDashboardsByWorkspaceIdAsync(CancellationToken cancellationToken, string workspaceId)
+        public async Task<ErrorOr<List<Dashboard>>> GetDashboardsByWorkspaceIdAsync(CancellationToken cancellationToken, string workspaceId)
         {
-
             var dashboards = new List<Dashboard>();
             var workspace = await _context.Workspaces
                 .FirstOrDefaultAsync(p => p.Id == workspaceId, cancellationToken);
 
             if (workspace is null)
-                return (Result.Failure("Workspace not found!"), dashboards);
+                return Error.NotFound(description: "Workspace not found");
 
-            dashboards = await _context.Workspaces.Where(w => w.Id == workspaceId).SelectMany(w => w.Dashboards)
+            return await _context.Workspaces.Where(w => w.Id == workspaceId).SelectMany(w => w.Dashboards)
                 .OrderBy(s => s.Name)
                 .ToListAsync(cancellationToken);
-
-            return (Result.Success(), dashboards);
         }
 
-        public async Task<(Result result, Dashboard dashboard)> UpdateDashboardAsync(CancellationToken cancellationToken, Dashboard toUpdate)
+        public async Task<Dashboard> UpdateDashboardAsync(CancellationToken cancellationToken, Dashboard toUpdate)
         {
             var dashboard = await _context.Dashboards
                 .FirstOrDefaultAsync(p => p.Id == toUpdate.Id);
-
-            if (dashboard is null)
-                return (Result.Failure("Dashboard not found!"), new Dashboard { });
 
             dashboard.Name = toUpdate.Name;
             dashboard.WorkspaceId = toUpdate.WorkspaceId;
@@ -80,7 +74,7 @@ namespace SensorFlow.Infrastructure.Repositories
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return (Result.Success(), dashboard);
+            return dashboard;
         }
     }
 }
