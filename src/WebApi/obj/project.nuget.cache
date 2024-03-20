@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "32I5ml/jwLh3z+r9otf6TIjUMypKAXK9GVmnC9DvODOIMmeV4m0V5WLLK7E5FdSQoHCixuDSdm34Tywuw7sd/w==",
+  "dgSpecHash": "lIFOMpCWrDDhPFVG489FASoZHFRdthNNmJDdOtDZFJsnAMaLD8gbKXx6rp6hNahpioFJnVn9umi8MMLkLRFcSA==",
   "success": true,
   "projectFilePath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\WebApi\\SensorFlow.WebApi.csproj",
   "expectedPackageFiles": [
@@ -73,6 +73,7 @@
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\microsoft.net.http.headers\\2.2.0\\microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
+    "C:\\Users\\NeilRutherford\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.19.4\\microsoft.visualstudio.azure.containers.tools.targets.1.19.4.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
