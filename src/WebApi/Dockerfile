@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-ENV ASPNETCORE_URLS=http://+:5000;https://+:5001
+ENV ASPNETCORE_URLS=http://+:5000
 ENV ASPNETCORE_HTTPS_PORT=5001
 EXPOSE 5000
 EXPOSE 5001
