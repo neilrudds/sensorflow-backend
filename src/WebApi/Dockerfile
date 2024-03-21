@@ -2,9 +2,10 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-
-EXPOSE 4000
-EXPOSE 4001
+ENV ASPNETCORE_URLS=http://+:5000;https://+:5001
+ENV ASPNETCORE_HTTPS_PORT=5001
+EXPOSE 5000
+EXPOSE 5001
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
@@ -29,6 +30,5 @@ RUN dotnet publish "SensorFlow.WebApi.csproj" -c Release -o /app/publish /p:UseA
 
 FROM base AS final
 WORKDIR /app
-ENV ASPNETCORE_URLS=https://+:4001;http://+:4000
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "SensorFlow.WebApi.dll"]
