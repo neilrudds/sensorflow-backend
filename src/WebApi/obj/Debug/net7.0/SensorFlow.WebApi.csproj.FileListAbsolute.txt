@@ -288,3 +288,4 @@ C:\Users\NeilRutherford\OneDrive\QUB - MSc Software Development\CSC7058 - Indivi
 C:\Users\NeilRutherford\OneDrive\QUB - MSc Software Development\CSC7058 - Individual Project\sensorflow-backend\src\WebApi\obj\Debug\net7.0\ref\SensorFlow.WebApi.dll
 C:\Users\NeilRutherford\OneDrive\QUB - MSc Software Development\CSC7058 - Individual Project\sensorflow-backend\src\WebApi\bin\Debug\net7.0\ErrorOr.dll
 C:\Users\NeilRutherford\OneDrive\QUB - MSc Software Development\CSC7058 - Individual Project\sensorflow-backend\src\WebApi\bin\Debug\net7.0\FluentValidation.AspNetCore.dll
+C:\Users\NeilRutherford\OneDrive\QUB - MSc Software Development\CSC7058 - Individual Project\sensorflow-backend\src\WebApi\obj\Debug\net7.0\SensorFlow.WebApi.MvcApplicationPartsAssemblyInfo.cs
