@@ -58,7 +58,7 @@ builder.Services
                           policy =>
                           {
                               policy
-                                .WithOrigins("http://localhost:3000") // specifying the allowed origin
+                                .AllowAnyOrigin() // specifying the allowed origin
                                 .AllowAnyMethod() // defining the allowed HTTP method
                                 .AllowAnyHeader(); // allowing any header to be sent
                           });
