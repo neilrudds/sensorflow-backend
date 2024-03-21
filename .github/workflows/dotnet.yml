@@ -5,9 +5,9 @@ name: Backend .NET Deployment
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
@@ -38,4 +38,4 @@ jobs:
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sensorflow-webapi:latest
           docker stop sensorflow-webapi || true
           docker rm sensorflow-webapi || true
-          docker run -d -p 4000:4000 -p 4001:4001 --name sensorflow-webapi ${{ secrets.DOCKERHUB_USERNAME }}/sensorflow-webapi:latest
+          docker run -d -p 4000:5000 --name sensorflow-webapi ${{ secrets.DOCKERHUB_USERNAME }}/sensorflow-webapi:latest
