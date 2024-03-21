@@ -5,9 +5,9 @@ name: Backend .NET Deployment
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
@@ -27,3 +27,15 @@ jobs:
 
     - name: Push the image to Docker Hub
       run: docker push neilrudds/sensorflow-webapi
+
+    - name: Deploy to EC2 instance
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sensorflow-webapi:latest
+          docker stop sensorflow-webapi || true
+          docker rm sensorflow-webapi || true
+          docker run -d -p 4999:80 -p 5000:443 --name sensorflow-webapi ${{ secrets.DOCKERHUB_USERNAME }}/sensorflow-webapi:latest
