@@ -28,13 +28,13 @@ jobs:
     - name: Push the image to Docker Hub
       run: docker push neilrudds/sensorflow-webapi
 
-    - name: Pull the image to VM
-      uses: appleboy/ssh-action@v1.0.0
+    - name: Deploy to EC2 instance
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
-        script: 
+        script: |
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sensorflow-webapi:latest
           docker stop sensorflow-webapi || true
           docker rm sensorflow-webapi || true
