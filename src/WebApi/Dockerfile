@@ -29,6 +29,6 @@ RUN dotnet publish "SensorFlow.WebApi.csproj" -c Release -o /app/publish /p:UseA
 
 FROM base AS final
 WORKDIR /app
-ENV ASPNETCORE_URLS=https://+:4001;http://+:4000
+ENV ASPNETCORE_URLS=https://*:4001;http://*:4000
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "SensorFlow.WebApi.dll"]
