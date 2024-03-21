@@ -1,7 +1,6 @@
 ﻿using ErrorOr;
 using MediatR;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
 using SensorFlow.Domain.Entities.Dashboards;
 
 namespace SensorFlow.Application.Dashboards.Commands
@@ -17,7 +16,6 @@ namespace SensorFlow.Application.Dashboards.Commands
         {
             _dashboardRepository = dashboardRepository;
         }
-
         public async Task<ErrorOr<Dashboard>> Handle(UpdateDashboardCommand request, CancellationToken cancellationToken)
         {
             var dashboard = await _dashboardRepository.GetDashboardByIdAsync(cancellationToken, request.dashboardId);
@@ -26,11 +24,23 @@ namespace SensorFlow.Application.Dashboards.Commands
                 return dashboard.Errors;
             
             if (!String.IsNullOrEmpty(request.gridWidgets))
-                dashboard.Value.UpdateWidgetLayout(request.gridWidgets);
+            {
+                var widgetResult = dashboard.Value.UpdateWidgetLayout(request.gridWidgets);
+                if (widgetResult.IsError) 
+                {
+                    return widgetResult.Errors;
+                }
+            }
 
             if (!String.IsNullOrEmpty(request.gridLayout))
-                dashboard.Value.UpdateGridLayout(request.gridLayout);
-            
+            {
+                var layoutResult = dashboard.Value.UpdateGridLayout(request.gridLayout);
+                if (layoutResult.IsError)
+                {
+                    return layoutResult.Errors;
+                }
+            }
+
             return await _dashboardRepository.UpdateDashboardAsync(cancellationToken, dashboard.Value);
         }
     }

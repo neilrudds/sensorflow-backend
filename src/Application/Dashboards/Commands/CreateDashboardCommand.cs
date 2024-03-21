@@ -25,15 +25,15 @@ namespace SensorFlow.Application.Dashboards.Commands
         {
             var workspace = await _workspaceRepository.GetWorkspaceByIdAsync(cancellationToken, request.workspaceId);
 
-            if (workspace is null)
-                return Error.NotFound(description: "Workspace not found");
+            if (workspace.IsError)
+                return workspace.Errors;
 
             var dashboard = Dashboard.CreateDashboard(
                 request.name,
                 request.workspaceId
             );
 
-            var result = await _dashboardRepository.AddDashboardAsync(cancellationToken, dashboard);
+            var result = await _dashboardRepository.AddDashboardAsync(cancellationToken, dashboard.Value);
 
             if (result.IsError)
                 return result.Errors;

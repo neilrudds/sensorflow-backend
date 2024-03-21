@@ -1,5 +1,4 @@
 using System.Reflection;
-using SensorFlow.Domain.Entities.Persons;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -33,7 +32,6 @@ namespace SensorFlow.Infrastructure.DbContexts
         public DbSet<Dashboard> Dashboards { get; set; }
         public DbSet<Device> Devices { get; set; }
         public DbSet<Gateway> Gateways { get; set; }
-        public DbSet<Person> Persons { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

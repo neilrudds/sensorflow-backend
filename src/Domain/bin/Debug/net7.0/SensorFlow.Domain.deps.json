@@ -8,12 +8,21 @@
     ".NETCoreApp,Version=v7.0": {
       "SensorFlow.Domain/1.0.0": {
         "dependencies": {
+          "ErrorOr": "1.10.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "7.0.14",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.13",
           "Microsoft.Extensions.Identity.Core": "7.0.14"
         },
         "runtime": {
           "SensorFlow.Domain.dll": {}
+        }
+      },
+      "ErrorOr/1.10.0": {
+        "runtime": {
+          "lib/net6.0/ErrorOr.dll": {
+            "assemblyVersion": "1.10.0.0",
+            "fileVersion": "1.10.0.0"
+          }
         }
       },
       "Humanizer.Core/2.14.1": {
@@ -278,6 +287,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "ErrorOr/1.10.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-prNLSGADVmlFJeTt+GyZ7fg3fPJz8KYDaTIO2PtWZJ3S2ZTOkF6xKIo3JT99b+w4pvIPdl9vgpQckhbN4MdKzQ==",
+      "path": "erroror/1.10.0",
+      "hashPath": "erroror.1.10.0.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",

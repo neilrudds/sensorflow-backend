@@ -62,7 +62,7 @@ namespace SensorFlow.Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<Workspace> GetWorkspaceByIdAsync(CancellationToken cancellationToken, string workspaceId)
+        public async Task<ErrorOr<Workspace>> GetWorkspaceByIdAsync(CancellationToken cancellationToken, string workspaceId)
         {
             var workspace = await _context.Workspaces
                 .Include(p => p.Dashboards)
@@ -83,7 +83,8 @@ namespace SensorFlow.Infrastructure.Repositories
                 })
                 .FirstOrDefaultAsync(p => p.Id == workspaceId, cancellationToken);
 
-            if (workspace is null) throw new NotFoundException();
+            if (workspace is null)
+                return Error.NotFound(description: "Workspace not found");
 
             return workspace;
         }

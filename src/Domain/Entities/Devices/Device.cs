@@ -1,7 +1,9 @@
-﻿using SensorFlow.Domain.Entities.Gateways;
+﻿using ErrorOr;
+using SensorFlow.Domain.Entities.Gateways;
 using SensorFlow.Domain.Entities.Workspaces;
 using SensorFlow.Domain.Models;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 
 namespace SensorFlow.Domain.Entities.Devices
 {
@@ -21,7 +23,6 @@ namespace SensorFlow.Domain.Entities.Devices
 
         public Device() { 
             //Id = Guid.NewGuid().ToString(); // DeviceId is generated in the front-end
-            //Workspaces = new Collection<Workspace>();
         }
 
         public Device(string id, string name, string fields, string workspaceId, string gatewayId) : this()
@@ -33,16 +34,28 @@ namespace SensorFlow.Domain.Entities.Devices
             GatewayId = gatewayId;
         }
 
-        public static Device CreateDevice(string id, string name, string fields, string workspaceId, string gatewayId)
+        public static ErrorOr<Device> CreateDevice(string id, string name, string fields, string workspaceId, string gatewayId)
         {
-            // Do I need validation on workspaceId?
-            var device = new Device(ValidateId(id), ValidateName(name), ValidateJSON(fields), workspaceId, gatewayId);
+            var _name = ValidateName(name);
+            if (_name.IsError)
+                return _name.Errors;
+
+            var _fields = ValidateName(fields);
+            if (_fields.IsError)
+                return _fields.Errors;
+
+            var device = new Device(ValidateId(id), _name.Value, _fields.Value, workspaceId, gatewayId);
             return device;
         }
 
-        public void UpdateDeviceName(string name)
+        public ErrorOr<Updated> UpdateDeviceName(string name)
         {
-            Name = ValidateName(name);
+            var _name = ValidateName(name);
+            if (_name.IsError)
+                return _name.Errors;
+
+            Name = _name.Value;
+            return Result.Updated;
         }
 
         public void UpdateDeviceGatewayId(string gatewayId)
@@ -50,9 +63,14 @@ namespace SensorFlow.Domain.Entities.Devices
             GatewayId = ValidateId(gatewayId);
         }
 
-        public void UpdateFields(string fields)
+        public ErrorOr<Updated> UpdateFields(string fields)
         {
-            Fields = ValidateJSON(fields);
+            var _fields = ValidateJSON(fields);
+            if (_fields.IsError)
+                return _fields.Errors;
+
+            Fields = _fields.Value;
+            return Result.Updated;
         }
 
         private static string ValidateId(string? id)
@@ -61,16 +79,20 @@ namespace SensorFlow.Domain.Entities.Devices
             return id;
         }
 
-        private static string ValidateName(string? name)
+        private static ErrorOr<string> ValidateName(string name)
         {
-            name = (name ?? string.Empty).Trim();
-            return name;
+            Regex r = new Regex("^[a-zA-Z0-9 ]*$");
+            if (r.IsMatch(name))
+            {
+                return name.Trim();
+            }
+            return Error.Validation(description: "Device name contains invalid characters");
         }
 
-        private static string ValidateJSON(string? json)
+        private static ErrorOr<string> ValidateJSON(string? json)
         {
             if (string.IsNullOrWhiteSpace(json))
-                return string.Empty;
+                return Error.Validation(description: "JSON data is empty");
 
             json = json.Trim();
             if ((json.StartsWith("{") && json.EndsWith("}")) || //For object
@@ -84,16 +106,16 @@ namespace SensorFlow.Domain.Entities.Devices
                 catch (FormatException ex)
                 {
                     //Invalid json format
-                    return string.Empty;
+                    return Error.Validation(description: "JSON format is invalid");
                 }
                 catch (Exception ex) //some other exception
                 {
-                    return string.Empty;
+                    return Error.Unexpected(code: "JSON error", description: ex.Message);
                 }
             }
             else
             {
-                return string.Empty;
+                return Error.Validation(description: "JSON format is invalid");
             }
         }
     }

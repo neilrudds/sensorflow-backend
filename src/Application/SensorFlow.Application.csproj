@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="ErrorOr" Version="1.10.0" />
@@ -9,11 +9,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Persons\Create\" />
-    <None Remove="Persons\Delete\" />
-    <None Remove="Persons\Update\" />
-    <None Remove="Persons\Read\" />
-    <None Remove="Persons\Models\" />
     <None Remove="Common\" />
     <None Remove="Common\Models\" />
     <None Remove="Common\Interfaces\" />

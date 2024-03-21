@@ -26,8 +26,13 @@ namespace SensorFlow.Application.Devices.Commands
         {
             var workspace = await _workspaceRepository.GetWorkspaceByIdAsync(cancellationToken, request.workspaceId);
 
-            if (workspace is null)
-                return Error.NotFound(description: "Workspace not found");
+            if (workspace.IsError)
+                return workspace.Errors;
+
+            var deviceExists = await _deviceRepository.GetDeviceByIdAsync(cancellationToken, request.id);
+
+            if (deviceExists.Value is not null)
+                return Error.Conflict(description: "Device serial already exists");
 
             var device = Device.CreateDevice(
                 request.id,
@@ -37,7 +42,7 @@ namespace SensorFlow.Application.Devices.Commands
                 request.gatewayId
             );
 
-            return await _deviceRepository.AddDeviceAsync(cancellationToken, device);
+            return await _deviceRepository.AddDeviceAsync(cancellationToken, device.Value);
         }
     }
 

@@ -59,7 +59,6 @@ namespace SensorFlow.Infrastructure
                 //config.AddProfile<UserProfile>();
             });
 
-            services.AddScoped<IPersonRepository, PersonRepository>(); // Inject PersonRepository where IPersonRepository Type is requested.
             services.AddScoped<ITenantRepository, TenantRepository>();
             services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();

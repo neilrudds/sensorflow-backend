@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "UJAbbg4avNDVN110dok5IjF/UUgs6Viied5iYbb9Q9LVjpUn7dfV8q/JrhsbswgpFC7Rc8S2UZpo90qTz4V8jA==",
+  "dgSpecHash": "d39i1/7GOTpV5jL72LhlwVCepdV6/AAz70AgIxvX2EKUspoL4m+F/pSivmCVZJnGqOkalZpQeNaf2b1Pf1JAVg==",
   "success": true,
   "projectFilePath": "C:\\Users\\NeilRutherford\\OneDrive\\QUB - MSc Software Development\\CSC7058 - Individual Project\\sensorflow-backend\\src\\Domain\\SensorFlow.Domain.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\NeilRutherford\\.nuget\\packages\\erroror\\1.10.0\\erroror.1.10.0.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.14\\microsoft.aspnetcore.cryptography.internal.7.0.14.nupkg.sha512",
     "C:\\Users\\NeilRutherford\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.14\\microsoft.aspnetcore.cryptography.keyderivation.7.0.14.nupkg.sha512",

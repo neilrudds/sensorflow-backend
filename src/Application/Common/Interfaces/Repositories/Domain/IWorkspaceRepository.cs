@@ -9,7 +9,7 @@ namespace SensorFlow.Application.Common.Interfaces
     {
         Task<ICollection<Workspace>> GetAllAsync(CancellationToken cancellationToken);
 
-        Task<Workspace> GetWorkspaceByIdAsync(CancellationToken cancellationToken, string workspaceId);
+        Task<ErrorOr<Workspace>> GetWorkspaceByIdAsync(CancellationToken cancellationToken, string workspaceId);
 
         Task<ErrorOr<List<Workspace>>> GetWorkspacesByUsernameAsync(CancellationToken cancellationToken, string username);
 

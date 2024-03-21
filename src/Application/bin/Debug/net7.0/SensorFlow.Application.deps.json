@@ -254,6 +254,7 @@
       "Microsoft.Extensions.Primitives/7.0.0": {},
       "SensorFlow.Domain/1.0.0": {
         "dependencies": {
+          "ErrorOr": "1.10.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "7.0.14",
           "Microsoft.Extensions.Identity.Core": "7.0.14"
         },

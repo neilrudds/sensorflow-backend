@@ -25,8 +25,8 @@ namespace SensorFlow.Application.Gateways.Commands
         {
             var workspace = await _workspaceRepository.GetWorkspaceByIdAsync(cancellationToken, request.workspaceId);
 
-            if (workspace is null)
-                return Error.NotFound(description: "Unable to locate workspace");
+            if (workspace.IsError)
+                return workspace.Errors;
 
             var gateway = Gateway.CreateGateway(
                 request.name,

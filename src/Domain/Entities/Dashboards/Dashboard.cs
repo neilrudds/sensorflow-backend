@@ -1,6 +1,8 @@
 ﻿using SensorFlow.Domain.Entities.Workspaces;
 using SensorFlow.Domain.Models;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
+using ErrorOr;
 
 namespace SensorFlow.Domain.Entities.Dashboards
 {
@@ -23,39 +25,60 @@ namespace SensorFlow.Domain.Entities.Dashboards
             WorkspaceId = workspaceId;
         }
 
-        public static Dashboard CreateDashboard(string name, string workspaceId)
+        public static ErrorOr<Dashboard> CreateDashboard(string name, string workspaceId)
         {
-            // Do I need validation on workspaceId?
-            var dashboard = new Dashboard(ValidateName(name), workspaceId);
+            var _name = ValidateName(name);
+            if (_name.IsError)
+                return _name.Errors;
+
+            var dashboard = new Dashboard(_name.Value, workspaceId);
             return dashboard;
         }
 
-        public void Update(string name, string gridLayout)
+        public ErrorOr<Updated> UpdateName(string name)
         {
-            Name = ValidateName(name);
-            GridLayout = ValidateJSON(gridLayout);
+            var _name = ValidateName(name);
+            if (_name.IsError)
+                return _name.Errors;
+
+            Name = _name.Value;
+            return Result.Updated;
         }
 
-        public void UpdateGridLayout(string gridLayout)
+        public ErrorOr<Updated> UpdateGridLayout(string gridLayout)
         {
-            GridLayout = ValidateJSON(gridLayout);
+            var _gridLayout = ValidateJSON(gridLayout);
+            if (_gridLayout.IsError)
+                return _gridLayout.Errors;
+
+            GridLayout = _gridLayout.Value;
+            return Result.Updated;
         }
 
-        public void UpdateWidgetLayout(string gridLayout)
+        public ErrorOr<Updated> UpdateWidgetLayout(string gridWidgets)
         {
-            GridWidgets = ValidateJSON(gridLayout);
+            var _gridWidgets = ValidateJSON(gridWidgets);
+            if (_gridWidgets.IsError)
+                return _gridWidgets.Errors;
+
+            GridWidgets = _gridWidgets.Value;
+            return Result.Updated;
         }
 
-        private static string ValidateName(string? name)
+        private static ErrorOr<string> ValidateName(string name)
         {
-            name = (name ?? string.Empty).Trim();
-            return name;
+            Regex r = new Regex("^[a-zA-Z0-9 ]*$");
+            if(r.IsMatch(name))
+            {
+                return name.Trim();
+            }
+            return Error.Validation(description: "Dashboard name contains invalid characters");
         }
 
-        private static string ValidateJSON(string? json)
+        private static ErrorOr<string> ValidateJSON(string? json)
         {
             if (string.IsNullOrWhiteSpace(json))
-                return string.Empty;
+                return Error.Validation(description: "JSON data is empty");
 
             json = json.Trim();
             if ((json.StartsWith("{") && json.EndsWith("}")) || //For object
@@ -69,16 +92,16 @@ namespace SensorFlow.Domain.Entities.Dashboards
                 catch (FormatException ex)
                 {
                     //Invalid json format
-                    return string.Empty;
+                    return Error.Validation(description: "JSON format is invalid");
                 }
                 catch (Exception ex) //some other exception
                 {
-                    return string.Empty;
+                    return Error.Unexpected(code: "JSON error", description: ex.Message);
                 }
             }
             else
             {
-                return string.Empty;
+                return Error.Validation(description: "JSON format is invalid");
             }
         }
     }

@@ -1,8 +1,5 @@
-﻿using ErrorOr;
-using MediatR;
+﻿using MediatR;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
-using SensorFlow.Domain.Entities.Users;
 
 namespace SensorFlow.Application.Identity.Commands
 {
