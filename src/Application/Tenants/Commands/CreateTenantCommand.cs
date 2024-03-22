@@ -11,7 +11,7 @@ using SensorFlow.Domain.Enumerations;
 namespace SensorFlow.Application.Tenants.Commands
 {
     // Command
-    public record CreateTenantCommand(string name, UserCreateDTO user, WorkspaceCreateDTO workspace) : IRequest<ErrorOr<Tenant>>;
+    public record CreateTenantCommand(string name, UserCreateDTO user, TenantWorkspaceCreateDTO workspace) : IRequest<ErrorOr<Tenant>>;
 
     // Command Handler
     public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, ErrorOr<Tenant>>

@@ -7,6 +7,6 @@ namespace SensorFlow.Application.Tenants.Models
     {
         public string name { get; set; }
         public UserCreateDTO user { get; set; }
-        public WorkspaceCreateDTO workspace { get; set; }       
+        public TenantWorkspaceCreateDTO workspace { get; set; }       
     }
 }
