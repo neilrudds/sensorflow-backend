@@ -5,9 +5,9 @@ name: Backend .NET Deployment
 
 on:
   push:
-    branches: [ "some" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "some" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
