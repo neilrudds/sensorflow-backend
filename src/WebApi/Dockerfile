@@ -3,7 +3,10 @@
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 ENV ASPNETCORE_URLS=http://+:4000
+ENV ASPNETCORE_HTTPS_PORT=4001
+ENV TZ="Europe/Belfast"
 EXPOSE 4000
+EXPOSE 4001
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src

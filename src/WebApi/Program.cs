@@ -72,7 +72,7 @@ app.UseSwaggerUI();
 
 app.UseHttpLogging();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
