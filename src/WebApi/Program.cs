@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.HttpLogging;
+using SensorFlow.Infrastructure.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -80,5 +82,10 @@ app.UseAuthorization();
 app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
+
+// Perform Db Migrations on Application Startup (Not recommended for production)
+using var scope = app.Services.CreateScope();
+await using var dbContext = scope.ServiceProvider.GetRequiredService<SensorFlowDbContext>();
+await dbContext.Database.MigrateAsync();
 
 app.Run();

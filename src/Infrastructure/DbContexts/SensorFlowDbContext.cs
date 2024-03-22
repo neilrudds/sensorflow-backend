@@ -7,7 +7,6 @@ using SensorFlow.Domain.Entities.Workspaces;
 using SensorFlow.Domain.Entities.Dashboards;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SensorFlow.Domain.Models;
-using Microsoft.AspNetCore.Http;
 using SensorFlow.Infrastructure.Services.Auth;
 using SensorFlow.Domain.Entities.Devices;
 using SensorFlow.Domain.Entities.Tenants;
