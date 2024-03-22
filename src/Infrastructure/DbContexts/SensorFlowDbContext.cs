@@ -35,7 +35,7 @@ namespace SensorFlow.Infrastructure.DbContexts
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=localhost;Database=sensorflow;User=sa;Password=Sensorflow123;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer("Server=sql_server2022;Database=sensorflow;User=sa;Password=Sensorflow123;TrustServerCertificate=true;");
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
