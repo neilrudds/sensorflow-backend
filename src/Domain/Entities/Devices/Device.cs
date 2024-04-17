@@ -40,7 +40,7 @@ namespace SensorFlow.Domain.Entities.Devices
             if (_name.IsError)
                 return _name.Errors;
 
-            var _fields = ValidateName(fields);
+            var _fields = ValidateJSON(fields);
             if (_fields.IsError)
                 return _fields.Errors;
 

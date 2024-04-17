@@ -42,6 +42,9 @@ namespace SensorFlow.Application.Devices.Commands
                 request.gatewayId
             );
 
+            if (device.IsError)
+                return device.Errors;
+
             return await _deviceRepository.AddDeviceAsync(cancellationToken, device.Value);
         }
     }
