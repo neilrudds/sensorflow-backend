@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using SensorFlow.Domain.Entities.Dashboards;
 using SensorFlow.Application.Common.Interfaces;
-using SensorFlow.Application.Common.Models;
 using ErrorOr;
 
 namespace SensorFlow.Application.Dashboards.Commands

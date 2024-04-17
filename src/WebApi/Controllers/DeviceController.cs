@@ -54,7 +54,7 @@ namespace SensorFlow.WebApi.Controllers
             var result = await _mediator.Send(new CreateDeviceCommand(device.id, device.name, device.fields, device.workspaceId, device.gatewayId));
 
             if (result.IsError)
-                return BadRequest(result.Value);
+                return BadRequest(result.Errors);
 
             return CreatedAtAction(nameof(Get), new { id = result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }

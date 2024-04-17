@@ -83,14 +83,5 @@ namespace SensorFlow.WebApi.Controllers
 
             return CreatedAtAction(nameof(Get), new { id = result.Value.Id }, new CreatedResultEnvelope(result.Value.Id));
         }
-
-        //[HttpDelete("{id}")]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(typeof(Envelope), StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> Delete(Guid id)Dashboard
-        //{
-        //    await _mediator.Send(new DeletePersonCommand(id));
-        //    return NoContent();
-        //}
     }
 }
