@@ -14,15 +14,19 @@ namespace SensorFlow.Application.Dashboards.Commands
 
         public UpdateDashboardCommandHandler(IDashboardRepository dashboardRepository)
         {
+            // Repositories will be injected via dependancy injection
             _dashboardRepository = dashboardRepository;
         }
         public async Task<ErrorOr<Dashboard>> Handle(UpdateDashboardCommand request, CancellationToken cancellationToken)
         {
+            // Retrieve the dashboard by Id
             var dashboard = await _dashboardRepository.GetDashboardByIdAsync(cancellationToken, request.dashboardId);
 
+            // If unable to retrieve, return errors
             if (dashboard.IsError)
                 return dashboard.Errors;
             
+            // If the gridWidgets property is not empty, update object
             if (!String.IsNullOrEmpty(request.gridWidgets))
             {
                 var widgetResult = dashboard.Value.UpdateWidgetLayout(request.gridWidgets);
@@ -32,6 +36,7 @@ namespace SensorFlow.Application.Dashboards.Commands
                 }
             }
 
+            // If the gridLayout property is not empty, update object
             if (!String.IsNullOrEmpty(request.gridLayout))
             {
                 var layoutResult = dashboard.Value.UpdateGridLayout(request.gridLayout);
@@ -41,6 +46,7 @@ namespace SensorFlow.Application.Dashboards.Commands
                 }
             }
 
+            // After object properties updated, asyncronously save object to database, returning errors
             return await _dashboardRepository.UpdateDashboardAsync(cancellationToken, dashboard.Value);
         }
     }

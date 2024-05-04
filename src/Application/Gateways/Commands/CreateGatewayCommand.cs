@@ -7,7 +7,7 @@ namespace SensorFlow.Application.Gateways.Commands
 {
 
     // Command
-    public record CreateGatewayCommand(string name, string workspaceId, string host) : IRequest<ErrorOr<Gateway>>;
+    public record CreateGatewayCommand(string name, string workspaceId, string host, int portNumber, bool sSLEnabled) : IRequest<ErrorOr<Gateway>>;
 
     // Command Handler
     public class CreateGatewayCommandHandler : IRequestHandler<CreateGatewayCommand, ErrorOr<Gateway>>
@@ -31,7 +31,9 @@ namespace SensorFlow.Application.Gateways.Commands
             var gateway = Gateway.CreateGateway(
                 request.name,
                 request.workspaceId,
-                request.host
+                request.host,
+                request.portNumber,
+                request.sSLEnabled
             );
 
             return await _gatewayRepository.AddGatewayAsync(cancellationToken, gateway);

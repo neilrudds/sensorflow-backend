@@ -1,5 +1,4 @@
 ﻿using ErrorOr;
-using SensorFlow.Application.Common.Models;
 using SensorFlow.Domain.Entities.Workspaces;
 
 /* This interface will be used by the API as an abstraction of the repository whose implementation resides in the Infrastructure project. */

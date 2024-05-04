@@ -8,7 +8,7 @@ namespace SensorFlow.Application.Devices.Commands
 {
 
     // Command
-    public record CreateDeviceCommand(string id, string name, string fields, string workspaceId, string gatewayId) : IRequest<ErrorOr<Device>>;
+    public record CreateDeviceCommand(string id, string name, string location, string fields, string workspaceId, string gatewayId) : IRequest<ErrorOr<Device>>;
 
     // Command Handler
     public class CreateDeviceCommandHandler : IRequestHandler<CreateDeviceCommand, ErrorOr<Device>>
@@ -37,6 +37,7 @@ namespace SensorFlow.Application.Devices.Commands
             var device = Device.CreateDevice(
                 request.id,
                 request.name,
+                request.location,
                 request.fields,
                 request.workspaceId,
                 request.gatewayId

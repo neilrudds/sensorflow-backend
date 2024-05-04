@@ -6,6 +6,8 @@
 
         public string name { get; set; }
 
+        public string location { get; set; }
+
         public string workspaceId { get; set; }
 
         public string gatewayId { get; set; }

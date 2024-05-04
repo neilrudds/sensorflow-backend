@@ -51,7 +51,7 @@ namespace SensorFlow.WebApi.Controllers
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Post([FromBody] DeviceCreateDTO device)
         {
-            var result = await _mediator.Send(new CreateDeviceCommand(device.id, device.name, device.fields, device.workspaceId, device.gatewayId));
+            var result = await _mediator.Send(new CreateDeviceCommand(device.id, device.name, device.location, device.fields, device.workspaceId, device.gatewayId));
 
             if (result.IsError)
                 return BadRequest(result.Errors);
@@ -65,7 +65,7 @@ namespace SensorFlow.WebApi.Controllers
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Put(string id, [FromBody] DeviceUpdateDTO device)
         {
-            var result = await _mediator.Send(new UpdateDeviceCommand(id, device.name, device.fields, device.gatewayId));
+            var result = await _mediator.Send(new UpdateDeviceCommand(id, device.name, device.location, device.fields, device.gatewayId));
 
             if (result.IsError)
                 return BadRequest(result.Errors);

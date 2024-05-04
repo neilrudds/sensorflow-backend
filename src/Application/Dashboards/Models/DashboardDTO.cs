@@ -2,6 +2,7 @@
 
 namespace SensorFlow.Application.Dashboards.Models
 {
+    // DashboardDTO inherits the EntityDTO object
     public sealed class DashboardDTO : EntityDTO
     {
         public string id { get; set; }

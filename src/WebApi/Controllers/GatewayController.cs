@@ -29,7 +29,11 @@ namespace SensorFlow.WebApi.Controllers
         public async Task<IActionResult> Get(string id)
         {
             var result = await _mediator.Send(new GetGatewayQuery(id));
-            return Ok(result);
+
+            if (result.IsError)
+                return BadRequest(result.Errors);
+
+            return Ok(result.Value);
         }
 
         [HttpGet("getByWorkspaceId/{workspaceId}")]
@@ -51,7 +55,7 @@ namespace SensorFlow.WebApi.Controllers
         [ProducesResponseType(typeof(Envelope), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Post([FromBody] GatewayCreateDTO gateway)
         {
-            var result = await _mediator.Send(new CreateGatewayCommand(gateway.name, gateway.workspaceId, gateway.host));
+            var result = await _mediator.Send(new CreateGatewayCommand(gateway.name, gateway.workspaceId, gateway.host, gateway.portNumber, gateway.sSLEnabled));
 
             if (result.IsError)
                 return BadRequest(result.Errors);

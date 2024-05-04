@@ -69,6 +69,7 @@ namespace SensorFlow.Infrastructure.Repositories
                 return Error.NotFound(description: "Device not found!");
 
             device.Name = toUpdate.Name;
+            device.Location = toUpdate.Location;
 
             await _context.SaveChangesAsync(cancellationToken);
 

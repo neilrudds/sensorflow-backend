@@ -7,6 +7,8 @@ namespace SensorFlow.Application.Devices.Models
         public string Id { get; set; }
         public string? name { get; set; }
 
+        public string? location { get; set; }
+
         public string? fields { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace SensorFlow.Application.Tests.Dashboards
         }
 
         [Fact]
-        public async Task ShouldReturnValidationError_WhenWorkspaceIdExists()
+        public async Task ShouldReturnValidDashboard_WhenWorkspaceIdExists()
         {
             // Arrange
             var dashboardName = "My New Dashboard";

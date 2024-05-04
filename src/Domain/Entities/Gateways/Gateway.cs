@@ -45,10 +45,11 @@ namespace SensorFlow.Domain.Entities.Gateways
             return gateway;
         }
 
-        public static Gateway CreateGateway(string name, string workspaceId, string host, int port)
+        public static Gateway CreateGateway(string name, string workspaceId, string host, int port, bool sSLEnabled)
         {
             // Do I need validation on workspaceId?
             var gateway = new Gateway(ValidateName(name), workspaceId, host);
+            gateway.SSLEnabled = sSLEnabled;
             gateway.PortNumber = ValidatePort(port);
             return gateway;
         }

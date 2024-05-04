@@ -1,8 +1,8 @@
 ﻿using ErrorOr;
-using SensorFlow.Application.Common.Models;
 using SensorFlow.Application.Identity.Models;
 using SensorFlow.Domain.Entities.Users;
 
+/* This interface will be used by the API as an abstraction of the repository whose implementation resides in the Infrastructure project. */
 namespace SensorFlow.Application.Common.Interfaces
 {
     public interface IApplicationUserService

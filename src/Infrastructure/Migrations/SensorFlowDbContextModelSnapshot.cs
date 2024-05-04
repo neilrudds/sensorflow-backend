@@ -173,6 +173,10 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedTimestamp")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ModifiedById")
                         .HasColumnType("nvarchar(max)");
 
@@ -248,41 +252,6 @@ namespace SensorFlow.Infrastructure.Migrations
                     b.HasIndex("WorkspaceId");
 
                     b.ToTable("Gateways", "Sflow");
-                });
-
-            modelBuilder.Entity("SensorFlow.Domain.Entities.Persons.Person", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedTimestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<DateTime?>("LastModifiedTimestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedById")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("varchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Persons", "Sflow");
                 });
 
             modelBuilder.Entity("SensorFlow.Domain.Entities.Tenants.Tenant", b =>

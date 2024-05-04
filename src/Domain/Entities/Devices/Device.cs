@@ -11,6 +11,8 @@ namespace SensorFlow.Domain.Entities.Devices
     {
         public string Name { get; set; } = string.Empty;
 
+        public string Location { get; set; } = string.Empty;
+
         public string? Fields { get; set; } = string.Empty;
 
         // Navigation Property
@@ -25,16 +27,17 @@ namespace SensorFlow.Domain.Entities.Devices
             //Id = Guid.NewGuid().ToString(); // DeviceId is generated in the front-end
         }
 
-        public Device(string id, string name, string fields, string workspaceId, string gatewayId) : this()
+        public Device(string id, string name, string location, string fields, string workspaceId, string gatewayId) : this()
         {
             Id = id;
             Name = name;
+            Location = location;
             Fields = fields;
             WorkspaceId = workspaceId;
             GatewayId = gatewayId;
         }
 
-        public static ErrorOr<Device> CreateDevice(string id, string name, string fields, string workspaceId, string gatewayId)
+        public static ErrorOr<Device> CreateDevice(string id, string name, string location, string fields, string workspaceId, string gatewayId)
         {
             var _name = ValidateName(name);
             if (_name.IsError)
@@ -44,7 +47,7 @@ namespace SensorFlow.Domain.Entities.Devices
             if (_fields.IsError)
                 return _fields.Errors;
 
-            var device = new Device(ValidateId(id), _name.Value, _fields.Value, workspaceId, gatewayId);
+            var device = new Device(ValidateId(id), _name.Value, location, _fields.Value, workspaceId, gatewayId);
             return device;
         }
 
@@ -55,6 +58,12 @@ namespace SensorFlow.Domain.Entities.Devices
                 return _name.Errors;
 
             Name = _name.Value;
+            return Result.Updated;
+        }
+
+        public ErrorOr<Updated> UpdateDeviceLocation(string location)
+        {
+            Location = location;
             return Result.Updated;
         }
 

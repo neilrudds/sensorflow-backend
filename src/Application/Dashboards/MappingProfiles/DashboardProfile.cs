@@ -8,6 +8,7 @@ namespace SensorFlow.Application.Dashboards.MappingProfiles
     {
         public DashboardProfile()
         {
+            // AutoMapper, map Dashbaodrd Entity, to the DasboardDTO for the API Response
             CreateMap<Dashboard, DashboardDTO>();
         }
     }

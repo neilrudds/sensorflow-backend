@@ -22,6 +22,21 @@ namespace SensorFlow.Application.Tests.Dashboards
         }
 
         [Fact]
+        public async Task ShouldReturnValidationError_WhenDashboardNameIsTooLong()
+        {
+            // Arrange
+            var validator = new CreateDashboardCommandValidator();
+            var cmd = new CreateDashboardCommand("HkZfaEmWt3VrMfC+PGRfd4vH#zE=w@WcK%27O5bwgsQ8vMpR5uU", Guid.NewGuid().ToString());
+
+            // Act
+            var response = await validator.ValidateAsync(cmd);
+
+            // Assert
+            response.IsValid.Should().BeFalse();
+            response.Errors.Should().HaveCount(1);
+        }
+
+        [Fact]
         public async Task ShouldReturnValidationError_WhenDashboardNameIsEmpty()
         {
             // Arrange

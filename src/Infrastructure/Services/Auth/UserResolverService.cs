@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Numerics;
 using System.Security.Claims;
 
 namespace SensorFlow.Infrastructure.Services.Auth

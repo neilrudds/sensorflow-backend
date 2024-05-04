@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 
+// Validations for UpdateDashboardCommand
 namespace SensorFlow.Application.Dashboards.Commands
 {
     public class UpdateDashboardCommandValidator : AbstractValidator<UpdateDashboardCommand>

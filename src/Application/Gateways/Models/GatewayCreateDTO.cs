@@ -8,7 +8,7 @@
 
         public string host { get; set; }
 
-        public int? portNumber { get; set; }
+        public int portNumber { get; set; }
 
         public string? username { get; set; }
 
@@ -16,6 +16,6 @@
 
         public string? clientId { get; set; }
 
-        public bool? sSLEnabled { get; set; }
+        public bool sSLEnabled { get; set; }
     }
 }
