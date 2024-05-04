@@ -10,6 +10,8 @@ namespace SensorFlow.Domain.Tests.Entities
 
         public string validDeviceName { get; set; }
 
+        public string validDeviceLocation { get; set; }
+
         public string validDeviceFields { get; set; }
 
         public string validWorkspaceId { get; set; }
@@ -20,7 +22,8 @@ namespace SensorFlow.Domain.Tests.Entities
         {
             validDeviceId = "1a3288850366";
             validDeviceName = "mySensor";
-            validDeviceFields = "[{\"id\": 1,\"name\": \"Temperature\",\"identifier\": \"ambTemp\",\"type\": \"Float\",\"unit\": \"degC\"},{\"id\": 2,\"name\": \"Average Current\",\"identifier\": \"avgCurr\",\"type\": \"integer\",\"unit\": \"Celcius\"},{\"id\": 3,\"name\": \"L1 Voltage\",\"identifier\": \"voltsL1\",\"type\": \"integer\",\"unit\": \"mV\"}]";
+            validDeviceLocation = "Belfast";
+             validDeviceFields = "[{\"id\": 1,\"name\": \"Temperature\",\"identifier\": \"ambTemp\",\"type\": \"Float\",\"unit\": \"degC\"},{\"id\": 2,\"name\": \"Average Current\",\"identifier\": \"avgCurr\",\"type\": \"integer\",\"unit\": \"Celcius\"},{\"id\": 3,\"name\": \"L1 Voltage\",\"identifier\": \"voltsL1\",\"type\": \"integer\",\"unit\": \"mV\"}]";
             validWorkspaceId = "58910a68-2573-467d-ae3f-76533d46cfa4";
             validGatewayId = "0ed717df-75d3-4155-b17b-59c42f77a539";
         }
@@ -29,7 +32,7 @@ namespace SensorFlow.Domain.Tests.Entities
         public void GivenDevice_WhenCreateValid_Create()
         {
             // Act
-            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceFields, validWorkspaceId, validGatewayId);
+            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceLocation, validDeviceFields, validWorkspaceId, validGatewayId);
 
             // Assert
             Assert.Equal("1a3288850366", device.Value.Id);
@@ -44,7 +47,7 @@ namespace SensorFlow.Domain.Tests.Entities
         public void GivenDevice_WhenUpdateNameValid_Update()
         {
             // Act
-            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceFields, validWorkspaceId, validGatewayId);
+            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceLocation, validDeviceFields, validWorkspaceId, validGatewayId);
             var response = device.Value.UpdateDeviceName("My New Device");
 
             // Assert
@@ -57,7 +60,7 @@ namespace SensorFlow.Domain.Tests.Entities
         public void GivenDevice_WhenUpdateNameNotValid_Error()
         {
             // Act
-            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceFields, validWorkspaceId, validGatewayId);
+            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceLocation, validDeviceFields, validWorkspaceId, validGatewayId);
             var response = device.Value.UpdateDeviceName("My New Device&&");
 
             // Assert
@@ -70,7 +73,7 @@ namespace SensorFlow.Domain.Tests.Entities
         public void GivenDevice_WhenUpdateGatewayIdValid_Update()
         {
             // Act
-            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceFields, validWorkspaceId, validGatewayId);
+            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceLocation, validDeviceFields, validWorkspaceId, validGatewayId);
             device.Value.UpdateDeviceGatewayId("1f46be21-00e7-4325-a210-ec62c37cf50e");
 
             // Assert
@@ -81,7 +84,7 @@ namespace SensorFlow.Domain.Tests.Entities
         public void GivenDevice_WhenUpdateGatewayNotValid_Trim()
         {
             // Act
-            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceFields, validWorkspaceId, validGatewayId);
+            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceLocation, validDeviceFields, validWorkspaceId, validGatewayId);
             device.Value.UpdateDeviceGatewayId("1f46be21-00e7-4325-a210-ec62c37cf50e                                           ");
 
             // Assert
@@ -95,7 +98,7 @@ namespace SensorFlow.Domain.Tests.Entities
             var validUpdateFields = "[{\"id\": 1,\"name\": \"Pressure\",\"identifier\": \"press\",\"type\": \"Float\",\"unit\": \"degC\"},{\"id\": 2,\"name\": \"Average Current\",\"identifier\": \"avgCurr\",\"type\": \"integer\",\"unit\": \"Celcius\"},{\"id\": 3,\"name\": \"L1 Voltage\",\"identifier\": \"voltsL1\",\"type\": \"integer\",\"unit\": \"mV\"}]";
 
             // Act
-            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceFields, validWorkspaceId, validGatewayId);
+            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceLocation, validDeviceFields, validWorkspaceId, validGatewayId);
             var response = device.Value.UpdateFields(validUpdateFields);
 
             // Assert
@@ -108,7 +111,7 @@ namespace SensorFlow.Domain.Tests.Entities
         public void GivenDevice_WhenUpdateFieldsNotValid_Error()
         {
             // Act
-            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceFields, validWorkspaceId, validGatewayId);
+            var device = Device.CreateDevice(validDeviceId, validDeviceName, validDeviceLocation, validDeviceFields, validWorkspaceId, validGatewayId);
             var response = device.Value.UpdateFields("{ Bad JSON Data }");
 
             // Assert

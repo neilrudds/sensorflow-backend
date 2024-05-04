@@ -57,7 +57,7 @@ namespace SensorFlow.Domain.Tests.Entities
         public void GivenGateway_WhenCreateGatewayWithPortValid_Create()
         {
             // Act
-            var gateway = Gateway.CreateGateway(validGatewayName, validWorkspaceId, validHost, 3000);
+            var gateway = Gateway.CreateGateway(validGatewayName, validWorkspaceId, validHost, 3000, true);
 
             // Assert
             Assert.Equal(3000, gateway.PortNumber);
@@ -67,7 +67,7 @@ namespace SensorFlow.Domain.Tests.Entities
         public void GivenGateway_WhenCreateGatewayPortNotValid_SetDefault()
         {
             // Act
-            var gateway = Gateway.CreateGateway(validGatewayName, validWorkspaceId, validHost, 65001);
+            var gateway = Gateway.CreateGateway(validGatewayName, validWorkspaceId, validHost, 65001, true);
 
             // Assert
             Assert.Equal(8000, gateway.PortNumber);
