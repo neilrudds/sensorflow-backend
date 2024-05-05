@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.HttpLogging;
 using SensorFlow.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
+// CORS scheme name
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,7 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
-//Add JWT token authentication scheme
+// Add JWT token authentication scheme for the application
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -53,6 +54,7 @@ builder.Services
         logging.ResponseBodyLogLimit = 4096;
     });
 
+// Setup Cross-origin resource sharing between our frontend and backend.
 builder.Services
     .AddCors(options =>
     {
@@ -76,6 +78,7 @@ app.UseHttpLogging();
 
 //app.UseHttpsRedirection();
 
+// Authentication & Authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
 

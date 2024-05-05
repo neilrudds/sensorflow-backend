@@ -1,3 +1,5 @@
+// Code Examples: https://gist.github.com/marisks
+
 namespace SensorFlow.Domain.Models;
 
 public abstract class ValueObject : IEquatable<ValueObject>

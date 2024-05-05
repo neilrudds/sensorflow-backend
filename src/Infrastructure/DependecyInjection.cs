@@ -12,24 +12,30 @@ using SensorFlow.Domain.Entities.Users;
 
 namespace SensorFlow.Infrastructure
 {
+    // Inject Infrastructure Layer Dependencies
+
     public static class DependecyInjection
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             var assembly = typeof(DependecyInjection).Assembly;
 
+            // Retrieve SQL server connection string from the appsettings.json file, throw an error if invalid
             var connectionString =
                 configuration.GetConnectionString("SensorflowDatabase") ??
                 throw new ArgumentNullException(nameof(configuration));
 
+            // Set the SQL server connection string for our DbContext
             services.AddDbContext<SensorFlowDbContext>(options => options.UseSqlServer(connectionString));
 
+            // Add the following services
             services
                 .AddIdentityCore<User>()
                 .AddRoles<Role>()
                 .AddRoleManager<RoleManager<Role>>()
                 .AddEntityFrameworkStores<SensorFlowDbContext>();
 
+            // Configure IdentifyFramework user Identity options
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequiredLength = 6;
@@ -40,25 +46,13 @@ namespace SensorFlow.Infrastructure
                 options.SignIn.RequireConfirmedEmail = false;
             });
 
-            //var mapperConfig = new MapperConfiguration(mc =>
-            //{
-            //    mc.AddMaps(assembly);
-            //});
-            //mapperConfig.AssertConfigurationIsValid();
-
-            //IMapper mapper = mapperConfig.CreateMapper();
-            //services.AddSingleton(mapper);
-            //services.AddAutoMapper(mc =>
-            //{
-            //    mc.AddMaps(assembly);
-            //});
-
+            // Add an AutoMapper profile for AppProfile
             services.AddAutoMapper(config =>
             {
                 config.AddProfile<AppProfile>();
-                //config.AddProfile<UserProfile>();
             });
 
+            // Add the dependicies for the following interfaces (i.e. map the concrete implementation of our services to the interface types).
             services.AddScoped<ITenantRepository, TenantRepository>();
             services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
